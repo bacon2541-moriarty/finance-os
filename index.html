@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS</title>
+<title>Moriarty J · Finance OS v2</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -20,70 +20,51 @@
   --row-bg:rgba(0,0,0,.12);--row-stroke:rgba(255,255,255,.10);
   --input-bg:rgba(255,255,255,.06);--input-stroke:rgba(255,255,255,.14);
   --table-head-bg:rgba(255,255,255,.06);
-  --donut-mask:rgba(10,14,24,.65);
-  --tab-nav-bg:rgba(11,18,32,.92);
+  --donut-mask:rgba(10,14,24,.65);--tab-nav-bg:rgba(11,18,32,.92);
   --overlay-bg:rgba(0,0,0,.62);--overlay-card-bg:rgba(12,18,32,.96);
   --bar-track-bg:rgba(0,0,0,.12);
   --gb1:rgba(96,165,250,.35);--gb2:rgba(34,197,94,.22);--gb3:rgba(245,158,11,.18);
 }
 [data-theme="light"]{
-  --bg1:#eef2ff;--bg2:#f8fafc;
-  --card:rgba(255,255,255,.85);--stroke:rgba(15,23,42,.10);
+  --bg1:#eef2ff;--bg2:#f8fafc;--card:rgba(255,255,255,.85);--stroke:rgba(15,23,42,.10);
   --text:rgba(15,23,42,.92);--muted:rgba(15,23,42,.55);
   --good:#16a34a;--info:#2563eb;--warn:#d97706;--bad:#dc2626;
   --shadow:0 20px 50px rgba(15,23,42,.10);
   --row-bg:rgba(15,23,42,.04);--row-stroke:rgba(15,23,42,.08);
   --input-bg:rgba(255,255,255,.95);--input-stroke:rgba(15,23,42,.12);
-  --table-head-bg:rgba(15,23,42,.05);
-  --donut-mask:rgba(248,250,252,.85);
-  --tab-nav-bg:rgba(248,250,252,.95);
-  --overlay-bg:rgba(15,23,42,.42);--overlay-card-bg:rgba(255,255,255,.99);
-  --bar-track-bg:rgba(15,23,42,.06);
+  --table-head-bg:rgba(15,23,42,.05);--donut-mask:rgba(248,250,252,.85);
+  --tab-nav-bg:rgba(248,250,252,.95);--overlay-bg:rgba(15,23,42,.42);
+  --overlay-card-bg:rgba(255,255,255,.99);--bar-track-bg:rgba(15,23,42,.06);
   --gb1:rgba(96,165,250,.18);--gb2:rgba(34,197,94,.12);--gb3:rgba(245,158,11,.10);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:"Prompt",system-ui,-apple-system,sans-serif;
-  color:var(--text);min-height:100vh;
-  background:
-    radial-gradient(900px 600px at 20% 10%,var(--gb1),transparent 60%),
+body{font-family:"Prompt",system-ui,sans-serif;color:var(--text);min-height:100vh;
+  background:radial-gradient(900px 600px at 20% 10%,var(--gb1),transparent 60%),
     radial-gradient(800px 500px at 80% 0%,var(--gb2),transparent 55%),
     radial-gradient(900px 700px at 70% 90%,var(--gb3),transparent 60%),
     linear-gradient(135deg,var(--bg1),var(--bg2));
-  transition:background .25s,color .25s;
-}
+  transition:background .25s,color .25s;}
 .wrap{max-width:1100px;margin:0 auto;padding:0 14px 72px}
 .card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
 .panel{padding:16px 18px 18px}
-h1,h2,h3{line-height:1.2}
 .muted{color:var(--muted)}.info{color:var(--info)}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 @media(max-width:700px){.g2,.g3{grid-template-columns:1fr}}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--row-stroke);background:var(--row-bg)}
 .rows{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-input,select,textarea{
-  width:100%;padding:10px 12px;border-radius:12px;
-  border:1px solid var(--input-stroke);background:var(--input-bg);
-  color:var(--text);font-family:"Prompt",sans-serif;font-size:14px;font-weight:500;
-  outline:none;transition:border-color .15s,box-shadow .15s;
-}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--input-stroke);background:var(--input-bg);color:var(--text);font-family:"Prompt",sans-serif;font-size:14px;font-weight:500;outline:none;transition:border-color .15s,box-shadow .15s;}
 input:focus,select:focus,textarea:focus{border-color:rgba(96,165,250,.55);box-shadow:0 0 0 4px rgba(96,165,250,.16)}
 input[type="number"]{text-align:right}
 textarea{min-height:70px;resize:vertical}
 select option{background:#0b1220;color:#fff}
-button{
-  display:inline-flex;align-items:center;gap:6px;
-  border:1px solid var(--stroke);background:var(--input-bg);color:var(--text);
-  padding:10px 14px;border-radius:12px;cursor:pointer;
-  font-family:"Prompt",sans-serif;font-size:13px;font-weight:700;
-  transition:.15s ease;white-space:nowrap;
-}
+button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--stroke);background:var(--input-bg);color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;font-family:"Prompt",sans-serif;font-size:13px;font-weight:700;transition:.15s ease;white-space:nowrap;}
 button:hover{transform:translateY(-1px);filter:brightness(1.15)}
 button:active{transform:translateY(0)}
 button.primary{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:var(--info)}
 button.success{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);color:var(--good)}
 button.danger{background:rgba(239,68,68,.10);border-color:rgba(239,68,68,.35);color:var(--bad)}
+button.warn-btn{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:var(--warn)}
 button.sm{padding:6px 10px;font-size:12px;border-radius:10px}
 .fg{display:flex;flex-direction:column;gap:5px}
 .fl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
@@ -103,50 +84,61 @@ button.sm{padding:6px 10px;font-size:12px;border-radius:10px}
 .hero-amt{font-size:32px;font-weight:900;line-height:1.1;margin-top:6px}
 .hr{height:1px;background:var(--row-stroke);margin:12px 0}
 .tw{overflow-x:auto;border-radius:14px;border:1px solid var(--row-stroke);margin-top:10px}
-table{width:100%;border-collapse:collapse;min-width:420px}
+table{width:100%;border-collapse:collapse;min-width:400px}
 th,td{padding:10px 12px;border-bottom:1px solid var(--row-stroke);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
 th{color:var(--muted);font-weight:800;background:var(--table-head-bg);font-size:11px;text-transform:uppercase}
 th:first-child,td:first-child{text-align:left}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(255,255,255,.025)}
-.tab-nav{
-  position:sticky;top:0;z-index:100;
-  background:var(--tab-nav-bg);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--row-stroke);
-  display:flex;gap:0;align-items:center;overflow-x:auto;scrollbar-width:none;padding:0 6px;
-}
+/* Tabs */
+.tab-nav{position:sticky;top:0;z-index:100;background:var(--tab-nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--row-stroke);display:flex;gap:0;align-items:center;overflow-x:auto;scrollbar-width:none;padding:0 6px;}
 .tab-nav::-webkit-scrollbar{display:none}
-.tab-btn{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:13px 13px;border:none;background:transparent;color:var(--muted);
-  font-family:"Prompt",sans-serif;font-size:12px;font-weight:700;
-  cursor:pointer;white-space:nowrap;
-  border-bottom:2.5px solid transparent;margin-bottom:-1px;
-  border-radius:0;transition:color .18s,border-color .18s;
-}
+.tab-btn{display:inline-flex;align-items:center;gap:5px;padding:12px 12px;border:none;background:transparent;color:var(--muted);font-family:"Prompt",sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border-bottom:2.5px solid transparent;margin-bottom:-1px;border-radius:0;transition:color .18s,border-color .18s;}
 .tab-btn:hover{color:var(--text);background:transparent;transform:none;filter:none}
 .tab-btn.active{color:var(--text);border-bottom-color:var(--info)}
-.ti{font-size:14px}
 .tab-sec{display:none;padding-top:16px}
 .tab-sec.active{display:block}
+/* Overlays */
 .overlay{position:fixed;inset:0;background:var(--overlay-bg);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999;backdrop-filter:blur(4px)}
 .overlay.show{display:flex}
-.oc{max-width:620px;width:100%;background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:20px;box-shadow:0 30px 90px rgba(0,0,0,.5);padding:20px;max-height:90vh;overflow-y:auto}
+.oc{max-width:640px;width:100%;background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:20px;box-shadow:0 30px 90px rgba(0,0,0,.5);padding:20px;max-height:90vh;overflow-y:auto}
 .oh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .oh h2{font-size:16px;font-weight:800}
 .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:500px){.fg2{grid-template-columns:1fr}}
+/* Health Score Ring */
+.score-ring-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.score-ring{position:relative;width:140px;height:140px;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg)}
+.score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.score-num{font-size:36px;font-weight:900;line-height:1}
+.score-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.score-metrics{flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px}
+.score-metric{display:flex;flex-direction:column;gap:3px}
+.score-metric-header{display:flex;justify-content:space-between;font-size:12px}
+.score-metric-name{font-weight:700}
+.score-metric-val{font-weight:800}
+.score-tip{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);font-size:12px;line-height:1.6;color:var(--warn)}
+/* Budget bars */
+.budget-item{padding:12px;border-radius:14px;border:1px solid var(--row-stroke);background:var(--row-bg);display:flex;flex-direction:column;gap:6px}
+.budget-header{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.budget-name{font-weight:700}
+.budget-amounts{font-size:12px;color:var(--muted)}
+.budget-pct{font-size:12px;font-weight:800}
+/* Payoff calculator */
+.calc-result{padding:14px;border-radius:14px;border:1px solid var(--row-stroke);background:var(--row-bg);margin-top:12px}
+.calc-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--row-stroke);font-size:13px}
+.calc-row:last-child{border-bottom:none}
+/* 6 Jars */
 .jar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
 @media(max-width:600px){.jar-grid{grid-template-columns:1fr 1fr}}
 .jcard{border-radius:16px;border:1px solid var(--row-stroke);background:var(--row-bg);padding:14px;text-align:center}
-.jemoji{font-size:26px;display:block;margin-bottom:5px}
-.jname{font-size:12px;font-weight:800}
-.jpct{font-size:11px;color:var(--muted);margin-bottom:6px}
-.jamt{font-size:17px;font-weight:900;color:var(--info)}
-.jsub{font-size:11px;color:var(--muted);margin-top:2px}
+/* Slip */
 .slip-zone{border:2px dashed var(--input-stroke);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
 .slip-zone:hover,.slip-zone.drag{border-color:var(--info);background:rgba(96,165,250,.06)}
+/* Misc */
 .chip{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;background:var(--input-bg);border:1px solid var(--input-stroke)}
+.curr-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:900;background:rgba(96,165,250,.15);color:var(--info);border:1px solid rgba(96,165,250,.3)}
 .empty{text-align:center;padding:36px 16px;color:var(--muted)}
 .empty-ico{font-size:32px;display:block;margin-bottom:8px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
@@ -157,45 +149,50 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </style>
 </head>
 <body>
-
 <div class="page-hdr">
-  <div>
-    <div class="page-title">Moriarty J</div>
-    <div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS</div>
-  </div>
+  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v2</div></div>
   <button onclick="toggleTheme()" style="border-radius:999px;padding:8px 14px;font-size:12px">🌓 Theme</button>
 </div>
-
 <nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('dashboard',this)"><span class="ti">📊</span>Dashboard</button>
-  <button class="tab-btn" onclick="switchTab('portfolio',this)"><span class="ti">📈</span>Portfolio</button>
-  <button class="tab-btn" onclick="switchTab('assets',this)"><span class="ti">🏦</span>Assets</button>
-  <button class="tab-btn" onclick="switchTab('liabilities',this)"><span class="ti">💳</span>Liabilities</button>
-  <button class="tab-btn" onclick="switchTab('jars',this)"><span class="ti">🫙</span>6 Jars</button>
-  <button class="tab-btn" onclick="switchTab('transactions',this)"><span class="ti">📝</span>Transactions</button>
-  <button class="tab-btn" onclick="switchTab('settings',this)"><span class="ti">⚙️</span>Settings</button>
+  <button class="tab-btn active" onclick="switchTab('dashboard',this)">📊 Dashboard</button>
+  <button class="tab-btn" onclick="switchTab('portfolio',this)">📈 Portfolio</button>
+  <button class="tab-btn" onclick="switchTab('assets',this)">🏦 Assets</button>
+  <button class="tab-btn" onclick="switchTab('liabilities',this)">💳 Liabilities</button>
+  <button class="tab-btn" onclick="switchTab('jars',this)">🫙 6 Jars</button>
+  <button class="tab-btn" onclick="switchTab('budget',this)">🎯 Budget</button>
+  <button class="tab-btn" onclick="switchTab('transactions',this)">📝 Transactions</button>
+  <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ Settings</button>
 </nav>
 
 <div class="wrap">
 
-<!-- ===== DASHBOARD ===== -->
+<!-- DASHBOARD -->
 <section id="tab-dashboard" class="tab-sec active">
   <div class="g3" style="margin-bottom:14px">
-    <div class="hero">
-      <div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div>
-      <div class="hero-amt" id="d-nw">฿0</div>
-      <div style="font-size:12px;margin-top:4px;color:var(--muted)">Total Assets − Total Liabilities</div>
+    <div class="hero"><div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div><div class="hero-amt" id="d-nw">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)">Assets − Liabilities</div></div>
+    <div class="hero red"><div class="hero-lbl">Total Debt · หนี้ทั้งหมด</div><div class="hero-amt bad" id="d-debt">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)" id="d-dratio">Debt ratio: –</div></div>
+    <div class="hero purple"><div class="hero-lbl">Portfolio · พอร์ตรวม</div><div class="hero-amt info" id="d-port">฿0</div><div style="font-size:12px;margin-top:4px" id="d-portpl">P&amp;L: –</div></div>
+  </div>
+  <!-- Health Score -->
+  <div class="card panel" style="margin-bottom:14px">
+    <div class="sh"><div><div class="st">💪 Financial Health Score</div><div class="ss">คะแนนสุขภาพการเงิน</div></div></div>
+    <div class="score-ring-wrap">
+      <div class="score-ring">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="58" fill="none" stroke="var(--row-stroke)" stroke-width="12"/>
+          <circle cx="70" cy="70" r="58" fill="none" stroke="var(--good)" stroke-width="12"
+            stroke-dasharray="364.4" stroke-dashoffset="364.4" id="score-arc"
+            stroke-linecap="round" style="transition:stroke-dashoffset .8s ease,stroke .8s"/>
+        </svg>
+        <div class="score-center">
+          <div class="score-num" id="score-num">–</div>
+          <div class="score-lbl">/ 100</div>
+          <div style="font-size:11px;font-weight:800;margin-top:2px" id="score-grade">–</div>
+        </div>
+      </div>
+      <div class="score-metrics" id="score-metrics"></div>
     </div>
-    <div class="hero red">
-      <div class="hero-lbl">Total Debt · หนี้ทั้งหมด</div>
-      <div class="hero-amt bad" id="d-debt">฿0</div>
-      <div style="font-size:12px;margin-top:4px;color:var(--muted)" id="d-dratio">Debt ratio: –</div>
-    </div>
-    <div class="hero purple">
-      <div class="hero-lbl">Portfolio · พอร์ตรวม</div>
-      <div class="hero-amt info" id="d-port">฿0</div>
-      <div style="font-size:12px;margin-top:4px" id="d-portpl">P&amp;L: –</div>
-    </div>
+    <div id="score-tips"></div>
   </div>
   <div class="g2" style="margin-bottom:14px">
     <div class="card panel">
@@ -221,33 +218,22 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </section>
 
-<!-- ===== PORTFOLIO ===== -->
+<!-- PORTFOLIO -->
 <section id="tab-portfolio" class="tab-sec">
-  <div class="sh">
-    <div><div class="st">📈 Investment Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">มูลค่ารวม: –</div></div>
-    <button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button>
-  </div>
+  <div class="sh"><div><div class="st">📈 Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">–</div></div><button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button></div>
   <div class="g2" style="margin-bottom:14px">
-    <div class="stat card panel">
-      <div class="stat-lbl">Total Value · มูลค่ารวม</div>
-      <div class="stat-val info" id="port-total">฿0</div>
-      <div class="stat-sub" id="port-pl">P&amp;L: –</div>
-    </div>
-    <div class="stat card panel">
-      <div class="stat-lbl">Return · ผลตอบแทน</div>
-      <div class="stat-val" id="port-ret">–</div>
-      <div class="stat-sub">vs. Cost Basis</div>
-    </div>
+    <div class="stat card panel"><div class="stat-lbl">Total Value (THB)</div><div class="stat-val info" id="port-total">฿0</div><div class="stat-sub" id="port-pl">P&amp;L: –</div></div>
+    <div class="stat card panel"><div class="stat-lbl">Return · ผลตอบแทน</div><div class="stat-val" id="port-ret">–</div><div class="stat-sub">vs. Cost Basis</div></div>
   </div>
   <div class="card panel" style="margin-bottom:14px">
     <div class="st" style="margin-bottom:12px">Allocation · การกระจายทุน</div>
     <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
-      <svg id="port-donut" width="170" height="170" viewBox="0 0 36 36" style="flex:0 0 auto">
+      <svg id="port-donut" width="160" height="160" viewBox="0 0 36 36" style="flex:0 0 auto">
         <circle cx="18" cy="18" r="15.915" fill="none" stroke="var(--row-stroke)" stroke-width="4"/>
         <g id="port-segs"></g>
         <circle cx="18" cy="18" r="11" fill="var(--donut-mask)"/>
-        <text x="18" y="16.5" text-anchor="middle" font-size="3" fill="var(--muted)" font-family="Prompt,sans-serif">Portfolio</text>
-        <text x="18" y="20.5" text-anchor="middle" font-size="3.2" fill="var(--text)" font-family="Prompt,sans-serif" font-weight="bold" id="port-dlbl">–</text>
+        <text x="18" y="17" text-anchor="middle" font-size="2.8" fill="var(--muted)" font-family="Prompt,sans-serif">Portfolio</text>
+        <text x="18" y="21" text-anchor="middle" font-size="3" fill="var(--text)" font-family="Prompt,sans-serif" font-weight="bold" id="port-dlbl">–</text>
       </svg>
       <div id="port-legend" style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:5px"></div>
     </div>
@@ -255,67 +241,57 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <div class="card panel">
     <div class="tw" style="margin-top:0">
       <table>
-        <thead><tr><th>Symbol</th><th>Type</th><th>Qty</th><th>Avg Cost</th><th>Current</th><th>Value</th><th>P&amp;L</th><th></th></tr></thead>
-        <tbody id="port-tbody"><tr><td colspan="8" class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีรายการ</span></td></tr></tbody>
+        <thead><tr><th>Symbol</th><th>Type</th><th>Currency</th><th>Qty</th><th>Avg Cost</th><th>Current</th><th>Value (THB)</th><th>P&amp;L</th><th></th></tr></thead>
+        <tbody id="port-tbody"><tr><td colspan="9" class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีรายการ</span></td></tr></tbody>
       </table>
     </div>
   </div>
 </section>
 
-<!-- ===== ASSETS ===== -->
+<!-- ASSETS -->
 <section id="tab-assets" class="tab-sec">
-  <div class="sh">
-    <div><div class="st">🏦 Assets · สินทรัพย์ทั้งหมด</div><div class="ss" id="ast-sub">รวม: –</div></div>
-    <button class="primary" onclick="openOv('ov-asset');clearAssetForm()">+ เพิ่ม</button>
-  </div>
+  <div class="sh"><div><div class="st">🏦 Assets · สินทรัพย์</div><div class="ss" id="ast-sub">รวม: –</div></div><button class="primary" onclick="openOv('ov-asset');clearAssetForm()">+ เพิ่ม</button></div>
   <div class="g3" style="margin-bottom:14px" id="ast-cats"></div>
   <div class="card panel">
     <div class="tw" style="margin-top:0">
       <table>
-        <thead><tr><th>สินทรัพย์</th><th>หมวด</th><th>มูลค่า (฿)</th><th>วันที่</th><th>หมายเหตุ</th><th></th></tr></thead>
-        <tbody id="ast-tbody"><tr><td colspan="6" class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></td></tr></tbody>
+        <thead><tr><th>สินทรัพย์</th><th>หมวด</th><th>สกุลเงิน</th><th>มูลค่า (THB)</th><th>วันที่</th><th>หมายเหตุ</th><th></th></tr></thead>
+        <tbody id="ast-tbody"><tr><td colspan="7" class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></td></tr></tbody>
       </table>
     </div>
   </div>
 </section>
 
-<!-- ===== LIABILITIES ===== -->
+<!-- LIABILITIES -->
 <section id="tab-liabilities" class="tab-sec">
-  <div class="sh">
-    <div><div class="st">💳 Liabilities · หนี้สินทั้งหมด</div><div class="ss" id="liab-sub">รวม: –</div></div>
-    <button class="danger" onclick="openOv('ov-liab');clearLiabForm()">+ เพิ่ม</button>
+  <div class="sh"><div><div class="st">💳 Liabilities · หนี้สิน</div><div class="ss" id="liab-sub">รวม: –</div></div>
+    <div style="display:flex;gap:8px"><button class="warn-btn" onclick="openOv('ov-payoff')">🧮 Payoff Calc</button><button class="danger" onclick="openOv('ov-liab');clearLiabForm()">+ เพิ่ม</button></div>
   </div>
   <div class="g3" style="margin-bottom:14px" id="liab-cats"></div>
   <div class="card panel" style="margin-bottom:14px">
-    <div class="st" style="margin-bottom:10px">Debt Progress · ความคืบหน้าการชำระ</div>
-    <div id="liab-bars" class="rows"><div class="empty"><span class="empty-ico">💳</span><span style="font-size:13px">ไม่มีหนี้สิน ดีมาก!</span></div></div>
+    <div class="st" style="margin-bottom:10px">Debt Progress</div>
+    <div id="liab-bars" class="rows"><div class="empty"><span class="empty-ico">🎉</span><span style="font-size:13px">ไม่มีหนี้สิน ดีมาก!</span></div></div>
   </div>
   <div class="card panel">
     <div class="tw" style="margin-top:0">
       <table>
         <thead><tr><th>หนี้</th><th>หมวด</th><th>ยอดคงเหลือ</th><th>ดอกเบี้ย%</th><th>จ่ายขั้นต่ำ</th><th>ครบกำหนด</th><th></th></tr></thead>
-        <tbody id="liab-tbody"><tr><td colspan="7" class="empty"><span class="empty-ico">💳</span></td></tr></tbody>
+        <tbody id="liab-tbody"></tbody>
       </table>
     </div>
   </div>
 </section>
 
-<!-- ===== 6 JARS ===== -->
+<!-- 6 JARS -->
 <section id="tab-jars" class="tab-sec">
-  <div class="sh"><div><div class="st">🫙 6 Jar Money Management</div><div class="ss">บริหารเงินด้วยเทคนิค 6 กระปุก · T. Harv Eker</div></div></div>
+  <div class="sh"><div><div class="st">🫙 6 Jar Money Management</div><div class="ss">T. Harv Eker · บริหารเงินด้วย 6 กระปุก</div></div></div>
   <div class="card panel" style="margin-bottom:14px">
     <div class="fg2">
-      <div class="fg">
-        <label class="fl">รายได้สุทธิ / Monthly Net Income (฿)</label>
-        <input type="number" id="jar-inc" placeholder="0" oninput="renderJars()"/>
-      </div>
-      <div class="fg">
-        <label class="fl">เดือน / Month</label>
-        <input type="month" id="jar-month" oninput="renderJars()"/>
-      </div>
+      <div class="fg"><label class="fl">รายได้สุทธิ/เดือน (฿)</label><input type="number" id="jar-inc" placeholder="0" oninput="renderJars()"/></div>
+      <div class="fg"><label class="fl">เดือน / Month</label><input type="month" id="jar-month" oninput="renderJars()"/></div>
     </div>
     <div class="hr"></div>
-    <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">หลักการ:</strong> แบ่งรายได้สุทธิออกเป็น 6 ส่วนตามสัดส่วนที่กำหนด เพื่อความสมดุลทางการเงินระยะยาว</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">หลักการ:</strong> แบ่งรายได้สุทธิออกเป็น 6 ส่วนตามสัดส่วน เพื่อความสมดุลทางการเงิน</div>
   </div>
   <div class="jar-grid" id="jar-grid"></div>
   <div class="card panel" style="margin-top:14px">
@@ -324,21 +300,34 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </section>
 
-<!-- ===== TRANSACTIONS ===== -->
-<section id="tab-transactions" class="tab-sec">
+<!-- BUDGET -->
+<section id="tab-budget" class="tab-sec">
   <div class="sh">
-    <div><div class="st">📝 Transactions · รายรับ-รายจ่าย</div></div>
-    <button class="primary" onclick="openOv('ov-txn');clearTxnForm()">+ บันทึก</button>
+    <div><div class="st">🎯 Budget Planning · วางแผนงบประมาณ</div><div class="ss" id="budget-sub">–</div></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input type="month" id="budget-month" style="max-width:150px" onchange="renderBudget()"/>
+      <button class="primary" onclick="openOv('ov-budget')">+ ตั้งงบ</button>
+    </div>
   </div>
   <div class="g2" style="margin-bottom:14px">
-    <div class="stat card panel">
-      <div class="stat-lbl">Income This Month · รายรับเดือนนี้</div>
-      <div class="stat-val good" id="txn-itotal">฿0</div>
-    </div>
-    <div class="stat card panel">
-      <div class="stat-lbl">Expense This Month · รายจ่ายเดือนนี้</div>
-      <div class="stat-val bad" id="txn-etotal">฿0</div>
-    </div>
+    <div class="stat card panel"><div class="stat-lbl">Total Budget · งบรวม</div><div class="stat-val info" id="budget-total">฿0</div></div>
+    <div class="stat card panel"><div class="stat-lbl">Total Spent · ใช้ไปแล้ว</div><div class="stat-val" id="budget-spent">฿0</div><div class="stat-sub" id="budget-remain">เหลือ: –</div></div>
+  </div>
+  <div class="card panel" style="margin-bottom:14px">
+    <div class="sh"><div class="st">Overall Progress</div><span id="budget-overall-pct" style="font-weight:800;font-size:14px">0%</span></div>
+    <div class="progress" style="height:14px"><div class="pfill" id="budget-overall-bar" style="background:linear-gradient(90deg,#60a5fa,#22c55e);width:0%"></div></div>
+  </div>
+  <div id="budget-list" style="display:flex;flex-direction:column;gap:10px">
+    <div class="empty"><span class="empty-ico">🎯</span><span style="font-size:13px">ยังไม่ได้ตั้งงบประมาณ<br>กด "+ ตั้งงบ" เพื่อเริ่มต้น</span></div>
+  </div>
+</section>
+
+<!-- TRANSACTIONS -->
+<section id="tab-transactions" class="tab-sec">
+  <div class="sh"><div><div class="st">📝 Transactions · รายรับ-รายจ่าย</div></div><button class="primary" onclick="openOv('ov-txn');clearTxnForm()">+ บันทึก</button></div>
+  <div class="g2" style="margin-bottom:14px">
+    <div class="stat card panel"><div class="stat-lbl">Income This Month</div><div class="stat-val good" id="txn-itotal">฿0</div></div>
+    <div class="stat card panel"><div class="stat-lbl">Expense This Month</div><div class="stat-val bad" id="txn-etotal">฿0</div></div>
   </div>
   <div class="card panel" style="margin-bottom:12px">
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
@@ -351,193 +340,209 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <div class="card panel"><div id="txn-list" class="rows"><div class="empty"><span class="empty-ico">📝</span><span style="font-size:13px">ยังไม่มีรายการ</span></div></div></div>
 </section>
 
-<!-- ===== SETTINGS ===== -->
+<!-- SETTINGS -->
 <section id="tab-settings" class="tab-sec">
   <div class="st" style="margin-bottom:16px">⚙️ Settings · การตั้งค่า</div>
   <div class="card panel" style="margin-bottom:14px">
-    <div class="st" style="margin-bottom:12px">Personal Info · ข้อมูลส่วนตัว</div>
+    <div class="st" style="margin-bottom:12px">Personal Info</div>
     <div class="fg2">
       <div class="fg"><label class="fl">ชื่อ / Name</label><input type="text" id="set-name" value="Moriarty J"/></div>
       <div class="fg"><label class="fl">อาชีพ / Occupation</label><input type="text" id="set-occ" value="Accountant"/></div>
-      <div class="fg"><label class="fl">สกุลเงิน / Currency</label>
-        <select id="set-cur"><option value="THB" selected>THB ฿</option><option value="USD">USD $</option><option value="EUR">EUR €</option></select>
-      </div>
+      <div class="fg"><label class="fl">Base Currency</label><select id="set-cur"><option value="THB">THB ฿</option><option value="USD">USD $</option></select></div>
       <div class="fg"><label class="fl">รายได้สุทธิ/เดือน (฿)</label><input type="number" id="set-inc" placeholder="0"/></div>
     </div>
-    <button class="success" style="margin-top:14px" onclick="saveSettings()">💾 บันทึก / Save</button>
+    <button class="success" style="margin-top:14px" onclick="saveSettings()">💾 บันทึก</button>
+  </div>
+  <!-- Exchange Rates -->
+  <div class="card panel" style="margin-bottom:14px">
+    <div class="sh"><div><div class="st">💱 Exchange Rates · อัตราแลกเปลี่ยน</div><div class="ss">ฐาน THB — อัปเดตด้วยตัวเองหรือกด Fetch</div></div>
+      <button class="primary" onclick="fetchRates()">🔄 Fetch Rates</button>
+    </div>
+    <div class="fg2" id="rates-grid"></div>
+    <button class="success" style="margin-top:14px" onclick="saveRates()">💾 บันทึกอัตราแลกเปลี่ยน</button>
   </div>
   <div class="card panel" style="margin-bottom:14px">
-    <div class="st" style="margin-bottom:12px">6 Jar Allocation · สัดส่วนกระปุก</div>
+    <div class="st" style="margin-bottom:12px">6 Jar Allocation</div>
     <div id="jar-pct-set" class="rows"></div>
     <button class="primary" style="margin-top:12px" onclick="saveJarPcts()">💾 บันทึกสัดส่วน</button>
   </div>
   <div class="card panel" style="margin-bottom:14px">
-    <div class="st" style="margin-bottom:12px">Data Management · จัดการข้อมูล</div>
+    <div class="st" style="margin-bottom:12px">Data Management</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <button onclick="exportData()">📤 Export JSON</button>
-      <label style="cursor:pointer;display:inline-flex">
-        <button onclick="this.parentElement.querySelector('input').click()">📥 Import JSON</button>
-        <input type="file" accept=".json" style="display:none" onchange="importData(event)"/>
-      </label>
-      <button class="danger" onclick="clearAll()">🗑️ Clear All Data</button>
+      <label style="cursor:pointer;display:inline-flex"><button onclick="this.parentElement.querySelector('input').click()">📥 Import JSON</button><input type="file" accept=".json" style="display:none" onchange="importData(event)"/></label>
+      <button class="danger" onclick="clearAll()">🗑️ Clear All</button>
     </div>
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8">
-      <strong style="color:var(--text)">Moriarty J · Personal Finance OS v1.0</strong><br/>
-      Accountant's personal finance dashboard · 2026<br/>
-      Built with pure HTML / CSS / JS · Data stored locally in browser (localStorage)
-    </div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v2</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency<br/>Data stored locally · 2026</div>
   </div>
 </section>
-
-</div><!-- /wrap -->
-
-<!-- ===== OVERLAYS ===== -->
-
-<!-- Portfolio -->
-<div class="overlay" id="ov-port">
-  <div class="oc">
-    <div class="oh"><h2>📈 Add / Edit Holding</h2><button class="sm danger" onclick="closeOv('ov-port')">✕</button></div>
-    <input type="hidden" id="port-eid"/>
-    <div class="fg2">
-      <div class="fg"><label class="fl">Symbol / ชื่อย่อ</label><input type="text" id="port-sym" placeholder="PTT, BTC…"/></div>
-      <div class="fg"><label class="fl">ชื่อเต็ม / Full Name</label><input type="text" id="port-nm" placeholder="PTT Public Co."/></div>
-      <div class="fg"><label class="fl">ประเภท / Type</label>
-        <select id="port-type"><option>หุ้น (Stock)</option><option>กองทุน (Fund)</option><option>คริปโต (Crypto)</option><option>พันธบัตร (Bond)</option><option>อสังหาฯ (REIT)</option><option>อื่นๆ (Other)</option></select>
-      </div>
-      <div class="fg"><label class="fl">จำนวนหน่วย / Qty</label><input type="number" id="port-qty" placeholder="100" step="any"/></div>
-      <div class="fg"><label class="fl">ราคาทุน / Cost Price (฿)</label><input type="number" id="port-cost" placeholder="0" step="any"/></div>
-      <div class="fg"><label class="fl">ราคาปัจจุบัน / Current (฿)</label><input type="number" id="port-cur" placeholder="0" step="any"/></div>
-    </div>
-    <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><textarea id="port-note" placeholder="…"></textarea></div>
-    <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
-      <button onclick="closeOv('ov-port')">ยกเลิก</button>
-      <button class="success" onclick="savePort()">💾 บันทึก</button>
-    </div>
-  </div>
 </div>
+
+<!-- OVERLAYS -->
+<!-- Portfolio -->
+<div class="overlay" id="ov-port"><div class="oc">
+  <div class="oh"><h2>📈 Add / Edit Holding</h2><button class="sm danger" onclick="closeOv('ov-port')">✕</button></div>
+  <input type="hidden" id="port-eid"/>
+  <div class="fg2">
+    <div class="fg"><label class="fl">Symbol</label><input type="text" id="port-sym" placeholder="PTT, BTC…"/></div>
+    <div class="fg"><label class="fl">ชื่อเต็ม</label><input type="text" id="port-nm" placeholder="Full name"/></div>
+    <div class="fg"><label class="fl">Type</label>
+      <select id="port-type"><option>หุ้น (Stock)</option><option>กองทุน (Fund)</option><option>คริปโต (Crypto)</option><option>พันธบัตร (Bond)</option><option>อสังหาฯ (REIT)</option><option>อื่นๆ</option></select>
+    </div>
+    <div class="fg"><label class="fl">สกุลเงิน / Currency</label>
+      <select id="port-currency"><option value="THB">THB ฿</option><option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="JPY">JPY ¥</option><option value="SGD">SGD S$</option><option value="HKD">HKD HK$</option><option value="CNY">CNY ¥</option></select>
+    </div>
+    <div class="fg"><label class="fl">Qty</label><input type="number" id="port-qty" placeholder="100" step="any"/></div>
+    <div class="fg"><label class="fl">Cost Price (ในสกุลเงินที่เลือก)</label><input type="number" id="port-cost" placeholder="0" step="any"/></div>
+    <div class="fg"><label class="fl">Current Price (ในสกุลเงินที่เลือก)</label><input type="number" id="port-cur" placeholder="0" step="any"/></div>
+  </div>
+  <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><textarea id="port-note" placeholder="…"></textarea></div>
+  <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+    <button onclick="closeOv('ov-port')">ยกเลิก</button><button class="success" onclick="savePort()">💾 บันทึก</button>
+  </div>
+</div></div>
 
 <!-- Asset -->
-<div class="overlay" id="ov-asset">
-  <div class="oc">
-    <div class="oh"><h2>🏦 Add / Edit Asset</h2><button class="sm danger" onclick="closeOv('ov-asset')">✕</button></div>
-    <input type="hidden" id="ast-eid"/>
-    <div class="fg2">
-      <div class="fg"><label class="fl">ชื่อสินทรัพย์</label><input type="text" id="ast-name" placeholder="บ้าน, รถ, เงินฝาก…"/></div>
-      <div class="fg"><label class="fl">หมวดหมู่</label>
-        <select id="ast-cat">
-          <option>เงินสด/ธนาคาร</option><option>การลงทุน</option><option>อสังหาริมทรัพย์</option>
-          <option>ยานพาหนะ</option><option>ทองคำ/ทรัพย์สินมีค่า</option><option>อื่นๆ</option>
-        </select>
-      </div>
-      <div class="fg"><label class="fl">มูลค่า (฿)</label><input type="number" id="ast-val" placeholder="0"/></div>
-      <div class="fg"><label class="fl">วันที่บันทึก</label><input type="date" id="ast-date"/></div>
+<div class="overlay" id="ov-asset"><div class="oc">
+  <div class="oh"><h2>🏦 Add / Edit Asset</h2><button class="sm danger" onclick="closeOv('ov-asset')">✕</button></div>
+  <input type="hidden" id="ast-eid"/>
+  <div class="fg2">
+    <div class="fg"><label class="fl">ชื่อสินทรัพย์</label><input type="text" id="ast-name" placeholder="บ้าน, รถ…"/></div>
+    <div class="fg"><label class="fl">หมวดหมู่</label>
+      <select id="ast-cat"><option>เงินสด/ธนาคาร</option><option>การลงทุน</option><option>อสังหาริมทรัพย์</option><option>ยานพาหนะ</option><option>ทองคำ/ทรัพย์สินมีค่า</option><option>อื่นๆ</option></select>
     </div>
-    <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><textarea id="ast-note" placeholder="…"></textarea></div>
-    <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
-      <button onclick="closeOv('ov-asset')">ยกเลิก</button>
-      <button class="success" onclick="saveAsset()">💾 บันทึก</button>
+    <div class="fg"><label class="fl">สกุลเงิน</label>
+      <select id="ast-currency"><option value="THB">THB ฿</option><option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="JPY">JPY ¥</option><option value="SGD">SGD S$</option></select>
     </div>
+    <div class="fg"><label class="fl">มูลค่า (ในสกุลเงินที่เลือก)</label><input type="number" id="ast-val" placeholder="0"/></div>
+    <div class="fg"><label class="fl">วันที่บันทึก</label><input type="date" id="ast-date"/></div>
   </div>
-</div>
+  <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><textarea id="ast-note" placeholder="…"></textarea></div>
+  <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+    <button onclick="closeOv('ov-asset')">ยกเลิก</button><button class="success" onclick="saveAsset()">💾 บันทึก</button>
+  </div>
+</div></div>
 
 <!-- Liability -->
-<div class="overlay" id="ov-liab">
-  <div class="oc">
-    <div class="oh"><h2>💳 Add / Edit Liability</h2><button class="sm danger" onclick="closeOv('ov-liab')">✕</button></div>
-    <input type="hidden" id="liab-eid"/>
-    <div class="fg2">
-      <div class="fg"><label class="fl">ชื่อหนี้</label><input type="text" id="liab-name" placeholder="บ้าน, รถ, บัตรเครดิต…"/></div>
-      <div class="fg"><label class="fl">หมวดหมู่</label>
-        <select id="liab-cat">
-          <option>สินเชื่อบ้าน (Mortgage)</option><option>สินเชื่อรถ (Car Loan)</option>
-          <option>บัตรเครดิต (Credit Card)</option><option>สินเชื่อส่วนบุคคล (Personal Loan)</option><option>อื่นๆ (Other)</option>
-        </select>
-      </div>
-      <div class="fg"><label class="fl">ยอดคงเหลือ (฿)</label><input type="number" id="liab-bal" placeholder="0"/></div>
-      <div class="fg"><label class="fl">วงเงิน / Limit (฿)</label><input type="number" id="liab-lim" placeholder="0"/></div>
-      <div class="fg"><label class="fl">ดอกเบี้ย (%)</label><input type="number" id="liab-int" placeholder="0" step="0.01"/></div>
-      <div class="fg"><label class="fl">จ่ายขั้นต่ำ (฿)</label><input type="number" id="liab-min" placeholder="0"/></div>
-      <div class="fg"><label class="fl">ครบกำหนด</label><input type="date" id="liab-due"/></div>
+<div class="overlay" id="ov-liab"><div class="oc">
+  <div class="oh"><h2>💳 Add / Edit Liability</h2><button class="sm danger" onclick="closeOv('ov-liab')">✕</button></div>
+  <input type="hidden" id="liab-eid"/>
+  <div class="fg2">
+    <div class="fg"><label class="fl">ชื่อหนี้</label><input type="text" id="liab-name" placeholder="บ้าน, รถ…"/></div>
+    <div class="fg"><label class="fl">หมวดหมู่</label>
+      <select id="liab-cat"><option>สินเชื่อบ้าน (Mortgage)</option><option>สินเชื่อรถ (Car Loan)</option><option>บัตรเครดิต (Credit Card)</option><option>สินเชื่อส่วนบุคคล</option><option>อื่นๆ</option></select>
     </div>
-    <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><textarea id="liab-note" placeholder="…"></textarea></div>
-    <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
-      <button onclick="closeOv('ov-liab')">ยกเลิก</button>
-      <button class="success" onclick="saveLiab()">💾 บันทึก</button>
+    <div class="fg"><label class="fl">ยอดคงเหลือ (฿)</label><input type="number" id="liab-bal" placeholder="0"/></div>
+    <div class="fg"><label class="fl">วงเงิน / Limit (฿)</label><input type="number" id="liab-lim" placeholder="0"/></div>
+    <div class="fg"><label class="fl">ดอกเบี้ย (%/ปี)</label><input type="number" id="liab-int" placeholder="0" step="0.01"/></div>
+    <div class="fg"><label class="fl">จ่ายขั้นต่ำ/เดือน (฿)</label><input type="number" id="liab-min" placeholder="0"/></div>
+    <div class="fg"><label class="fl">ครบกำหนด</label><input type="date" id="liab-due"/></div>
+  </div>
+  <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><textarea id="liab-note" placeholder="…"></textarea></div>
+  <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+    <button onclick="closeOv('ov-liab')">ยกเลิก</button><button class="success" onclick="saveLiab()">💾 บันทึก</button>
+  </div>
+</div></div>
+
+<!-- Debt Payoff Calculator -->
+<div class="overlay" id="ov-payoff"><div class="oc">
+  <div class="oh"><h2>🧮 Debt Payoff Calculator</h2><button class="sm danger" onclick="closeOv('ov-payoff')">✕</button></div>
+  <div class="fg2">
+    <div class="fg"><label class="fl">เลือกหนี้ / Select Debt</label><select id="calc-debt" onchange="fillCalcDebt()"><option value="">– เลือก –</option></select></div>
+    <div class="fg"><label class="fl">ยอดหนี้ (฿)</label><input type="number" id="calc-bal" placeholder="0" oninput="calcPayoff()"/></div>
+    <div class="fg"><label class="fl">ดอกเบี้ย (%/ปี)</label><input type="number" id="calc-int" placeholder="0" step="0.01" oninput="calcPayoff()"/></div>
+    <div class="fg"><label class="fl">จ่ายขั้นต่ำ/เดือน (฿)</label><input type="number" id="calc-min" placeholder="0" oninput="calcPayoff()"/></div>
+    <div class="fg"><label class="fl">จ่ายเพิ่ม/เดือน (฿)</label><input type="number" id="calc-extra" placeholder="0" oninput="calcPayoff()"/></div>
+    <div class="fg"><label class="fl">กลยุทธ์</label>
+      <select id="calc-strategy" onchange="calcPayoff()"><option value="avalanche">Avalanche (ดอกเบี้ยสูงก่อน)</option><option value="snowball">Snowball (ยอดน้อยก่อน)</option></select>
     </div>
   </div>
-</div>
+  <div class="calc-result" id="calc-result" style="display:none">
+    <div style="font-size:13px;font-weight:800;margin-bottom:8px;color:var(--info)">ผลการคำนวณ</div>
+    <div class="calc-row"><span>จ่ายขั้นต่ำอย่างเดียว</span><span id="cr-min-months" style="font-weight:800">–</span></div>
+    <div class="calc-row"><span>จ่ายเพิ่ม + ขั้นต่ำ</span><span id="cr-extra-months" class="good" style="font-weight:800">–</span></div>
+    <div class="calc-row"><span>ประหยัดได้</span><span id="cr-save-months" class="good" style="font-weight:800">–</span></div>
+    <div class="calc-row"><span>ดอกเบี้ยรวม (ขั้นต่ำ)</span><span id="cr-int-min" class="bad" style="font-weight:800">–</span></div>
+    <div class="calc-row"><span>ดอกเบี้ยรวม (จ่ายเพิ่ม)</span><span id="cr-int-extra" style="font-weight:800">–</span></div>
+    <div class="calc-row"><span>ประหยัดดอกเบี้ย</span><span id="cr-int-save" class="good" style="font-weight:900;font-size:15px">–</span></div>
+    <div id="calc-tip" style="margin-top:10px;padding:10px;border-radius:10px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);font-size:12px;line-height:1.6;color:var(--info)"></div>
+  </div>
+</div></div>
+
+<!-- Budget -->
+<div class="overlay" id="ov-budget"><div class="oc">
+  <div class="oh"><h2>🎯 ตั้งงบประมาณ</h2><button class="sm danger" onclick="closeOv('ov-budget')">✕</button></div>
+  <div class="fg" style="margin-bottom:12px"><label class="fl">เดือน / Month</label><input type="month" id="bov-month"/></div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:10px">ตั้งงบประมาณรายหมวด (฿) — เว้นว่างถ้าไม่ต้องการติดตาม</div>
+  <div id="budget-form-items" class="rows"></div>
+  <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+    <button onclick="closeOv('ov-budget')">ยกเลิก</button><button class="success" onclick="saveBudget()">💾 บันทึก</button>
+  </div>
+</div></div>
 
 <!-- Transaction -->
-<div class="overlay" id="ov-txn">
-  <div class="oc">
-    <div class="oh"><h2>📝 บันทึกรายการ</h2><button class="sm danger" onclick="closeOv('ov-txn')">✕</button></div>
-    <input type="hidden" id="txn-eid"/>
-    <div style="display:flex;gap:8px;margin-bottom:14px">
-      <button id="txn-btn-inc" class="success" style="flex:1" onclick="setTxnType('income')">💰 รายรับ Income</button>
-      <button id="txn-btn-exp" style="flex:1" onclick="setTxnType('expense')">💸 รายจ่าย Expense</button>
+<div class="overlay" id="ov-txn"><div class="oc">
+  <div class="oh"><h2>📝 บันทึกรายการ</h2><button class="sm danger" onclick="closeOv('ov-txn')">✕</button></div>
+  <input type="hidden" id="txn-eid"/>
+  <div style="display:flex;gap:8px;margin-bottom:14px">
+    <button id="txn-btn-inc" class="success" style="flex:1" onclick="setTxnType('income')">💰 รายรับ</button>
+    <button id="txn-btn-exp" style="flex:1" onclick="setTxnType('expense')">💸 รายจ่าย</button>
+  </div>
+  <input type="hidden" id="txn-type" value="income"/>
+  <div class="fg2">
+    <div class="fg"><label class="fl">จำนวนเงิน (฿)</label><input type="number" id="txn-amt" placeholder="0" step="any"/></div>
+    <div class="fg"><label class="fl">วันที่</label><input type="date" id="txn-date"/></div>
+    <div class="fg"><label class="fl">หมวดหมู่</label>
+      <select id="txn-cat">
+        <option>เงินเดือน (Salary)</option><option>โบนัส (Bonus)</option><option>รายได้เสริม</option><option>เงินปันผล (Dividend)</option>
+        <option>อาหาร (Food)</option><option>การเดินทาง (Transport)</option><option>ที่อยู่อาศัย (Housing)</option>
+        <option>ช้อปปิ้ง (Shopping)</option><option>สุขภาพ (Health)</option><option>ความบันเทิง</option>
+        <option>การศึกษา (Education)</option><option>ประกัน (Insurance)</option><option>ลงทุน (Investment)</option>
+        <option>หนี้ (Debt Payment)</option><option>อื่นๆ (Other)</option>
+      </select>
     </div>
-    <input type="hidden" id="txn-type" value="income"/>
-    <div class="fg2">
-      <div class="fg"><label class="fl">จำนวนเงิน (฿)</label><input type="number" id="txn-amt" placeholder="0" step="any"/></div>
-      <div class="fg"><label class="fl">วันที่</label><input type="date" id="txn-date"/></div>
-      <div class="fg"><label class="fl">หมวดหมู่</label>
-        <select id="txn-cat">
-          <option>เงินเดือน (Salary)</option><option>โบนัส (Bonus)</option><option>รายได้เสริม (Freelance)</option>
-          <option>เงินปันผล (Dividend)</option><option>อาหาร (Food)</option><option>การเดินทาง (Transport)</option>
-          <option>ที่อยู่อาศัย (Housing)</option><option>ช้อปปิ้ง (Shopping)</option><option>สุขภาพ (Health)</option>
-          <option>ความบันเทิง (Entertainment)</option><option>การศึกษา (Education)</option>
-          <option>ประกัน (Insurance)</option><option>ลงทุน (Investment)</option><option>หนี้ (Debt Payment)</option><option>อื่นๆ (Other)</option>
-        </select>
-      </div>
-      <div class="fg"><label class="fl">กระปุก / Jar</label>
-        <select id="txn-jar">
-          <option value="">– ไม่ระบุ –</option>
-          <option value="necessities">🏠 Necessities (55%)</option>
-          <option value="freedom">🕊️ Financial Freedom (10%)</option>
-          <option value="education">📚 Education (10%)</option>
-          <option value="longterm">💰 Long-term Savings (10%)</option>
-          <option value="play">🎉 Play (10%)</option>
-          <option value="giving">🎁 Giving (5%)</option>
-        </select>
-      </div>
-    </div>
-    <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><input type="text" id="txn-note" placeholder="รายละเอียด…"/></div>
-    <div class="fg" style="margin-top:10px">
-      <label class="fl">สลิป / Slip Image</label>
-      <div class="slip-zone" id="slip-zone"
-        onclick="document.getElementById('slip-file').click()"
-        ondragover="event.preventDefault();this.classList.add('drag')"
-        ondragleave="this.classList.remove('drag')"
-        ondrop="dropSlip(event)">
-        <div style="font-size:28px">📄</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">คลิกหรือลากไฟล์สลิป<br/>Click or drag slip image here</div>
-        <input type="file" id="slip-file" accept="image/*" style="display:none" onchange="loadSlip(this)"/>
-      </div>
-      <img id="slip-prev" src="" alt="slip" style="display:none;margin-top:8px;border-radius:10px;max-width:100%;max-height:180px;object-fit:contain"/>
-      <div id="slip-nm" style="font-size:11px;color:var(--muted);margin-top:3px"></div>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
-      <button onclick="closeOv('ov-txn')">ยกเลิก</button>
-      <button class="success" onclick="saveTxn()">💾 บันทึก</button>
+    <div class="fg"><label class="fl">กระปุก / Jar</label>
+      <select id="txn-jar">
+        <option value="">– ไม่ระบุ –</option>
+        <option value="necessities">🏠 Necessities</option><option value="freedom">🕊️ Financial Freedom</option>
+        <option value="education">📚 Education</option><option value="longterm">💰 Long-term</option>
+        <option value="play">🎉 Play</option><option value="giving">🎁 Giving</option>
+      </select>
     </div>
   </div>
-</div>
+  <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><input type="text" id="txn-note" placeholder="รายละเอียด…"/></div>
+  <div class="fg" style="margin-top:10px">
+    <label class="fl">สลิป / Slip</label>
+    <div class="slip-zone" id="slip-zone" onclick="document.getElementById('slip-file').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="dropSlip(event)">
+      <div style="font-size:26px">📄</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">คลิกหรือลากสลิปที่นี่</div>
+      <input type="file" id="slip-file" accept="image/*" style="display:none" onchange="loadSlip(this)"/>
+    </div>
+    <img id="slip-prev" src="" alt="slip" style="display:none;margin-top:8px;border-radius:10px;max-width:100%;max-height:160px;object-fit:contain"/>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+    <button onclick="closeOv('ov-txn')">ยกเลิก</button><button class="success" onclick="saveTxn()">💾 บันทึก</button>
+  </div>
+</div></div>
 
 <div class="toast" id="toast"></div>
-
 <script>
-// ── CONSTANTS ──────────────────────────────────────────────────────────────
-const SK = 'finOS_moriarty_v1';
-const COLS = ['#60a5fa','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#38bdf8','#4ade80','#f87171','#c084fc'];
+// ── CONSTANTS ──────────────────────────────────────────────────────────
+const SK='finOS_moriarty_v2';
+const COLS=['#60a5fa','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#38bdf8','#4ade80','#f87171','#c084fc'];
+const CURRENCIES=['THB','USD','EUR','GBP','JPY','SGD','HKD','CNY'];
+const DEF_RATES={THB:1,USD:33.5,EUR:37.2,GBP:43.5,JPY:0.224,SGD:25.1,HKD:4.3,CNY:4.65};
 
-// ── DB ─────────────────────────────────────────────────────────────────────
+// ── DB ─────────────────────────────────────────────────────────────────
 function defDB(){
-  return {
+  return{
     settings:{name:'Moriarty J',occupation:'Accountant',currency:'THB',monthlyIncome:0,theme:'dark'},
+    rates:{...DEF_RATES},
     assets:[],liabilities:[],portfolio:[],transactions:[],
+    budgets:{},
     jars:{
       necessities:{pct:55,name:'Necessities',nameT:'ปัจจัย 4',emoji:'🏠',spent:{}},
       freedom:{pct:10,name:'Financial Freedom',nameT:'อิสรภาพการเงิน',emoji:'🕊️',spent:{}},
@@ -549,12 +554,16 @@ function defDB(){
   };
 }
 let DB;
-try{ DB=JSON.parse(localStorage.getItem(SK))||defDB(); }catch{ DB=defDB(); }
+try{DB=JSON.parse(localStorage.getItem(SK))||defDB();}catch{DB=defDB();}
+// migrate rates
+if(!DB.rates)DB.rates={...DEF_RATES};
+if(!DB.budgets)DB.budgets={};
 
-function save(){ localStorage.setItem(SK,JSON.stringify(DB)); }
+function save(){localStorage.setItem(SK,JSON.stringify(DB));}
 
-// ── UTILS ──────────────────────────────────────────────────────────────────
+// ── UTILS ──────────────────────────────────────────────────────────────
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+function toTHB(amount,currency){return amount*(DB.rates[currency]||1);}
 function fmt(n){if(n===undefined||n===null||isNaN(n))return'–';return'฿'+Number(n).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function fmtC(n){if(!n&&n!==0)return'–';const a=Math.abs(n);if(a>=1e6)return'฿'+(n/1e6).toFixed(2)+'M';if(a>=1e3)return'฿'+(n/1e3).toFixed(1)+'K';return fmt(n);}
 function pct(n,t){return t?((n/t)*100).toFixed(1)+'%':'0%';}
@@ -563,51 +572,33 @@ function col(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))&0xff
 function todayStr(){return new Date().toISOString().slice(0,10);}
 function thisMonth(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
 function monthLbl(ym){if(!ym)return'';const[y,m]=ym.split('-');const mn=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];return`${mn[+m-1]} ${+y+543}`;}
-
 function toast(msg,ms=2500){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),ms);}
 
-// ── TABS ───────────────────────────────────────────────────────────────────
+// ── TABS / OVERLAYS ────────────────────────────────────────────────────
 function switchTab(id,btn){
   document.querySelectorAll('.tab-sec').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  btn.classList.add('active');
-  renderAll();
+  document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');renderAll();
 }
-
-// ── OVERLAYS ───────────────────────────────────────────────────────────────
 function openOv(id){document.getElementById(id).classList.add('show');}
 function closeOv(id){document.getElementById(id).classList.remove('show');}
 document.querySelectorAll('.overlay').forEach(ov=>ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('show');}));
 
-// ── THEME ──────────────────────────────────────────────────────────────────
-function toggleTheme(){
-  const cur=document.documentElement.getAttribute('data-theme');
-  const next=cur==='light'?'dark':'light';
-  document.documentElement.setAttribute('data-theme',next);
-  document.getElementById('metaThemeColor').content=next==='light'?'#eef2ff':'#0b1220';
-  DB.settings.theme=next; save();
-}
-function applyTheme(){
-  if(DB.settings.theme==='light'){document.documentElement.setAttribute('data-theme','light');document.getElementById('metaThemeColor').content='#eef2ff';}
-}
+// ── THEME ──────────────────────────────────────────────────────────────
+function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme');const next=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',next);document.getElementById('metaThemeColor').content=next==='light'?'#eef2ff':'#0b1220';DB.settings.theme=next;save();}
+function applyTheme(){if(DB.settings.theme==='light'){document.documentElement.setAttribute('data-theme','light');document.getElementById('metaThemeColor').content='#eef2ff';}}
 
-// ── DONUT (pure SVG) ───────────────────────────────────────────────────────
+// ── DONUT ──────────────────────────────────────────────────────────────
 function drawDonut(segId,data,total,lblId,lblTxt){
   const el=document.getElementById(segId);
   if(lblId)document.getElementById(lblId).textContent=lblTxt||'–';
   if(!total||!Object.keys(data).length){el.innerHTML='';return;}
-  const r=15.915,c=2*Math.PI*r;
-  let off=0,html='';
+  const r=15.915,c=2*Math.PI*r;let off=0,html='';
   Object.keys(data).forEach((k,i)=>{
     const f=data[k]/total,d=f*c,g=c-d,color=COLS[i%COLS.length];
-    html+=`<circle cx="18" cy="18" r="${r}" fill="none" stroke="${color}" stroke-width="4"
-      stroke-dasharray="${d.toFixed(3)} ${g.toFixed(3)}"
-      stroke-dashoffset="${(-(off/360*c)).toFixed(3)}"
-      transform="rotate(-90 18 18)"/>`;
+    html+=`<circle cx="18" cy="18" r="${r}" fill="none" stroke="${color}" stroke-width="4" stroke-dasharray="${d.toFixed(3)} ${g.toFixed(3)}" stroke-dashoffset="${(-(off/360*c)).toFixed(3)}" transform="rotate(-90 18 18)"/>`;
     off+=f*360;
-  });
-  el.innerHTML=html;
+  });el.innerHTML=html;
 }
 function drawLegend(elId,data,total){
   const el=document.getElementById(elId);
@@ -620,61 +611,108 @@ function drawLegend(elId,data,total){
     </div>`).join('');
 }
 
-// ── PORTFOLIO ──────────────────────────────────────────────────────────────
+// ── HEALTH SCORE ───────────────────────────────────────────────────────
+function calcHealthScore(){
+  const tAst=DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
+  const tLiab=DB.liabilities.reduce((s,l)=>s+l.balance,0);
+  const tMinPay=DB.liabilities.reduce((s,l)=>s+l.minPayment,0);
+  const monthInc=DB.settings.monthlyIncome||0;
+  const cur=thisMonth();
+  const cm=DB.transactions.filter(t=>t.date&&t.date.startsWith(cur));
+  const inc=cm.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0)||monthInc;
+  const exp=cm.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const savRate=inc?(inc-exp)/inc*100:0;
+  const debtRatio=tAst?tLiab/tAst*100:tLiab?100:0;
+  const efMonths=exp?tAst/(exp||1):0;
+  const debtPayRatio=inc?tMinPay/inc*100:0;
+  const portVal=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  const investRatio=tAst?portVal/tAst*100:0;
+
+  // Score each metric (0-25 each = 100 total)
+  const s1=savRate>=20?25:savRate>=10?16:savRate>=5?8:0;        // Savings Rate
+  const s2=debtRatio<=30?25:debtRatio<=50?16:debtRatio<=70?8:0; // Debt Ratio
+  const s3=efMonths>=6?25:efMonths>=3?18:efMonths>=1?10:0;      // Emergency Fund
+  const s4=debtPayRatio<=15?25:debtPayRatio<=25?16:debtPayRatio<=35?8:0; // Debt Payment
+  const total=s1+s2+s3+s4;
+
+  const metrics=[
+    {name:'Savings Rate',nameT:'อัตราออม',val:savRate.toFixed(1)+'%',score:s1,max:25,good:savRate>=20,tip:savRate<20?'เป้าหมาย: ออมอย่างน้อย 20% ของรายได้':null},
+    {name:'Debt/Asset Ratio',nameT:'หนี้ต่อสินทรัพย์',val:debtRatio.toFixed(1)+'%',score:s2,max:25,good:debtRatio<=30,tip:debtRatio>50?'หนี้สูงเกินไป ควรลดหนี้ก่อนลงทุนเพิ่ม':null},
+    {name:'Emergency Fund',nameT:'เงินสำรองฉุกเฉิน',val:efMonths.toFixed(1)+' เดือน',score:s3,max:25,good:efMonths>=6,tip:efMonths<3?'ควรมีเงินสำรองอย่างน้อย 3-6 เดือนของค่าใช้จ่าย':null},
+    {name:'Debt Payment',nameT:'ภาระหนี้ต่อรายได้',val:debtPayRatio.toFixed(1)+'%',score:s4,max:25,good:debtPayRatio<=15,tip:debtPayRatio>35?'ภาระหนี้สูงมาก ควรหารายได้เพิ่มหรือ refinance':null},
+  ];
+  return{total,metrics};
+}
+
+function renderHealthScore(){
+  const{total,metrics}=calcHealthScore();
+  const arc=document.getElementById('score-arc');
+  const circ=364.4;
+  const offset=circ-(total/100*circ);
+  arc.style.strokeDashoffset=offset;
+  const color=total>=75?'#22c55e':total>=50?'#f59e0b':'#ef4444';
+  arc.style.stroke=color;
+  const numEl=document.getElementById('score-num');
+  numEl.textContent=total;
+  numEl.style.color=color;
+  const grade=total>=80?'Excellent 🌟':total>=65?'Good 👍':total>=50?'Fair ⚠️':'Needs Work 🔴';
+  document.getElementById('score-grade').textContent=grade;
+  document.getElementById('score-grade').style.color=color;
+
+  document.getElementById('score-metrics').innerHTML=metrics.map(m=>`
+    <div class="score-metric">
+      <div class="score-metric-header">
+        <span class="score-metric-name">${m.emoji||''}${m.name} <span class="muted" style="font-size:11px">${m.nameT}</span></span>
+        <span class="score-metric-val" style="color:${m.good?'var(--good)':'var(--warn)'}">${m.val} · ${m.score}/${m.max}pts</span>
+      </div>
+      <div class="progress"><div class="pfill" style="width:${m.score/m.max*100}%;background:${m.good?'var(--good)':'var(--warn)'}"></div></div>
+    </div>`).join('');
+
+  const tips=metrics.filter(m=>m.tip).map(m=>m.tip);
+  document.getElementById('score-tips').innerHTML=tips.length?
+    `<div class="score-tip">💡 <strong>คำแนะนำ:</strong> ${tips.join(' · ')}</div>`:'';
+}
+
+// ── PORTFOLIO ──────────────────────────────────────────────────────────
 function clearPortForm(){
   ['port-eid','port-sym','port-nm','port-qty','port-cost','port-cur','port-note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('port-type').selectedIndex=0;
+  document.getElementById('port-type').selectedIndex=0;document.getElementById('port-currency').value='THB';
 }
 function savePort(){
   const id=document.getElementById('port-eid').value||uid();
-  const item={id,
-    symbol:document.getElementById('port-sym').value.trim().toUpperCase(),
-    name:document.getElementById('port-nm').value.trim(),
-    type:document.getElementById('port-type').value,
-    qty:+document.getElementById('port-qty').value||0,
-    costPrice:+document.getElementById('port-cost').value||0,
-    currentPrice:+document.getElementById('port-cur').value||0,
-    note:document.getElementById('port-note').value.trim()
-  };
+  const currency=document.getElementById('port-currency').value;
+  const item={id,symbol:document.getElementById('port-sym').value.trim().toUpperCase(),name:document.getElementById('port-nm').value.trim(),type:document.getElementById('port-type').value,currency,qty:+document.getElementById('port-qty').value||0,costPrice:+document.getElementById('port-cost').value||0,currentPrice:+document.getElementById('port-cur').value||0,note:document.getElementById('port-note').value.trim()};
   const idx=DB.portfolio.findIndex(p=>p.id===id);
   if(idx>=0)DB.portfolio[idx]=item;else DB.portfolio.push(item);
   save();renderPort();closeOv('ov-port');toast('✅ บันทึกแล้ว');
 }
-function editPort(id){
-  const p=DB.portfolio.find(p=>p.id===id);if(!p)return;
-  document.getElementById('port-eid').value=p.id;
-  document.getElementById('port-sym').value=p.symbol;
-  document.getElementById('port-nm').value=p.name;
-  document.getElementById('port-type').value=p.type;
-  document.getElementById('port-qty').value=p.qty;
-  document.getElementById('port-cost').value=p.costPrice;
-  document.getElementById('port-cur').value=p.currentPrice;
-  document.getElementById('port-note').value=p.note||'';
-  openOv('ov-port');
-}
+function editPort(id){const p=DB.portfolio.find(p=>p.id===id);if(!p)return;document.getElementById('port-eid').value=p.id;document.getElementById('port-sym').value=p.symbol;document.getElementById('port-nm').value=p.name;document.getElementById('port-type').value=p.type;document.getElementById('port-currency').value=p.currency||'THB';document.getElementById('port-qty').value=p.qty;document.getElementById('port-cost').value=p.costPrice;document.getElementById('port-cur').value=p.currentPrice;document.getElementById('port-note').value=p.note||'';openOv('ov-port');}
 function delPort(id){if(!confirm('ลบรายการนี้?'))return;DB.portfolio=DB.portfolio.filter(p=>p.id!==id);save();renderPort();toast('🗑️ ลบแล้ว');}
 function renderPort(){
   const items=DB.portfolio;
-  const tVal=items.reduce((s,p)=>s+p.qty*p.currentPrice,0);
-  const tCost=items.reduce((s,p)=>s+p.qty*p.costPrice,0);
+  const tVal=items.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  const tCost=items.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
   const pl=tVal-tCost;const ret=tCost?(pl/tCost*100):0;
   document.getElementById('port-total').textContent=fmt(tVal);
-  document.getElementById('port-sub').textContent=`มูลค่ารวม: ${fmtC(tVal)}`;
+  document.getElementById('port-sub').textContent=`มูลค่ารวม (THB): ${fmtC(tVal)}`;
   document.getElementById('port-pl').innerHTML=`P&L: <span class="${pl>=0?'good':'bad'}">${pl>=0?'+':''}${fmt(pl)}</span>`;
   document.getElementById('port-ret').textContent=`${ret>=0?'+':''}${ret.toFixed(2)}%`;
   document.getElementById('port-ret').className='stat-val '+(ret>=0?'good':'bad');
-  const byType={};items.forEach(p=>{byType[p.type]=(byType[p.type]||0)+p.qty*p.currentPrice;});
-  drawDonut('port-segs',byType,tVal,'port-dlbl',fmtC(tVal));
-  drawLegend('port-legend',byType,tVal);
+  const byType={};items.forEach(p=>{byType[p.type]=(byType[p.type]||0)+toTHB(p.qty*p.currentPrice,p.currency||'THB');});
+  drawDonut('port-segs',byType,tVal,'port-dlbl',fmtC(tVal));drawLegend('port-legend',byType,tVal);
   const tbody=document.getElementById('port-tbody');
-  if(!items.length){tbody.innerHTML='<tr><td colspan="8" class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีรายการ</span></td></tr>';return;}
+  if(!items.length){tbody.innerHTML='<tr><td colspan="9" class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีรายการ</span></td></tr>';return;}
+  const rateNote=cur=>cur!=='THB'?`<span class="curr-badge">${cur}</span> × ${DB.rates[cur]||1}`:'';
   tbody.innerHTML=items.map(p=>{
-    const v=p.qty*p.currentPrice,c=p.qty*p.costPrice,g=v-c;
+    const v=toTHB(p.qty*p.currentPrice,p.currency||'THB');
+    const c=toTHB(p.qty*p.costPrice,p.currency||'THB');const g=v-c;
     return`<tr>
       <td><strong>${p.symbol||'–'}</strong><br><span class="muted" style="font-size:11px">${p.name}</span></td>
       <td><span class="chip">${p.type}</span></td>
+      <td><span class="curr-badge">${p.currency||'THB'}</span></td>
       <td>${p.qty.toLocaleString()}</td>
-      <td>${fmt(p.costPrice)}</td><td>${fmt(p.currentPrice)}</td>
+      <td>${(p.costPrice).toLocaleString(undefined,{maximumFractionDigits:2})}</td>
+      <td>${(p.currentPrice).toLocaleString(undefined,{maximumFractionDigits:2})}</td>
       <td style="font-weight:800">${fmt(v)}</td>
       <td class="${g>=0?'good':'bad'}" style="font-weight:800">${g>=0?'+':''}${fmt(g)}</td>
       <td style="white-space:nowrap"><button class="sm" onclick="editPort('${p.id}')">✏️</button> <button class="sm danger" onclick="delPort('${p.id}')">🗑</button></td>
@@ -682,157 +720,137 @@ function renderPort(){
   }).join('');
 }
 
-// ── ASSETS ─────────────────────────────────────────────────────────────────
-function clearAssetForm(){
-  ['ast-eid','ast-name','ast-val','ast-note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('ast-date').value=todayStr();
-  document.getElementById('ast-cat').selectedIndex=0;
-}
+// ── ASSETS ─────────────────────────────────────────────────────────────
+function clearAssetForm(){['ast-eid','ast-name','ast-val','ast-note'].forEach(id=>document.getElementById(id).value='');document.getElementById('ast-date').value=todayStr();document.getElementById('ast-cat').selectedIndex=0;document.getElementById('ast-currency').value='THB';}
 function saveAsset(){
   const id=document.getElementById('ast-eid').value||uid();
-  const item={id,name:document.getElementById('ast-name').value.trim(),
-    category:document.getElementById('ast-cat').value,
-    value:+document.getElementById('ast-val').value||0,
-    date:document.getElementById('ast-date').value||todayStr(),
-    note:document.getElementById('ast-note').value.trim()};
+  const item={id,name:document.getElementById('ast-name').value.trim(),category:document.getElementById('ast-cat').value,currency:document.getElementById('ast-currency').value,value:+document.getElementById('ast-val').value||0,date:document.getElementById('ast-date').value||todayStr(),note:document.getElementById('ast-note').value.trim()};
   const idx=DB.assets.findIndex(a=>a.id===id);
   if(idx>=0)DB.assets[idx]=item;else DB.assets.push(item);
   save();renderAssets();closeOv('ov-asset');toast('✅ บันทึกแล้ว');
 }
-function editAsset(id){
-  const a=DB.assets.find(a=>a.id===id);if(!a)return;
-  document.getElementById('ast-eid').value=a.id;
-  document.getElementById('ast-name').value=a.name;
-  document.getElementById('ast-cat').value=a.category;
-  document.getElementById('ast-val').value=a.value;
-  document.getElementById('ast-date').value=a.date;
-  document.getElementById('ast-note').value=a.note||'';
-  openOv('ov-asset');
-}
+function editAsset(id){const a=DB.assets.find(a=>a.id===id);if(!a)return;document.getElementById('ast-eid').value=a.id;document.getElementById('ast-name').value=a.name;document.getElementById('ast-cat').value=a.category;document.getElementById('ast-currency').value=a.currency||'THB';document.getElementById('ast-val').value=a.value;document.getElementById('ast-date').value=a.date;document.getElementById('ast-note').value=a.note||'';openOv('ov-asset');}
 function delAsset(id){if(!confirm('ลบสินทรัพย์นี้?'))return;DB.assets=DB.assets.filter(a=>a.id!==id);save();renderAssets();toast('🗑️ ลบแล้ว');}
 function renderAssets(){
   const items=DB.assets;
-  const total=items.reduce((s,a)=>s+a.value,0);
-  document.getElementById('ast-sub').textContent=`รวม: ${fmt(total)}`;
-  const byCat={};items.forEach(a=>{byCat[a.category]=(byCat[a.category]||0)+a.value;});
-  const catEl=document.getElementById('ast-cats');
-  catEl.innerHTML=Object.keys(byCat).map((c,i)=>`
-    <div class="card panel">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-        <div style="width:7px;height:7px;border-radius:50%;background:${COLS[i%COLS.length]}"></div>
-        <span style="font-size:11px;font-weight:700;color:var(--muted)">${c}</span>
-      </div>
-      <div style="font-size:20px;font-weight:900">${fmtC(byCat[c])}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">${pct(byCat[c],total)}</div>
-    </div>`).join('');
+  const total=items.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
+  document.getElementById('ast-sub').textContent=`รวม (THB): ${fmt(total)}`;
+  const byCat={};items.forEach(a=>{byCat[a.category]=(byCat[a.category]||0)+toTHB(a.value,a.currency||'THB');});
+  document.getElementById('ast-cats').innerHTML=Object.keys(byCat).map((c,i)=>`
+    <div class="card panel"><div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;border-radius:50%;background:${COLS[i%COLS.length]}"></div>${c}</div>
+    <div style="font-size:20px;font-weight:900">${fmtC(byCat[c])}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${pct(byCat[c],total)}</div></div>`).join('');
   const tbody=document.getElementById('ast-tbody');
-  if(!items.length){tbody.innerHTML='<tr><td colspan="6" class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></td></tr>';return;}
+  if(!items.length){tbody.innerHTML='<tr><td colspan="7" class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></td></tr>';return;}
   tbody.innerHTML=items.map(a=>`<tr>
     <td style="font-weight:700">${a.name}</td>
-    <td><span class="chip" style="color:${col(a.category)};border-color:${col(a.category)}40">${a.category}</span></td>
-    <td style="font-weight:900">${fmt(a.value)}</td>
+    <td><span class="chip" style="color:${col(a.category)}">${a.category}</span></td>
+    <td><span class="curr-badge">${a.currency||'THB'}</span></td>
+    <td style="font-weight:900">${fmt(toTHB(a.value,a.currency||'THB'))}</td>
     <td class="muted" style="font-size:12px">${a.date||'–'}</td>
     <td class="muted" style="font-size:12px">${a.note||'–'}</td>
     <td style="white-space:nowrap"><button class="sm" onclick="editAsset('${a.id}')">✏️</button> <button class="sm danger" onclick="delAsset('${a.id}')">🗑</button></td>
   </tr>`).join('');
 }
 
-// ── LIABILITIES ────────────────────────────────────────────────────────────
-function clearLiabForm(){
-  ['liab-eid','liab-name','liab-bal','liab-lim','liab-int','liab-min','liab-due','liab-note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('liab-cat').selectedIndex=0;
-}
+// ── LIABILITIES ────────────────────────────────────────────────────────
+function clearLiabForm(){['liab-eid','liab-name','liab-bal','liab-lim','liab-int','liab-min','liab-due','liab-note'].forEach(id=>document.getElementById(id).value='');document.getElementById('liab-cat').selectedIndex=0;}
 function saveLiab(){
   const id=document.getElementById('liab-eid').value||uid();
-  const item={id,name:document.getElementById('liab-name').value.trim(),
-    category:document.getElementById('liab-cat').value,
-    balance:+document.getElementById('liab-bal').value||0,
-    limit:+document.getElementById('liab-lim').value||0,
-    interest:+document.getElementById('liab-int').value||0,
-    minPayment:+document.getElementById('liab-min').value||0,
-    dueDate:document.getElementById('liab-due').value,
-    note:document.getElementById('liab-note').value.trim()};
+  const item={id,name:document.getElementById('liab-name').value.trim(),category:document.getElementById('liab-cat').value,balance:+document.getElementById('liab-bal').value||0,limit:+document.getElementById('liab-lim').value||0,interest:+document.getElementById('liab-int').value||0,minPayment:+document.getElementById('liab-min').value||0,dueDate:document.getElementById('liab-due').value,note:document.getElementById('liab-note').value.trim()};
   const idx=DB.liabilities.findIndex(l=>l.id===id);
   if(idx>=0)DB.liabilities[idx]=item;else DB.liabilities.push(item);
   save();renderLiab();closeOv('ov-liab');toast('✅ บันทึกแล้ว');
 }
-function editLiab(id){
-  const l=DB.liabilities.find(l=>l.id===id);if(!l)return;
-  document.getElementById('liab-eid').value=l.id;
-  document.getElementById('liab-name').value=l.name;
-  document.getElementById('liab-cat').value=l.category;
-  document.getElementById('liab-bal').value=l.balance;
-  document.getElementById('liab-lim').value=l.limit||'';
-  document.getElementById('liab-int').value=l.interest;
-  document.getElementById('liab-min').value=l.minPayment;
-  document.getElementById('liab-due').value=l.dueDate||'';
-  document.getElementById('liab-note').value=l.note||'';
-  openOv('ov-liab');
-}
+function editLiab(id){const l=DB.liabilities.find(l=>l.id===id);if(!l)return;document.getElementById('liab-eid').value=l.id;document.getElementById('liab-name').value=l.name;document.getElementById('liab-cat').value=l.category;document.getElementById('liab-bal').value=l.balance;document.getElementById('liab-lim').value=l.limit||'';document.getElementById('liab-int').value=l.interest;document.getElementById('liab-min').value=l.minPayment;document.getElementById('liab-due').value=l.dueDate||'';document.getElementById('liab-note').value=l.note||'';openOv('ov-liab');}
 function delLiab(id){if(!confirm('ลบหนี้สินนี้?'))return;DB.liabilities=DB.liabilities.filter(l=>l.id!==id);save();renderLiab();toast('🗑️ ลบแล้ว');}
 function renderLiab(){
-  const items=DB.liabilities;
-  const total=items.reduce((s,l)=>s+l.balance,0);
+  const items=DB.liabilities;const total=items.reduce((s,l)=>s+l.balance,0);
   document.getElementById('liab-sub').textContent=`รวม: ${fmt(total)}`;
   const byCat={};items.forEach(l=>{byCat[l.category]=(byCat[l.category]||0)+l.balance;});
   document.getElementById('liab-cats').innerHTML=Object.keys(byCat).map(c=>`
-    <div class="card panel">
-      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px">${c}</div>
-      <div style="font-size:20px;font-weight:900;color:var(--bad)">${fmtC(byCat[c])}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">${pct(byCat[c],total)}</div>
-    </div>`).join('');
+    <div class="card panel"><div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px">${c}</div>
+    <div style="font-size:20px;font-weight:900;color:var(--bad)">${fmtC(byCat[c])}</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:2px">${pct(byCat[c],total)}</div></div>`).join('');
   const today=new Date();
   const barsEl=document.getElementById('liab-bars');
-  if(!items.length){barsEl.innerHTML='<div class="empty"><span class="empty-ico">🎉</span><span style="font-size:13px">ไม่มีหนี้สิน ดีมาก!</span></div>';return;}
+  if(!items.length){barsEl.innerHTML='<div class="empty"><span class="empty-ico">🎉</span><span style="font-size:13px">ไม่มีหนี้สิน!</span></div>';return;}
   barsEl.innerHTML=items.map(l=>{
     const up=l.limit?clamp(l.balance/l.limit*100):100;
     let due='';
-    if(l.dueDate){const d=new Date(l.dueDate),diff=Math.ceil((d-today)/864e5);
-      due=diff<0?`<span class="bad" style="font-size:11px">เกิน ${Math.abs(diff)} วัน</span>`:
-           diff<=7?`<span class="warn" style="font-size:11px">ครบใน ${diff} วัน</span>`:
-           `<span class="muted" style="font-size:11px">ครบใน ${diff} วัน</span>`;}
+    if(l.dueDate){const d=new Date(l.dueDate),diff=Math.ceil((d-today)/864e5);due=diff<0?`<span class="bad" style="font-size:11px">เกิน ${Math.abs(diff)} วัน</span>`:diff<=7?`<span class="warn" style="font-size:11px">ครบใน ${diff} วัน</span>`:`<span class="muted" style="font-size:11px">ครบใน ${diff} วัน</span>`;}
     return`<div class="row" style="flex-direction:column;align-items:stretch;gap:6px">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
-        <span style="font-weight:700;font-size:13px">${l.name} <span class="chip" style="margin-left:4px">${l.category}</span></span>
+        <span style="font-weight:700;font-size:13px">${l.name} <span class="chip">${l.category}</span></span>
         <div style="display:flex;gap:8px;align-items:center">${due}<span class="bad" style="font-weight:900">${fmt(l.balance)}</span></div>
       </div>
-      ${l.limit?`<div class="progress"><div class="pfill" style="width:${up}%;background:linear-gradient(90deg,#f59e0b,#ef4444)"></div></div>
-      <div style="font-size:11px;color:var(--muted)">${fmt(l.balance)} / ${fmt(l.limit)} (${up.toFixed(0)}%)</div>`:''}
+      ${l.limit?`<div class="progress"><div class="pfill" style="width:${up}%;background:linear-gradient(90deg,#f59e0b,#ef4444)"></div></div><div style="font-size:11px;color:var(--muted)">${fmt(l.balance)} / ${fmt(l.limit)} (${up.toFixed(0)}%)</div>`:''}
     </div>`;
   }).join('');
   const tbody=document.getElementById('liab-tbody');
-  tbody.innerHTML=items.map(l=>{
-    let dc='',dt='–';
-    if(l.dueDate){const d=new Date(l.dueDate),diff=Math.ceil((d-today)/864e5);dt=l.dueDate;dc=diff<0?'bad':diff<=7?'warn':'';}
-    return`<tr>
-      <td style="font-weight:700">${l.name}</td>
-      <td><span class="chip">${l.category}</span></td>
-      <td class="bad" style="font-weight:900">${fmt(l.balance)}</td>
-      <td>${l.interest?l.interest+'%':'–'}</td>
-      <td>${l.minPayment?fmt(l.minPayment):'–'}</td>
-      <td class="${dc}" style="font-size:12px">${dt}</td>
-      <td style="white-space:nowrap"><button class="sm" onclick="editLiab('${l.id}')">✏️</button> <button class="sm danger" onclick="delLiab('${l.id}')">🗑</button></td>
-    </tr>`;
-  }).join('');
+  tbody.innerHTML=items.length?items.map(l=>{let dc='',dt='–';if(l.dueDate){const d=new Date(l.dueDate),diff=Math.ceil((d-today)/864e5);dt=l.dueDate;dc=diff<0?'bad':diff<=7?'warn':'';}
+    return`<tr><td style="font-weight:700">${l.name}</td><td><span class="chip">${l.category}</span></td><td class="bad" style="font-weight:900">${fmt(l.balance)}</td><td>${l.interest?l.interest+'%':'–'}</td><td>${l.minPayment?fmt(l.minPayment):'–'}</td><td class="${dc}" style="font-size:12px">${dt}</td><td style="white-space:nowrap"><button class="sm" onclick="editLiab('${l.id}')">✏️</button> <button class="sm danger" onclick="delLiab('${l.id}')">🗑</button></td></tr>`;
+  }).join(''):'<tr><td colspan="7" class="empty"><span class="empty-ico">💳</span></td></tr>';
+  // Populate payoff dropdown
+  const sel=document.getElementById('calc-debt');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">– เลือกหนี้ –</option>'+items.map(l=>`<option value="${l.id}" ${l.id===cur?'selected':''}>${l.name}</option>`).join('');
 }
 
-// ── 6 JARS ─────────────────────────────────────────────────────────────────
+// ── DEBT PAYOFF CALCULATOR ─────────────────────────────────────────────
+function fillCalcDebt(){
+  const id=document.getElementById('calc-debt').value;if(!id)return;
+  const l=DB.liabilities.find(l=>l.id===id);if(!l)return;
+  document.getElementById('calc-bal').value=l.balance;
+  document.getElementById('calc-int').value=l.interest;
+  document.getElementById('calc-min').value=l.minPayment;
+  document.getElementById('calc-extra').value='';
+  calcPayoff();
+}
+function amortize(bal,annualRate,monthlyPay){
+  if(monthlyPay<=0||bal<=0)return{months:Infinity,totalInt:Infinity};
+  const r=annualRate/100/12;if(r===0)return{months:Math.ceil(bal/monthlyPay),totalInt:0};
+  if(monthlyPay<=bal*r)return{months:Infinity,totalInt:Infinity};
+  const months=Math.ceil(-Math.log(1-bal*r/monthlyPay)/Math.log(1+r));
+  const totalInt=monthlyPay*months-bal;
+  return{months,totalInt:Math.max(0,totalInt)};
+}
+function calcPayoff(){
+  const bal=+document.getElementById('calc-bal').value||0;
+  const rate=+document.getElementById('calc-int').value||0;
+  const min=+document.getElementById('calc-min').value||0;
+  const extra=+document.getElementById('calc-extra').value||0;
+  const res=document.getElementById('calc-result');
+  if(!bal||!min){res.style.display='none';return;}
+  res.style.display='block';
+  const r1=amortize(bal,rate,min);
+  const r2=amortize(bal,rate,min+extra);
+  const mSave=r1.months===Infinity?'–':`${Math.max(0,r1.months-r2.months)} เดือน`;
+  const intSave=r1.totalInt===Infinity?'–':fmt(r1.totalInt-r2.totalInt);
+  document.getElementById('cr-min-months').textContent=r1.months===Infinity?'ชำระไม่หมด':r1.months+' เดือน ('+(r1.months/12).toFixed(1)+' ปี)';
+  document.getElementById('cr-extra-months').textContent=r2.months===Infinity?'ชำระไม่หมด':r2.months+' เดือน ('+(r2.months/12).toFixed(1)+' ปี)';
+  document.getElementById('cr-save-months').textContent=r1.months===Infinity||r2.months===Infinity?'–':mSave;
+  document.getElementById('cr-int-min').textContent=r1.totalInt===Infinity?'ไม่สิ้นสุด':fmt(r1.totalInt);
+  document.getElementById('cr-int-extra').textContent=r2.totalInt===Infinity?'ไม่สิ้นสุด':fmt(r2.totalInt);
+  document.getElementById('cr-int-save').textContent=intSave;
+  const strat=document.getElementById('calc-strategy').value;
+  const tips=strat==='avalanche'?'Avalanche: จ่ายหนี้ดอกเบี้ยสูงสุดก่อน ประหยัดดอกเบี้ยรวมมากที่สุด':'Snowball: จ่ายหนี้ยอดน้อยก่อน สร้าง momentum และแรงจูงใจ';
+  document.getElementById('calc-tip').innerHTML=`💡 <strong>${strat==='avalanche'?'Avalanche':'Snowball'}:</strong> ${tips}${extra>0?`<br>การจ่ายเพิ่ม ฿${extra.toLocaleString()}/เดือน ช่วยประหยัดดอกเบี้ยได้ ${intSave}`:''}`;
+}
+
+// ── 6 JARS ─────────────────────────────────────────────────────────────
 function renderJars(){
   const inc=+document.getElementById('jar-inc').value||DB.settings.monthlyIncome||0;
   const month=document.getElementById('jar-month').value||thisMonth();
   const jars=DB.jars;const keys=Object.keys(jars);
   document.getElementById('jar-grid').innerHTML=keys.map(k=>{
-    const j=jars[k];const alloc=inc*j.pct/100;
-    const spent=(j.spent&&j.spent[month])||0;const rem=alloc-spent;
+    const j=jars[k];const alloc=inc*j.pct/100;const spent=(j.spent&&j.spent[month])||0;const rem=alloc-spent;
     const sp=alloc?clamp(spent/alloc*100):0;const over=spent>alloc;
-    return`<div class="jcard">
-      <span class="jemoji">${j.emoji}</span>
-      <div class="jname">${j.name}</div>
-      <div style="font-size:11px;color:var(--muted)">${j.nameT}</div>
-      <div class="jpct">${j.pct}%</div>
-      <div class="jamt" style="color:${over?'var(--bad)':'var(--info)'}">${fmt(alloc)}</div>
-      <div class="jsub">ใช้: ${fmt(spent)}</div>
-      <div class="jsub">เหลือ: <span class="${over?'bad':'good'}">${fmt(rem)}</span></div>
+    return`<div class="jcard"><span style="font-size:26px;display:block;margin-bottom:5px">${j.emoji}</span>
+      <div style="font-size:12px;font-weight:800">${j.name}</div><div style="font-size:11px;color:var(--muted)">${j.nameT}</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px">${j.pct}%</div>
+      <div style="font-size:17px;font-weight:900;color:${over?'var(--bad)':'var(--info)'}">${fmt(alloc)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">ใช้: ${fmt(spent)}</div>
+      <div style="font-size:11px;margin-top:1px">เหลือ: <span class="${over?'bad':'good'}">${fmt(rem)}</span></div>
       <div class="progress" style="margin-top:8px"><div class="pfill" style="width:${sp}%;background:${over?'linear-gradient(90deg,#f59e0b,#ef4444)':'linear-gradient(90deg,#60a5fa,#22c55e)'}"></div></div>
     </div>`;
   }).join('');
@@ -842,91 +860,98 @@ function renderJars(){
       <span style="min-width:150px;font-size:13px;font-weight:700">${j.emoji} ${j.name}</span>
       <span class="muted" style="font-size:12px">เป้า: ${fmt(alloc)}</span>
       <div style="display:flex;gap:6px;align-items:center;margin-left:auto">
-        <input type="number" value="${spent||''}" placeholder="0" step="any"
-          style="width:130px;padding:8px 10px;font-size:13px"
-          onchange="updateJar('${k}','${month}',this.value)"/>
+        <input type="number" value="${spent||''}" placeholder="0" step="any" style="width:130px;padding:8px 10px;font-size:13px" onchange="updateJar('${k}','${month}',this.value)"/>
         <span class="muted" style="font-size:12px">฿</span>
       </div>
     </div>`;
   }).join('');
 }
-function updateJar(k,month,val){
-  if(!DB.jars[k].spent)DB.jars[k].spent={};
-  DB.jars[k].spent[month]=+val||0;save();renderJars();
+function updateJar(k,month,val){if(!DB.jars[k].spent)DB.jars[k].spent={};DB.jars[k].spent[month]=+val||0;save();renderJars();}
+
+// ── BUDGET ─────────────────────────────────────────────────────────────
+const BUDGET_CATS=['เงินเดือน (Salary)','โบนัส (Bonus)','รายได้เสริม','เงินปันผล (Dividend)','อาหาร (Food)','การเดินทาง (Transport)','ที่อยู่อาศัย (Housing)','ช้อปปิ้ง (Shopping)','สุขภาพ (Health)','ความบันเทิง','การศึกษา (Education)','ประกัน (Insurance)','ลงทุน (Investment)','หนี้ (Debt Payment)','อื่นๆ (Other)'];
+const EXPENSE_CATS=['อาหาร (Food)','การเดินทาง (Transport)','ที่อยู่อาศัย (Housing)','ช้อปปิ้ง (Shopping)','สุขภาพ (Health)','ความบันเทิง','การศึกษา (Education)','ประกัน (Insurance)','ลงทุน (Investment)','หนี้ (Debt Payment)','อื่นๆ (Other)'];
+
+function openBudgetForm(){
+  const month=document.getElementById('budget-month').value||thisMonth();
+  document.getElementById('bov-month').value=month;
+  const existing=DB.budgets[month]||{};
+  document.getElementById('budget-form-items').innerHTML=EXPENSE_CATS.map(cat=>`
+    <div class="row"><span style="font-size:13px;font-weight:700;flex:1">${cat}</span>
+      <input type="number" id="bcat-${btoa(cat).replace(/=/g,'')}" value="${existing[cat]||''}" placeholder="0" style="width:130px;padding:8px 10px;font-size:13px"/>
+      <span class="muted" style="font-size:12px">฿</span>
+    </div>`).join('');
+  openOv('ov-budget');
+}
+function saveBudget(){
+  const month=document.getElementById('bov-month').value||thisMonth();
+  const budget={};
+  EXPENSE_CATS.forEach(cat=>{const key='bcat-'+btoa(cat).replace(/=/g,'');const el=document.getElementById(key);if(el&&el.value)budget[cat]=+el.value;});
+  DB.budgets[month]=budget;save();renderBudget();closeOv('ov-budget');toast('✅ บันทึกงบประมาณแล้ว');
+}
+function renderBudget(){
+  const month=document.getElementById('budget-month').value||thisMonth();
+  document.getElementById('budget-month').value=month;
+  document.getElementById('budget-sub').textContent=monthLbl(month);
+  const budget=DB.budgets[month]||{};
+  const cats=Object.keys(budget).filter(k=>budget[k]>0);
+  const txns=DB.transactions.filter(t=>t.type==='expense'&&t.date&&t.date.startsWith(month));
+  const spent={};txns.forEach(t=>{spent[t.category]=(spent[t.category]||0)+t.amount;});
+  const tBudget=cats.reduce((s,c)=>s+(budget[c]||0),0);
+  const tSpent=cats.reduce((s,c)=>s+(spent[c]||0),0);
+  const tRemain=tBudget-tSpent;
+  const overallPct=tBudget?clamp(tSpent/tBudget*100):0;
+  document.getElementById('budget-total').textContent=fmt(tBudget);
+  document.getElementById('budget-spent').textContent=fmt(tSpent);
+  document.getElementById('budget-spent').className='stat-val '+(tSpent>tBudget?'bad':'good');
+  document.getElementById('budget-remain').textContent=`เหลือ: ${fmt(tRemain)}`;
+  document.getElementById('budget-overall-pct').textContent=overallPct.toFixed(0)+'%';
+  const bar=document.getElementById('budget-overall-bar');
+  bar.style.width=overallPct+'%';
+  bar.style.background=overallPct>100?'linear-gradient(90deg,#f59e0b,#ef4444)':'linear-gradient(90deg,#60a5fa,#22c55e)';
+  const list=document.getElementById('budget-list');
+  if(!cats.length){list.innerHTML='<div class="empty"><span class="empty-ico">🎯</span><span style="font-size:13px">ยังไม่ได้ตั้งงบประมาณ<br>กด "+ ตั้งงบ" เพื่อเริ่มต้น</span></div>';return;}
+  list.innerHTML=cats.map(cat=>{
+    const b=budget[cat]||0;const s=spent[cat]||0;const r=b-s;const p=b?clamp(s/b*100):0;const over=s>b;
+    return`<div class="budget-item">
+      <div class="budget-header">
+        <span class="budget-name">${cat}</span>
+        <span class="budget-pct" style="color:${over?'var(--bad)':'var(--muted)'}">${p.toFixed(0)}%</span>
+      </div>
+      <div class="progress" style="height:10px"><div class="pfill" style="width:${p}%;background:${over?'linear-gradient(90deg,#f59e0b,#ef4444)':'linear-gradient(90deg,#60a5fa,#22c55e)'}"></div></div>
+      <div class="budget-amounts" style="display:flex;justify-content:space-between;margin-top:4px">
+        <span>ใช้ไป: <strong class="${over?'bad':''}">${fmt(s)}</strong></span>
+        <span>งบ: <strong>${fmt(b)}</strong></span>
+        <span>เหลือ: <strong class="${over?'bad':'good'}">${fmt(r)}</strong></span>
+      </div>
+      ${over?`<div style="font-size:11px;color:var(--bad);margin-top:2px">⚠️ เกินงบ ${fmt(s-b)}</div>`:''}
+    </div>`;
+  }).join('');
 }
 
-// ── TRANSACTIONS ───────────────────────────────────────────────────────────
+// ── TRANSACTIONS ───────────────────────────────────────────────────────
 let slipData=null;
-function setTxnType(t){
-  document.getElementById('txn-type').value=t;
-  document.getElementById('txn-btn-inc').className=t==='income'?'success':'';
-  document.getElementById('txn-btn-exp').className=t==='expense'?'danger':'';
-  document.getElementById('txn-btn-inc').style.flex='1';
-  document.getElementById('txn-btn-exp').style.flex='1';
-}
-function loadSlip(input){
-  const f=input.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    slipData=e.target.result;
-    const p=document.getElementById('slip-prev');
-    p.src=slipData;p.style.display='block';
-    document.getElementById('slip-nm').textContent=f.name;
-  };r.readAsDataURL(f);
-}
-function dropSlip(e){
-  e.preventDefault();document.getElementById('slip-zone').classList.remove('drag');
-  const f=e.dataTransfer.files[0];if(!f||!f.type.startsWith('image/'))return;
-  const r=new FileReader();
-  r.onload=ev=>{slipData=ev.target.result;const p=document.getElementById('slip-prev');p.src=slipData;p.style.display='block';};
-  r.readAsDataURL(f);
-}
-function clearTxnForm(){
-  ['txn-eid','txn-amt','txn-note'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('txn-date').value=todayStr();
-  document.getElementById('txn-jar').value='';
-  document.getElementById('txn-cat').selectedIndex=0;
-  slipData=null;
-  const p=document.getElementById('slip-prev');p.src='';p.style.display='none';
-  document.getElementById('slip-nm').textContent='';
-  document.getElementById('slip-file').value='';
-  setTxnType('income');
-}
+function setTxnType(t){document.getElementById('txn-type').value=t;document.getElementById('txn-btn-inc').className=t==='income'?'success':'';document.getElementById('txn-btn-inc').style.flex='1';document.getElementById('txn-btn-exp').className=t==='expense'?'danger':'';document.getElementById('txn-btn-exp').style.flex='1';}
+function loadSlip(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{slipData=e.target.result;const p=document.getElementById('slip-prev');p.src=slipData;p.style.display='block';};r.readAsDataURL(f);}
+function dropSlip(e){e.preventDefault();document.getElementById('slip-zone').classList.remove('drag');const f=e.dataTransfer.files[0];if(!f||!f.type.startsWith('image/'))return;const r=new FileReader();r.onload=ev=>{slipData=ev.target.result;const p=document.getElementById('slip-prev');p.src=slipData;p.style.display='block';};r.readAsDataURL(f);}
+function clearTxnForm(){['txn-eid','txn-amt','txn-note'].forEach(id=>document.getElementById(id).value='');document.getElementById('txn-date').value=todayStr();document.getElementById('txn-jar').value='';document.getElementById('txn-cat').selectedIndex=0;slipData=null;const p=document.getElementById('slip-prev');p.src='';p.style.display='none';document.getElementById('slip-file').value='';setTxnType('income');}
 function saveTxn(){
   const id=document.getElementById('txn-eid').value||uid();
   const amt=+document.getElementById('txn-amt').value||0;
   if(!amt){toast('⚠️ กรุณากรอกจำนวนเงิน');return;}
-  const item={id,type:document.getElementById('txn-type').value,amount:amt,
-    category:document.getElementById('txn-cat').value,
-    jar:document.getElementById('txn-jar').value,
-    note:document.getElementById('txn-note').value.trim(),
-    date:document.getElementById('txn-date').value||todayStr(),
-    slip:slipData||null};
+  const item={id,type:document.getElementById('txn-type').value,amount:amt,category:document.getElementById('txn-cat').value,jar:document.getElementById('txn-jar').value,note:document.getElementById('txn-note').value.trim(),date:document.getElementById('txn-date').value||todayStr(),slip:slipData||null};
   const idx=DB.transactions.findIndex(t=>t.id===id);
   if(idx>=0)DB.transactions[idx]=item;else DB.transactions.unshift(item);
-  if(item.jar&&item.type==='expense'){
-    const m=item.date.slice(0,7);
-    if(!DB.jars[item.jar].spent)DB.jars[item.jar].spent={};
-    DB.jars[item.jar].spent[m]=(DB.jars[item.jar].spent[m]||0)+item.amount;
-  }
+  if(item.jar&&item.type==='expense'){const m=item.date.slice(0,7);if(!DB.jars[item.jar].spent)DB.jars[item.jar].spent={};DB.jars[item.jar].spent[m]=(DB.jars[item.jar].spent[m]||0)+item.amount;}
   save();renderTxns();renderDash();closeOv('ov-txn');toast('✅ บันทึกแล้ว');
 }
 function delTxn(id){if(!confirm('ลบรายการนี้?'))return;DB.transactions=DB.transactions.filter(t=>t.id!==id);save();renderTxns();renderDash();toast('🗑️ ลบแล้ว');}
-function viewSlip(id){
-  const t=DB.transactions.find(t=>t.id===id);if(!t||!t.slip)return;
-  const w=window.open();
-  w.document.write(`<html><body style="margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh"><img src="${t.slip}" style="max-width:100%;max-height:100vh;object-fit:contain"/></body></html>`);
-}
+function viewSlip(id){const t=DB.transactions.find(t=>t.id===id);if(!t||!t.slip)return;const w=window.open();w.document.write(`<html><body style="margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh"><img src="${t.slip}" style="max-width:100%;max-height:100vh;object-fit:contain"/></body></html>`);}
 function renderTxns(){
   let items=[...DB.transactions];
-  const ft=document.getElementById('txn-ft').value;
-  const fc=document.getElementById('txn-fc').value;
-  const fm=document.getElementById('txn-fm').value;
-  if(ft)items=items.filter(t=>t.type===ft);
-  if(fc)items=items.filter(t=>t.category===fc);
-  if(fm)items=items.filter(t=>t.date&&t.date.startsWith(fm));
-  const cur=thisMonth();
-  const cm=DB.transactions.filter(t=>t.date&&t.date.startsWith(cur));
+  const ft=document.getElementById('txn-ft').value,fc=document.getElementById('txn-fc').value,fm=document.getElementById('txn-fm').value;
+  if(ft)items=items.filter(t=>t.type===ft);if(fc)items=items.filter(t=>t.category===fc);if(fm)items=items.filter(t=>t.date&&t.date.startsWith(fm));
+  const cur=thisMonth();const cm=DB.transactions.filter(t=>t.date&&t.date.startsWith(cur));
   document.getElementById('txn-itotal').textContent=fmt(cm.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0));
   document.getElementById('txn-etotal').textContent=fmt(cm.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0));
   const cats=[...new Set(DB.transactions.map(t=>t.category))].sort();
@@ -937,124 +962,99 @@ function renderTxns(){
   el.innerHTML=items.map(t=>`
     <div class="row" style="gap:10px">
       <div style="font-size:20px;flex-shrink:0">${t.type==='income'?'💰':'💸'}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:700;font-size:13px">${t.category}</div>
-        <div style="font-size:11px;color:var(--muted)">${t.date}${t.note?' · '+t.note:''}${t.jar?' · 🫙'+t.jar:''}</div>
-      </div>
-      ${t.slip?`<button class="sm" onclick="viewSlip('${t.id}')">🧾 สลิป</button>`:''}
-      <div style="text-align:right;flex-shrink:0">
-        <div class="${t.type==='income'?'good':'bad'}" style="font-weight:900;font-size:14px">${t.type==='income'?'+':'-'}${fmt(t.amount)}</div>
-      </div>
+      <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">${t.category}</div><div style="font-size:11px;color:var(--muted)">${t.date}${t.note?' · '+t.note:''}${t.jar?' · 🫙'+t.jar:''}</div></div>
+      ${t.slip?`<button class="sm" onclick="viewSlip('${t.id}')">🧾</button>`:''}
+      <div class="${t.type==='income'?'good':'bad'}" style="font-weight:900;font-size:14px;flex-shrink:0">${t.type==='income'?'+':'-'}${fmt(t.amount)}</div>
       <button class="sm danger" onclick="delTxn('${t.id}')">🗑</button>
     </div>`).join('');
 }
 
-// ── DASHBOARD ──────────────────────────────────────────────────────────────
+// ── DASHBOARD ──────────────────────────────────────────────────────────
 function renderDash(){
-  const tAst=DB.assets.reduce((s,a)=>s+a.value,0);
+  const tAst=DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
   const tLiab=DB.liabilities.reduce((s,l)=>s+l.balance,0);
-  const tPort=DB.portfolio.reduce((s,p)=>s+p.qty*p.currentPrice,0);
-  const tCost=DB.portfolio.reduce((s,p)=>s+p.qty*p.costPrice,0);
+  const tPort=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  const tCost=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
   const portPL=tPort-tCost;const nw=tAst-tLiab;const dr=tAst?tLiab/tAst*100:0;
-  const nwEl=document.getElementById('d-nw');
-  nwEl.textContent=fmt(nw);nwEl.className='hero-amt '+(nw>=0?'good':'bad');
+  const nwEl=document.getElementById('d-nw');nwEl.textContent=fmt(nw);nwEl.className='hero-amt '+(nw>=0?'good':'bad');
   document.getElementById('d-debt').textContent=fmt(tLiab);
   document.getElementById('d-dratio').textContent=`Debt ratio: ${dr.toFixed(1)}%`;
   document.getElementById('d-port').textContent=fmt(tPort);
   document.getElementById('d-portpl').innerHTML=`P&L: <span class="${portPL>=0?'good':'bad'}">${portPL>=0?'+':''}${fmt(portPL)}</span>`;
-  const cur=thisMonth();
-  document.getElementById('d-month').textContent=monthLbl(cur);
+  const cur=thisMonth();document.getElementById('d-month').textContent=monthLbl(cur);
   const cm=DB.transactions.filter(t=>t.date&&t.date.startsWith(cur));
   const inc=cm.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
   const exp=cm.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
   const bal=inc-exp;const sv=inc?(bal/inc*100):0;
-  document.getElementById('d-inc').textContent=fmt(inc);
-  document.getElementById('d-exp').textContent=fmt(exp);
+  document.getElementById('d-inc').textContent=fmt(inc);document.getElementById('d-exp').textContent=fmt(exp);
   const bEl=document.getElementById('d-bal');bEl.textContent=fmt(bal);bEl.className=bal>=0?'good':'bad';
-  document.getElementById('d-savrate').textContent=sv.toFixed(1)+'%';
-  document.getElementById('d-savbar').style.width=clamp(sv)+'%';
-  const recent=DB.transactions.slice(0,5);
-  const rEl=document.getElementById('d-recent');
+  document.getElementById('d-savrate').textContent=sv.toFixed(1)+'%';document.getElementById('d-savbar').style.width=clamp(sv)+'%';
+  const recent=DB.transactions.slice(0,5);const rEl=document.getElementById('d-recent');
   rEl.innerHTML=recent.length?recent.map(t=>`
     <div class="row" style="gap:8px;padding:8px 10px">
       <span style="font-size:16px">${t.type==='income'?'💰':'💸'}</span>
       <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${t.category}</div><div style="font-size:11px;color:var(--muted)">${t.date}${t.note?' · '+t.note:''}</div></div>
       <span class="${t.type==='income'?'good':'bad'}" style="font-weight:900;font-size:13px">${t.type==='income'?'+':'-'}${fmt(t.amount)}</span>
     </div>`).join(''):'<div class="empty"><span class="empty-ico">📋</span><span style="font-size:13px">ยังไม่มีรายการ</span></div>';
-  const byCat={};DB.assets.forEach(a=>{byCat[a.category]=(byCat[a.category]||0)+a.value;});
+  const byCat={};DB.assets.forEach(a=>{byCat[a.category]=(byCat[a.category]||0)+toTHB(a.value,a.currency||'THB');});
   const aEl=document.getElementById('d-abars');
   if(!tAst){aEl.innerHTML='<div class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></div>';return;}
   aEl.innerHTML=Object.keys(byCat).map((c,i)=>`
     <div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
-        <span style="font-weight:700">${c}</span>
-        <span style="font-weight:800">${fmtC(byCat[c])} <span class="muted">(${pct(byCat[c],tAst)})</span></span>
+        <span style="font-weight:700">${c}</span><span style="font-weight:800">${fmtC(byCat[c])} <span class="muted">(${pct(byCat[c],tAst)})</span></span>
       </div>
       <div class="progress"><div class="pfill" style="width:${byCat[c]/tAst*100}%;background:${COLS[i%COLS.length]}"></div></div>
     </div>`).join('');
+  renderHealthScore();
 }
 
-// ── SETTINGS ───────────────────────────────────────────────────────────────
+// ── SETTINGS ───────────────────────────────────────────────────────────
 function renderSettings(){
   document.getElementById('set-name').value=DB.settings.name||'Moriarty J';
   document.getElementById('set-occ').value=DB.settings.occupation||'Accountant';
   document.getElementById('set-cur').value=DB.settings.currency||'THB';
   document.getElementById('set-inc').value=DB.settings.monthlyIncome||'';
-  const el=document.getElementById('jar-pct-set');
-  el.innerHTML=Object.keys(DB.jars).map(k=>{
-    const j=DB.jars[k];
-    return`<div class="row">
-      <span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span>
-      <div style="display:flex;align-items:center;gap:6px">
-        <input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/>
-        <span class="muted">%</span>
-      </div>
-    </div>`;
-  }).join('');
+  // Rates
+  const rg=document.getElementById('rates-grid');
+  rg.innerHTML=CURRENCIES.filter(c=>c!=='THB').map(c=>`
+    <div class="fg"><label class="fl">${c} → THB</label>
+      <input type="number" id="rate-${c}" value="${DB.rates[c]||DEF_RATES[c]||1}" step="0.0001" placeholder="1"/>
+    </div>`).join('');
+  // Jar pcts
+  document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){
-  DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';
-  DB.settings.occupation=document.getElementById('set-occ').value.trim();
-  DB.settings.currency=document.getElementById('set-cur').value;
-  DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;
-  document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS`;
-  save();toast('✅ บันทึกการตั้งค่าแล้ว');
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v2`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
+async function fetchRates(){
+  toast('🔄 กำลังดึงอัตราแลกเปลี่ยน…');
+  try{
+    const res=await fetch('https://api.exchangerate-api.com/v4/latest/THB');
+    const json=await res.json();
+    CURRENCIES.filter(c=>c!=='THB').forEach(c=>{if(json.rates&&json.rates[c])DB.rates[c]=+(1/json.rates[c]).toFixed(4);});
+    save();renderSettings();toast('✅ อัปเดตอัตราแลกเปลี่ยนแล้ว');
+  }catch{
+    // fallback: use BOT-style approximate
+    toast('⚠️ ไม่สามารถดึงข้อมูลได้ กรุณาอัปเดตด้วยตัวเอง');
+  }
 }
-function saveJarPcts(){
-  Object.keys(DB.jars).forEach(k=>{DB.jars[k].pct=+document.getElementById('jp-'+k).value||0;});
-  save();renderJars();toast('✅ บันทึกสัดส่วนแล้ว');
-}
-function exportData(){
-  const b=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);
-  a.download=`finOS_${todayStr()}.json`;a.click();URL.revokeObjectURL(a.href);
-}
-function importData(e){
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    try{const d=JSON.parse(ev.target.result);
-      if(!d.settings||!Array.isArray(d.assets))throw new Error('invalid');
-      DB=d;save();renderAll();toast('✅ นำเข้าข้อมูลสำเร็จ');
-    }catch{toast('❌ ไฟล์ไม่ถูกต้อง');}
-  };r.readAsText(f);
-}
-function clearAll(){
-  if(!confirm('⚠️ ลบข้อมูลทั้งหมด? ไม่สามารถกู้คืนได้'))return;
-  localStorage.removeItem(SK);DB=defDB();save();renderAll();toast('🗑️ ล้างข้อมูลแล้ว');
-}
+function saveJarPcts(){Object.keys(DB.jars).forEach(k=>{DB.jars[k].pct=+document.getElementById('jp-'+k).value||0;});save();renderJars();toast('✅ บันทึกสัดส่วนแล้ว');}
+function exportData(){const b=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`finOS_v2_${todayStr()}.json`;a.click();URL.revokeObjectURL(a.href);}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.settings||!Array.isArray(d.assets))throw new Error('invalid');DB=d;if(!DB.rates)DB.rates={...DEF_RATES};if(!DB.budgets)DB.budgets={};save();renderAll();toast('✅ นำเข้าข้อมูลสำเร็จ');}catch{toast('❌ ไฟล์ไม่ถูกต้อง');}};r.readAsText(f);}
+function clearAll(){if(!confirm('⚠️ ลบข้อมูลทั้งหมด?'))return;localStorage.removeItem(SK);DB=defDB();save();renderAll();toast('🗑️ ล้างข้อมูลแล้ว');}
 
-// ── RENDER ALL ─────────────────────────────────────────────────────────────
-function renderAll(){
-  renderDash();renderPort();renderAssets();renderLiab();renderJars();renderTxns();renderSettings();
-}
+// ── RENDER ALL ─────────────────────────────────────────────────────────
+function renderAll(){renderDash();renderPort();renderAssets();renderLiab();renderJars();renderBudget();renderTxns();renderSettings();}
 
-// ── INIT ───────────────────────────────────────────────────────────────────
+// ── INIT ───────────────────────────────────────────────────────────────
 applyTheme();
 document.getElementById('txn-date').value=todayStr();
 document.getElementById('ast-date').value=todayStr();
 document.getElementById('jar-month').value=thisMonth();
+document.getElementById('budget-month').value=thisMonth();
 document.getElementById('jar-inc').value=DB.settings.monthlyIncome||'';
+// wire budget button
+document.querySelector('[onclick="openOv(\'ov-budget\')"]').onclick=openBudgetForm;
 renderAll();
 </script>
 </body>

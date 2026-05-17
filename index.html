@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS v2</title>
+<title>Moriarty J · Finance OS v3</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -150,7 +150,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </head>
 <body>
 <div class="page-hdr">
-  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v2</div></div>
+  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v3</div></div>
   <button onclick="toggleTheme()" style="border-radius:999px;padding:8px 14px;font-size:12px">🌓 Theme</button>
 </div>
 <nav class="tab-nav">
@@ -220,7 +220,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 
 <!-- PORTFOLIO -->
 <section id="tab-portfolio" class="tab-sec">
-  <div class="sh"><div><div class="st">📈 Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">–</div></div><button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button></div>
+  <div class="sh"><div><div class="st">📈 Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">–</div></div><div style="display:flex;gap:8px"><button style="background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(96,165,250,.15));border-color:rgba(168,85,247,.4);color:#c084fc" onclick="openAIAnalysis()">🤖 AI วิเคราะห์</button><button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button></div></div>
   <div class="g2" style="margin-bottom:14px">
     <div class="stat card panel"><div class="stat-lbl">Total Value (THB)</div><div class="stat-val info" id="port-total">฿0</div><div class="stat-sub" id="port-pl">P&amp;L: –</div></div>
     <div class="stat card panel"><div class="stat-lbl">Return · ผลตอบแทน</div><div class="stat-val" id="port-ret">–</div><div class="stat-sub">vs. Cost Basis</div></div>
@@ -366,6 +366,23 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div id="jar-pct-set" class="rows"></div>
     <button class="primary" style="margin-top:12px" onclick="saveJarPcts()">💾 บันทึกสัดส่วน</button>
   </div>
+  <!-- AI Settings -->
+  <div class="card panel" style="margin-bottom:14px">
+    <div class="sh"><div><div class="st">🤖 AI Analysis Settings</div><div class="ss">ตั้งค่า API สำหรับวิเคราะห์พอร์ตด้วย AI</div></div></div>
+    <div class="fg2">
+      <div class="fg"><label class="fl">AI Provider</label>
+        <select id="set-aiprovider">
+          <option value="anthropic">Anthropic (Claude)</option>
+          <option value="openai">OpenAI (GPT-4o)</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl">API Key</label>
+        <input type="password" id="set-aikey" placeholder="sk-ant-… หรือ sk-…" autocomplete="off"/>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">🔒 Key เก็บใน localStorage เครื่องคุณเท่านั้น ไม่ได้ส่งไปที่อื่น</div>
+    <button class="success" style="margin-top:12px" onclick="saveSettings()">💾 บันทึก</button>
+  </div>
   <div class="card panel" style="margin-bottom:14px">
     <div class="st" style="margin-bottom:12px">Data Management</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -376,7 +393,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v2</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency<br/>Data stored locally · 2026</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v3</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis<br/>Data stored locally · 2026</div>
   </div>
 </section>
 </div>
@@ -528,10 +545,44 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </div></div>
 
+<!-- AI Analysis Overlay -->
+<div class="overlay" id="ov-ai"><div class="oc" style="max-width:720px">
+  <div class="oh"><h2>🤖 AI วิเคราะห์พอร์ตหุ้น</h2><button class="sm danger" onclick="closeOv('ov-ai')">✕</button></div>
+  <!-- idle state -->
+  <div id="ai-idle">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.7">AI จะวิเคราะห์พอร์ตทั้งหมดของคุณ ครอบคลุม: ภาพรวม · P&L · สัดส่วน · ความเสี่ยง · คำแนะนำ</div>
+    <div id="ai-port-preview" style="margin-bottom:16px"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="closeOv('ov-ai')">ยกเลิก</button>
+      <button style="background:linear-gradient(135deg,rgba(168,85,247,.25),rgba(96,165,250,.2));border-color:rgba(168,85,247,.5);color:#c084fc;font-size:14px;padding:11px 20px" onclick="runAIAnalysis()">🚀 เริ่มวิเคราะห์</button>
+    </div>
+  </div>
+  <!-- loading state -->
+  <div id="ai-loading" style="display:none;text-align:center;padding:40px 0">
+    <div style="font-size:36px;animation:spin 1.2s linear infinite;display:inline-block">⚙️</div>
+    <div style="margin-top:12px;font-size:14px;color:var(--muted)">AI กำลังวิเคราะห์พอร์ตของคุณ…</div>
+  </div>
+  <!-- result state -->
+  <div id="ai-result" style="display:none">
+    <div id="ai-result-body" style="font-size:13px;line-height:1.85;white-space:pre-wrap;color:var(--text)"></div>
+    <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
+      <button onclick="document.getElementById('ai-result').style.display='none';document.getElementById('ai-idle').style.display='block'">🔄 วิเคราะห์ใหม่</button>
+      <button onclick="closeOv('ov-ai')">ปิด</button>
+    </div>
+  </div>
+  <!-- error state -->
+  <div id="ai-error" style="display:none;padding:16px;border-radius:12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3)">
+    <div style="font-weight:700;color:var(--bad);margin-bottom:6px">❌ เกิดข้อผิดพลาด</div>
+    <div id="ai-error-msg" style="font-size:12px;color:var(--muted)"></div>
+    <button style="margin-top:12px" onclick="document.getElementById('ai-error').style.display='none';document.getElementById('ai-idle').style.display='block'">ลองใหม่</button>
+  </div>
+</div></div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
 <div class="toast" id="toast"></div>
 <script>
 // ── CONSTANTS ──────────────────────────────────────────────────────────
-const SK='finOS_moriarty_v2';
+const SK='finOS_moriarty_v3';
 const COLS=['#60a5fa','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#38bdf8','#4ade80','#f87171','#c084fc'];
 const CURRENCIES=['THB','USD','EUR','GBP','JPY','SGD','HKD','CNY'];
 const DEF_RATES={THB:1,USD:33.5,EUR:37.2,GBP:43.5,JPY:0.224,SGD:25.1,HKD:4.3,CNY:4.65};
@@ -539,7 +590,7 @@ const DEF_RATES={THB:1,USD:33.5,EUR:37.2,GBP:43.5,JPY:0.224,SGD:25.1,HKD:4.3,CNY
 // ── DB ─────────────────────────────────────────────────────────────────
 function defDB(){
   return{
-    settings:{name:'Moriarty J',occupation:'Accountant',currency:'THB',monthlyIncome:0,theme:'dark'},
+    settings:{name:'Moriarty J',occupation:'Accountant',currency:'THB',monthlyIncome:0,theme:'dark',aiProvider:'anthropic',aiKey:''},
     rates:{...DEF_RATES},
     assets:[],liabilities:[],portfolio:[],transactions:[],
     budgets:{},
@@ -1015,6 +1066,8 @@ function renderSettings(){
   document.getElementById('set-occ').value=DB.settings.occupation||'Accountant';
   document.getElementById('set-cur').value=DB.settings.currency||'THB';
   document.getElementById('set-inc').value=DB.settings.monthlyIncome||'';
+  document.getElementById('set-aiprovider').value=DB.settings.aiProvider||'anthropic';
+  document.getElementById('set-aikey').value=DB.settings.aiKey||'';
   // Rates
   const rg=document.getElementById('rates-grid');
   rg.innerHTML=CURRENCIES.filter(c=>c!=='THB').map(c=>`
@@ -1024,7 +1077,7 @@ function renderSettings(){
   // Jar pcts
   document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v2`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v3`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
   toast('🔄 กำลังดึงอัตราแลกเปลี่ยน…');
@@ -1043,8 +1096,126 @@ function exportData(){const b=new Blob([JSON.stringify(DB,null,2)],{type:'applic
 function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.settings||!Array.isArray(d.assets))throw new Error('invalid');DB=d;if(!DB.rates)DB.rates={...DEF_RATES};if(!DB.budgets)DB.budgets={};save();renderAll();toast('✅ นำเข้าข้อมูลสำเร็จ');}catch{toast('❌ ไฟล์ไม่ถูกต้อง');}};r.readAsText(f);}
 function clearAll(){if(!confirm('⚠️ ลบข้อมูลทั้งหมด?'))return;localStorage.removeItem(SK);DB=defDB();save();renderAll();toast('🗑️ ล้างข้อมูลแล้ว');}
 
+// ── AI ANALYSIS ────────────────────────────────────────────────────────
+function openAIAnalysis(){
+  const items=DB.portfolio;
+  // reset states
+  ['ai-loading','ai-result','ai-error'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('ai-idle').style.display='block';
+  // preview table
+  const prev=document.getElementById('ai-port-preview');
+  if(!items.length){
+    prev.innerHTML='<div class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีหุ้นในพอร์ต</span></div>';
+  } else {
+    const tVal=items.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+    const tCost=items.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
+    const tPL=tVal-tCost;
+    prev.innerHTML=`<div style="background:var(--row-bg);border:1px solid var(--row-stroke);border-radius:12px;padding:12px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-weight:800">
+        <span>${items.length} หลักทรัพย์</span>
+        <span class="${tPL>=0?'good':'bad'}">${tPL>=0?'+':''}${fmt(tPL)} P&L</span>
+      </div>
+      ${items.map(p=>{const v=toTHB(p.qty*p.currentPrice,p.currency||'THB');const c=toTHB(p.qty*p.costPrice,p.currency||'THB');const g=v-c;return`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--row-stroke)"><span style="font-weight:700">${p.symbol} <span class="muted">${p.type}</span></span><span class="${g>=0?'good':'bad'}" style="font-weight:800">${g>=0?'+':''}${fmt(g)}</span></div>`;}).join('')}
+    </div>`;
+  }
+  openOv('ov-ai');
+}
+
+async function runAIAnalysis(){
+  const key=DB.settings.aiKey||'';
+  const provider=DB.settings.aiProvider||'anthropic';
+  if(!key){
+    document.getElementById('ai-error-msg').textContent='กรุณากรอก API Key ใน Settings → AI Analysis Settings ก่อน';
+    document.getElementById('ai-idle').style.display='none';
+    document.getElementById('ai-error').style.display='block';
+    return;
+  }
+  const items=DB.portfolio;
+  if(!items.length){toast('⚠️ ยังไม่มีหุ้นในพอร์ต');return;}
+
+  // build prompt
+  const tVal=items.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  const tCost=items.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
+  const tPL=tVal-tCost;
+  const retPct=tCost?(tPL/tCost*100):0;
+  const lines=items.map(p=>{
+    const v=toTHB(p.qty*p.currentPrice,p.currency||'THB');
+    const c=toTHB(p.qty*p.costPrice,p.currency||'THB');
+    const g=v-c;const gp=c?(g/c*100):0;
+    return `- ${p.symbol} (${p.name||'–'}) | ประเภท: ${p.type} | สกุล: ${p.currency||'THB'} | จำนวน: ${p.qty} | ต้นทุน/หน่วย: ${p.costPrice} | ราคาปัจจุบัน: ${p.currentPrice} | มูลค่า (THB): ${fmt(v)} | P&L: ${g>=0?'+':''}${fmt(g)} (${gp.toFixed(2)}%) | สัดส่วน: ${tVal?(v/tVal*100).toFixed(1):'0'}%`;
+  }).join('\n');
+  const prompt=`คุณเป็น AI ที่ปรึกษาการลงทุนภาษาไทย วิเคราะห์พอร์ตหุ้นต่อไปนี้:
+
+พอร์ตรวม (THB): ${fmt(tVal)}
+ต้นทุนรวม: ${fmt(tCost)}
+P&L รวม: ${tPL>=0?'+':''}${fmt(tPL)} (${retPct.toFixed(2)}%)
+
+รายละเอียดแต่ละหลักทรัพย์:
+${lines}
+
+กรุณาวิเคราะห์ในหัวข้อ:
+1. 📊 ภาพรวมพอร์ต
+2. 🏆 หลักทรัพย์ที่ทำผลงานดี/แย่ที่สุด
+3. ⚖️ การกระจายความเสี่ยง (diversification)
+4. ⚠️ จุดเสี่ยงที่ควรระวัง
+5. 💡 คำแนะนำเชิงกลยุทธ์
+
+ตอบเป็นภาษาไทย กระชับ ชัดเจน และมีประโยชน์`;
+
+  // switch to loading
+  document.getElementById('ai-idle').style.display='none';
+  document.getElementById('ai-loading').style.display='block';
+
+  try {
+    let text='';
+    if(provider==='anthropic'){
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-allow-browser':'true'},
+        body:JSON.stringify({model:'claude-opus-4-5',max_tokens:1500,messages:[{role:'user',content:prompt}]})
+      });
+      if(!res.ok){const e=await res.json();throw new Error(e.error?.message||`HTTP ${res.status}`);}
+      const j=await res.json();
+      text=j.content?.[0]?.text||'(ไม่มีผลลัพธ์)';
+    } else {
+      const res=await fetch('https://api.openai.com/v1/chat/completions',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
+        body:JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:prompt}],max_tokens:1500})
+      });
+      if(!res.ok){const e=await res.json();throw new Error(e.error?.message||`HTTP ${res.status}`);}
+      const j=await res.json();
+      text=j.choices?.[0]?.message?.content||'(ไม่มีผลลัพธ์)';
+    }
+    document.getElementById('ai-loading').style.display='none';
+    document.getElementById('ai-result-body').textContent=text;
+    document.getElementById('ai-result').style.display='block';
+  } catch(err){
+    document.getElementById('ai-loading').style.display='none';
+    document.getElementById('ai-error-msg').textContent=err.message;
+    document.getElementById('ai-error').style.display='block';
+  }
+}
+
 // ── RENDER ALL ─────────────────────────────────────────────────────────
 function renderAll(){renderDash();renderPort();renderAssets();renderLiab();renderJars();renderBudget();renderTxns();renderSettings();}
+
+// ── MIGRATE from v2 ────────────────────────────────────────────────────
+(function migrateV2(){
+  if(localStorage.getItem(SK))return; // v3 data already exists
+  const v2=localStorage.getItem('finOS_moriarty_v2');
+  if(!v2)return;
+  try{
+    const old=JSON.parse(v2);
+    if(old.assets||old.portfolio){
+      DB=Object.assign(defDB(),old);
+      if(!DB.settings.aiKey)DB.settings.aiKey='';
+      if(!DB.settings.aiProvider)DB.settings.aiProvider='anthropic';
+      save();
+      console.log('Finance OS: migrated data from v2 → v3');
+    }
+  }catch(e){console.warn('v2 migration failed',e);}
+})();
 
 // ── INIT ───────────────────────────────────────────────────────────────
 applyTheme();

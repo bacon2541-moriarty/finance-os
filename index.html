@@ -44,7 +44,7 @@ body{font-family:"Prompt",system-ui,sans-serif;color:var(--text);min-height:100v
     radial-gradient(900px 700px at 70% 90%,var(--gb3),transparent 60%),
     linear-gradient(135deg,var(--bg1),var(--bg2));
   transition:background .25s,color .25s;}
-.wrap{max-width:1100px;margin:0 auto;padding:0 14px 100px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 14px calc(80px + env(safe-area-inset-bottom,0px))}
 .card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
 .panel{padding:16px 18px 18px}
 .muted{color:var(--muted)}.info{color:var(--info)}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
@@ -100,13 +100,13 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .sub-btn.active{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:var(--info)}
 .sub-sec{display:none;padding-top:10px}.sub-sec.active{display:block}
 /* Bottom Nav — Mirror Glass */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;display:flex;align-items:stretch;padding:0 4px;padding-bottom:env(safe-area-inset-bottom,0px);z-index:300;
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;align-items:flex-start;padding:4px 4px 0;padding-bottom:env(safe-area-inset-bottom,0px);z-index:300;
   background:rgba(11,18,32,.72);
   backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);
   border-top:1px solid rgba(255,255,255,.13);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 -12px 40px rgba(0,0,0,.30);}
 [data-theme="light"] .bottom-nav{background:rgba(248,250,252,.78);border-top:1px solid rgba(15,23,42,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.90),0 -8px 30px rgba(15,23,42,.08);}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--muted);cursor:pointer;border-radius:14px;padding:6px 2px;font-family:"Prompt",sans-serif;transition:color .18s,background .18s;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--muted);cursor:pointer;border-radius:14px;padding:6px 2px;min-height:56px;font-family:"Prompt",sans-serif;transition:color .18s,background .18s;}
 .nav-btn:hover{background:rgba(255,255,255,.06);transform:none;filter:none}
 .nav-btn.active{color:var(--info)}
 [data-theme="light"] .nav-btn.active{color:var(--info)}
@@ -155,7 +155,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .curr-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:900;background:rgba(96,165,250,.15);color:var(--info);border:1px solid rgba(96,165,250,.3)}
 .empty{text-align:center;padding:36px 16px;color:var(--muted)}
 .empty-ico{font-size:32px;display:block;margin-bottom:8px}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
+.toast{position:fixed;bottom:calc(76px + env(safe-area-inset-bottom,20px));left:50%;transform:translateX(-50%) translateY(100px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .page-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0;gap:10px;flex-wrap:wrap}
 .page-title{font-size:18px;font-weight:800}
@@ -970,9 +970,9 @@ function openBudgetForm(){
   const month=document.getElementById('budget-month').value||thisMonth();
   document.getElementById('bov-month').value=month;
   const existing=DB.budgets[month]||{};
-  document.getElementById('budget-form-items').innerHTML=EXPENSE_CATS.map(cat=>`
+  document.getElementById('budget-form-items').innerHTML=EXPENSE_CATS.map((cat,i)=>`
     <div class="row"><span style="font-size:13px;font-weight:700;flex:1">${cat}</span>
-      <input type="number" id="bcat-${btoa(cat).replace(/=/g,'')}" value="${existing[cat]||''}" placeholder="0" style="width:130px;padding:8px 10px;font-size:13px"/>
+      <input type="number" id="bcat-${i}" value="${existing[cat]||''}" placeholder="0" style="width:130px;padding:8px 10px;font-size:13px"/>
       <span class="muted" style="font-size:12px">฿</span>
     </div>`).join('');
   openOv('ov-budget');
@@ -980,7 +980,7 @@ function openBudgetForm(){
 function saveBudget(){
   const month=document.getElementById('bov-month').value||thisMonth();
   const budget={};
-  EXPENSE_CATS.forEach(cat=>{const key='bcat-'+btoa(cat).replace(/=/g,'');const el=document.getElementById(key);if(el&&el.value)budget[cat]=+el.value;});
+  EXPENSE_CATS.forEach((cat,i)=>{const el=document.getElementById('bcat-'+i);if(el&&el.value)budget[cat]=+el.value;});
   DB.budgets[month]=budget;save();renderBudget();closeOv('ov-budget');toast('✅ บันทึกงบประมาณแล้ว');
 }
 function renderBudget(){
@@ -1123,15 +1123,21 @@ function renderSettings(){
 function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v4`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
-  toast('🔄 กำลังดึงอัตราแลกเปลี่ยน…');
-  try{
-    const res=await fetch('https://api.exchangerate-api.com/v4/latest/THB');
-    const json=await res.json();
-    CURRENCIES.filter(c=>c!=='THB').forEach(c=>{if(json.rates&&json.rates[c])DB.rates[c]=+(1/json.rates[c]).toFixed(4);});
+  const btn=document.querySelector('[onclick="fetchRates()"]');
+  if(btn){btn.disabled=true;btn.textContent='⏳ กำลังดึง…';}
+  toast('🔄 กำลังดึงอัตราแลกเปลี่ยน…',1500);
+  const APIS=[
+    async()=>{const r=await fetch('https://open.er-api.com/v6/latest/THB',{signal:AbortSignal.timeout(6000)});const j=await r.json();if(j.result!=='success')throw new Error('bad');return j.rates;},
+    async()=>{const r=await fetch('https://api.exchangerate-api.com/v4/latest/THB',{signal:AbortSignal.timeout(6000)});const j=await r.json();if(!j.rates)throw new Error('bad');return j.rates;},
+  ];
+  let rates=null;
+  for(const api of APIS){try{rates=await api();break;}catch{}}
+  if(btn){btn.disabled=false;btn.textContent='🔄 Fetch Rates';}
+  if(rates){
+    CURRENCIES.filter(c=>c!=='THB').forEach(c=>{if(rates[c])DB.rates[c]=+(1/rates[c]).toFixed(4);});
     save();renderSettings();toast('✅ อัปเดตอัตราแลกเปลี่ยนแล้ว');
-  }catch{
-    // fallback: use BOT-style approximate
-    toast('⚠️ ไม่สามารถดึงข้อมูลได้ กรุณาอัปเดตด้วยตัวเอง');
+  }else{
+    toast('⚠️ ดึงไม่ได้ — อัปเดตด้วยตัวเองในช่อง',3000);
   }
 }
 function saveJarPcts(){Object.keys(DB.jars).forEach(k=>{DB.jars[k].pct=+document.getElementById('jp-'+k).value||0;});save();renderJars();toast('✅ บันทึกสัดส่วนแล้ว');}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS v3</title>
+<title>Moriarty J · Finance OS v4</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -44,7 +44,7 @@ body{font-family:"Prompt",system-ui,sans-serif;color:var(--text);min-height:100v
     radial-gradient(900px 700px at 70% 90%,var(--gb3),transparent 60%),
     linear-gradient(135deg,var(--bg1),var(--bg2));
   transition:background .25s,color .25s;}
-.wrap{max-width:1100px;margin:0 auto;padding:0 14px 72px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 14px 100px}
 .card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
 .panel{padding:16px 18px 18px}
 .muted{color:var(--muted)}.info{color:var(--info)}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
@@ -90,14 +90,28 @@ th{color:var(--muted);font-weight:800;background:var(--table-head-bg);font-size:
 th:first-child,td:first-child{text-align:left}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(255,255,255,.025)}
-/* Tabs */
-.tab-nav{position:sticky;top:0;z-index:100;background:var(--tab-nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--row-stroke);display:flex;gap:0;align-items:center;overflow-x:auto;scrollbar-width:none;padding:0 6px;}
-.tab-nav::-webkit-scrollbar{display:none}
-.tab-btn{display:inline-flex;align-items:center;gap:5px;padding:12px 12px;border:none;background:transparent;color:var(--muted);font-family:"Prompt",sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border-bottom:2.5px solid transparent;margin-bottom:-1px;border-radius:0;transition:color .18s,border-color .18s;}
-.tab-btn:hover{color:var(--text);background:transparent;transform:none;filter:none}
-.tab-btn.active{color:var(--text);border-bottom-color:var(--info)}
-.tab-sec{display:none;padding-top:16px}
-.tab-sec.active{display:block}
+/* Pages */
+.page{display:none}.page.active{display:block}
+/* Sub-nav pill */
+.sub-nav{display:flex;gap:8px;padding:12px 14px 4px;overflow-x:auto;scrollbar-width:none;background:transparent}
+.sub-nav::-webkit-scrollbar{display:none}
+.sub-btn{display:inline-flex;align-items:center;gap:4px;padding:7px 16px;border:1px solid var(--row-stroke);background:var(--row-bg);color:var(--muted);border-radius:999px;font-family:"Prompt",sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.18s;}
+.sub-btn:hover{background:var(--input-bg);color:var(--text);transform:none;filter:none}
+.sub-btn.active{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:var(--info)}
+.sub-sec{display:none;padding-top:10px}.sub-sec.active{display:block}
+/* Bottom Nav — Mirror Glass */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;display:flex;align-items:stretch;padding:0 4px;padding-bottom:env(safe-area-inset-bottom,0px);z-index:300;
+  background:rgba(11,18,32,.72);
+  backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);
+  border-top:1px solid rgba(255,255,255,.13);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 -12px 40px rgba(0,0,0,.30);}
+[data-theme="light"] .bottom-nav{background:rgba(248,250,252,.78);border-top:1px solid rgba(15,23,42,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.90),0 -8px 30px rgba(15,23,42,.08);}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--muted);cursor:pointer;border-radius:14px;padding:6px 2px;font-family:"Prompt",sans-serif;transition:color .18s,background .18s;}
+.nav-btn:hover{background:rgba(255,255,255,.06);transform:none;filter:none}
+.nav-btn.active{color:var(--info)}
+[data-theme="light"] .nav-btn.active{color:var(--info)}
+.nav-ico{font-size:20px;line-height:1}
+.nav-lbl{font-size:10px;font-weight:700}
 /* Overlays */
 .overlay{position:fixed;inset:0;background:var(--overlay-bg);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999;backdrop-filter:blur(4px)}
 .overlay.show{display:flex}
@@ -141,7 +155,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .curr-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:900;background:rgba(96,165,250,.15);color:var(--info);border:1px solid rgba(96,165,250,.3)}
 .empty{text-align:center;padding:36px 16px;color:var(--muted)}
 .empty-ico{font-size:32px;display:block;margin-bottom:8px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .page-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0;gap:10px;flex-wrap:wrap}
 .page-title{font-size:18px;font-weight:800}
@@ -150,25 +164,14 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </head>
 <body>
 <div class="page-hdr">
-  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v3</div></div>
+  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v4</div></div>
   <button onclick="toggleTheme()" style="border-radius:999px;padding:8px 14px;font-size:12px">🌓 Theme</button>
 </div>
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('dashboard',this)">📊 Dashboard</button>
-  <button class="tab-btn" onclick="switchTab('portfolio',this)">📈 Portfolio</button>
-  <button class="tab-btn" onclick="switchTab('assets',this)">🏦 Assets</button>
-  <button class="tab-btn" onclick="switchTab('liabilities',this)">💳 Liabilities</button>
-  <button class="tab-btn" onclick="switchTab('jars',this)">🫙 6 Jars</button>
-  <button class="tab-btn" onclick="switchTab('budget',this)">🎯 Budget</button>
-  <button class="tab-btn" onclick="switchTab('transactions',this)">📝 Transactions</button>
-  <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ Settings</button>
-</nav>
 
+<!-- PAGE: HOME -->
+<div id="page-home" class="page active">
 <div class="wrap">
-
-<!-- DASHBOARD -->
-<section id="tab-dashboard" class="tab-sec active">
-  <div class="g3" style="margin-bottom:14px">
+<div class="g3" style="margin-bottom:14px">
     <div class="hero"><div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div><div class="hero-amt" id="d-nw">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)">Assets − Liabilities</div></div>
     <div class="hero red"><div class="hero-lbl">Total Debt · หนี้ทั้งหมด</div><div class="hero-amt bad" id="d-debt">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)" id="d-dratio">Debt ratio: –</div></div>
     <div class="hero purple"><div class="hero-lbl">Portfolio · พอร์ตรวม</div><div class="hero-amt info" id="d-port">฿0</div><div style="font-size:12px;margin-top:4px" id="d-portpl">P&amp;L: –</div></div>
@@ -216,11 +219,13 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div class="sh"><div class="st">Asset Breakdown · สัดส่วนสินทรัพย์</div></div>
     <div id="d-abars"><div class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></div></div>
   </div>
-</section>
+</div>
+</div>
 
-<!-- PORTFOLIO -->
-<section id="tab-portfolio" class="tab-sec">
-  <div class="sh"><div><div class="st">📈 Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">–</div></div><div style="display:flex;gap:8px"><button style="background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(96,165,250,.15));border-color:rgba(168,85,247,.4);color:#c084fc" onclick="openAIAnalysis()">🤖 AI วิเคราะห์</button><button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button></div></div>
+<!-- PAGE: INVEST -->
+<div id="page-invest" class="page">
+<div class="wrap">
+<div class="sh"><div><div class="st">📈 Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">–</div></div><div style="display:flex;gap:8px"><button style="background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(96,165,250,.15));border-color:rgba(168,85,247,.4);color:#c084fc" onclick="openAIAnalysis()">🤖 AI วิเคราะห์</button><button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button></div></div>
   <div class="g2" style="margin-bottom:14px">
     <div class="stat card panel"><div class="stat-lbl">Total Value (THB)</div><div class="stat-val info" id="port-total">฿0</div><div class="stat-sub" id="port-pl">P&amp;L: –</div></div>
     <div class="stat card panel"><div class="stat-lbl">Return · ผลตอบแทน</div><div class="stat-val" id="port-ret">–</div><div class="stat-sub">vs. Cost Basis</div></div>
@@ -246,10 +251,17 @@ tr:hover td{background:rgba(255,255,255,.025)}
       </table>
     </div>
   </div>
-</section>
+</div>
+</div>
 
-<!-- ASSETS -->
-<section id="tab-assets" class="tab-sec">
+<!-- PAGE: ASSET & LIABILITIES -->
+<div id="page-al" class="page">
+<nav class="sub-nav">
+  <button class="sub-btn active" onclick="switchSub('al','assets',this)">🏦 Assets</button>
+  <button class="sub-btn" onclick="switchSub('al','liabilities',this)">💳 Liabilities</button>
+</nav>
+<div class="wrap">
+  <div id="sub-al-assets" class="sub-sec active">
   <div class="sh"><div><div class="st">🏦 Assets · สินทรัพย์</div><div class="ss" id="ast-sub">รวม: –</div></div><button class="primary" onclick="openOv('ov-asset');clearAssetForm()">+ เพิ่ม</button></div>
   <div class="g3" style="margin-bottom:14px" id="ast-cats"></div>
   <div class="card panel">
@@ -260,10 +272,8 @@ tr:hover td{background:rgba(255,255,255,.025)}
       </table>
     </div>
   </div>
-</section>
-
-<!-- LIABILITIES -->
-<section id="tab-liabilities" class="tab-sec">
+  </div>
+  <div id="sub-al-liabilities" class="sub-sec">
   <div class="sh"><div><div class="st">💳 Liabilities · หนี้สิน</div><div class="ss" id="liab-sub">รวม: –</div></div>
     <div style="display:flex;gap:8px"><button class="warn-btn" onclick="openOv('ov-payoff')">🧮 Payoff Calc</button><button class="danger" onclick="openOv('ov-liab');clearLiabForm()">+ เพิ่ม</button></div>
   </div>
@@ -280,10 +290,19 @@ tr:hover td{background:rgba(255,255,255,.025)}
       </table>
     </div>
   </div>
-</section>
+  </div>
+</div>
+</div>
 
-<!-- 6 JARS -->
-<section id="tab-jars" class="tab-sec">
+<!-- PAGE: CASHFLOW -->
+<div id="page-cashflow" class="page">
+<nav class="sub-nav">
+  <button class="sub-btn active" onclick="switchSub('cashflow','jars',this)">🫙 6 Jars</button>
+  <button class="sub-btn" onclick="switchSub('cashflow','budget',this)">🎯 Budget</button>
+  <button class="sub-btn" onclick="switchSub('cashflow','txns',this)">📝 Transactions</button>
+</nav>
+<div class="wrap">
+  <div id="sub-cashflow-jars" class="sub-sec active">
   <div class="sh"><div><div class="st">🫙 6 Jar Money Management</div><div class="ss">T. Harv Eker · บริหารเงินด้วย 6 กระปุก</div></div></div>
   <div class="card panel" style="margin-bottom:14px">
     <div class="fg2">
@@ -298,15 +317,13 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div class="st" style="margin-bottom:10px">Spending Tracker · บันทึกการใช้จ่ายต่อกระปุก</div>
     <div id="jar-tracker" class="rows"></div>
   </div>
-</section>
-
-<!-- BUDGET -->
-<section id="tab-budget" class="tab-sec">
+  </div>
+  <div id="sub-cashflow-budget" class="sub-sec">
   <div class="sh">
     <div><div class="st">🎯 Budget Planning · วางแผนงบประมาณ</div><div class="ss" id="budget-sub">–</div></div>
     <div style="display:flex;gap:8px;align-items:center">
       <input type="month" id="budget-month" style="max-width:150px" onchange="renderBudget()"/>
-      <button class="primary" onclick="openOv('ov-budget')">+ ตั้งงบ</button>
+      <button class="primary" onclick="openBudgetForm()">+ ตั้งงบ</button>
     </div>
   </div>
   <div class="g2" style="margin-bottom:14px">
@@ -320,10 +337,8 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <div id="budget-list" style="display:flex;flex-direction:column;gap:10px">
     <div class="empty"><span class="empty-ico">🎯</span><span style="font-size:13px">ยังไม่ได้ตั้งงบประมาณ<br>กด "+ ตั้งงบ" เพื่อเริ่มต้น</span></div>
   </div>
-</section>
-
-<!-- TRANSACTIONS -->
-<section id="tab-transactions" class="tab-sec">
+  </div>
+  <div id="sub-cashflow-txns" class="sub-sec">
   <div class="sh"><div><div class="st">📝 Transactions · รายรับ-รายจ่าย</div></div><button class="primary" onclick="openOv('ov-txn');clearTxnForm()">+ บันทึก</button></div>
   <div class="g2" style="margin-bottom:14px">
     <div class="stat card panel"><div class="stat-lbl">Income This Month</div><div class="stat-val good" id="txn-itotal">฿0</div></div>
@@ -338,11 +353,14 @@ tr:hover td{background:rgba(255,255,255,.025)}
     </div>
   </div>
   <div class="card panel"><div id="txn-list" class="rows"><div class="empty"><span class="empty-ico">📝</span><span style="font-size:13px">ยังไม่มีรายการ</span></div></div></div>
-</section>
+  </div>
+</div>
+</div>
 
-<!-- SETTINGS -->
-<section id="tab-settings" class="tab-sec">
-  <div class="st" style="margin-bottom:16px">⚙️ Settings · การตั้งค่า</div>
+<!-- PAGE: SETTING -->
+<div id="page-setting" class="page">
+<div class="wrap">
+<div class="st" style="margin-bottom:16px">⚙️ Settings · การตั้งค่า</div>
   <div class="card panel" style="margin-bottom:14px">
     <div class="st" style="margin-bottom:12px">Personal Info</div>
     <div class="fg2">
@@ -393,10 +411,19 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v3</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis<br/>Data stored locally · 2026</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v4</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis<br/>Data stored locally · 2026</div>
   </div>
-</section>
 </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="switchPage('home',this)"><span class="nav-ico">🏠</span><span class="nav-lbl">Home</span></button>
+  <button class="nav-btn" onclick="switchPage('invest',this)"><span class="nav-ico">📈</span><span class="nav-lbl">Invest</span></button>
+  <button class="nav-btn" onclick="switchPage('al',this)"><span class="nav-ico">🏦</span><span class="nav-lbl">Assets</span></button>
+  <button class="nav-btn" onclick="switchPage('cashflow',this)"><span class="nav-ico">💰</span><span class="nav-lbl">Cashflow</span></button>
+  <button class="nav-btn" onclick="switchPage('setting',this)"><span class="nav-ico">⚙️</span><span class="nav-lbl">Setting</span></button>
+</nav>
 
 <!-- OVERLAYS -->
 <!-- Portfolio -->
@@ -625,11 +652,27 @@ function thisMonth(){const d=new Date();return`${d.getFullYear()}-${String(d.get
 function monthLbl(ym){if(!ym)return'';const[y,m]=ym.split('-');const mn=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];return`${mn[+m-1]} ${+y+543}`;}
 function toast(msg,ms=2500){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),ms);}
 
-// ── TABS / OVERLAYS ────────────────────────────────────────────────────
-function switchTab(id,btn){
-  document.querySelectorAll('.tab-sec').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');renderAll();
+// ── NAVIGATION ─────────────────────────────────────────────────────────
+function switchPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+  renderPage(id);
+}
+function switchSub(page,sub,btn){
+  const pg=document.getElementById('page-'+page);
+  pg.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('active'));
+  pg.querySelectorAll('.sub-sec').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sub-'+page+'-'+sub).classList.add('active');
+}
+function renderPage(id){
+  if(id==='home'){renderDash();}
+  else if(id==='invest'){renderPort();}
+  else if(id==='al'){renderAssets();renderLiab();}
+  else if(id==='cashflow'){renderJars();renderBudget();renderTxns();}
+  else if(id==='setting'){renderSettings();}
 }
 function openOv(id){document.getElementById(id).classList.add('show');}
 function closeOv(id){document.getElementById(id).classList.remove('show');}
@@ -1077,7 +1120,7 @@ function renderSettings(){
   // Jar pcts
   document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v3`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v4`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
   toast('🔄 กำลังดึงอัตราแลกเปลี่ยน…');
@@ -1199,6 +1242,7 @@ ${lines}
 
 // ── RENDER ALL ─────────────────────────────────────────────────────────
 function renderAll(){renderDash();renderPort();renderAssets();renderLiab();renderJars();renderBudget();renderTxns();renderSettings();}
+function renderActive(){const p=document.querySelector('.page.active');if(p)renderPage(p.id.replace('page-',''));}
 
 // ── MIGRATE from v2 ────────────────────────────────────────────────────
 (function migrateV2(){
@@ -1224,8 +1268,6 @@ document.getElementById('ast-date').value=todayStr();
 document.getElementById('jar-month').value=thisMonth();
 document.getElementById('budget-month').value=thisMonth();
 document.getElementById('jar-inc').value=DB.settings.monthlyIncome||'';
-// wire budget button
-document.querySelector('[onclick="openOv(\'ov-budget\')"]').onclick=openBudgetForm;
 renderAll();
 </script>
 </body>

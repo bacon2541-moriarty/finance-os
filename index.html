@@ -194,6 +194,12 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .chat-send-btn:active{transform:scale(.95);filter:none}
 .chat-bot-row{display:flex;align-items:flex-end;gap:7px}
 .chat-bot-avatar{flex-shrink:0;line-height:0;animation:mcFloat 3.8s ease-in-out infinite}
+.chat-card{background:var(--input-bg);border:1px solid rgba(96,165,250,.28);border-radius:12px;padding:11px;display:flex;flex-direction:column;gap:8px;min-width:230px}
+.chat-card input,.chat-card select{padding:7px 10px;font-size:12px;border-radius:10px}
+.chat-card-row{display:flex;gap:6px}
+.chat-clip-btn{width:36px;height:36px;border-radius:50%;background:var(--input-bg);border:1px solid var(--input-stroke);color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;transition:.15s;font-family:"Prompt",sans-serif}
+.chat-clip-btn:hover{background:rgba(96,165,250,.1);color:var(--text);transform:none;filter:none}
+.chat-img-preview{max-width:180px;max-height:180px;border-radius:10px;margin-top:6px;display:block;object-fit:contain;border:1px solid var(--row-stroke)}
 </style>
 </head>
 <body>
@@ -701,7 +707,9 @@ tr:hover td{background:rgba(255,255,255,.025)}
       <button class="chat-chip" onclick="sendChatMsg('ฉันควรออมเงินเพิ่มเท่าไหร่ต่อเดือน?')">🎯 เป้าออม</button>
     </div>
     <div class="chat-bar">
-      <textarea class="chat-inp" id="chat-inp" placeholder="ถามเรื่องการเงินได้เลยครับ…" rows="1"
+      <button class="chat-clip-btn" onclick="document.getElementById('chat-img-in').click()" title="แนบสลิป">📎</button>
+      <input type="file" id="chat-img-in" accept="image/*" style="display:none" onchange="handleChatImage(this)"/>
+      <textarea class="chat-inp" id="chat-inp" placeholder="ถามหรือสั่ง เช่น 'จ่ายค่าอาหาร 150'…" rows="1"
         onkeydown="chatKeydown(event)" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
       <button class="chat-send-btn" onclick="sendChatMsg()">➤</button>
     </div>
@@ -1774,13 +1782,13 @@ function catIntro() {
   return arr[Math.floor(Math.random()*arr.length)] + ' ';
 }
 
-function appendChatMsg(role, text) {
+function appendChatMsg(role, text, isRaw = false) {
   const el = document.getElementById('chat-msgs');
-  const html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  const html = isRaw ? text : text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
   if (role === 'bot') {
     const wrap = document.createElement('div');
     wrap.className = 'chat-bot-row';
-    wrap.innerHTML = `<div class="chat-bot-avatar">${moriartyCat(34, chatMood())}</div><div class="chat-msg bot">${html}</div>`;
+    wrap.innerHTML = `<div class="chat-bot-avatar">${moriartyCat(34, chatMood())}</div><div class="chat-msg bot" style="flex:1;min-width:0">${html}</div>`;
     el.appendChild(wrap);
   } else {
     const div = document.createElement('div');
@@ -1789,6 +1797,192 @@ function appendChatMsg(role, text) {
     el.appendChild(div);
   }
   el.scrollTop = el.scrollHeight;
+}
+
+// ── TRANSACTION FROM CHAT ──────────────────────────────────────────────
+let pendingTxn = null;
+
+function parseTransactionText(msg) {
+  const m = msg;
+  const lo = m.toLowerCase();
+  const hasIntent = /บันทึก|จ่าย|ซื้อ|ค่า[^แ]|รายจ่าย|expense|รายรับ|รับเงิน|ได้รับ|income/.test(lo);
+  if (!hasIntent) return null;
+  const amtMatch = m.match(/(\d[\d,]*(?:\.\d+)?)\s*(?:บาท|฿)?/);
+  if (!amtMatch) return null;
+  const amount = parseFloat(amtMatch[1].replace(/,/g, ''));
+  if (!amount || amount <= 0) return null;
+
+  let type = 'expense';
+  if (/รายรับ|รับเงิน|ได้รับ|income|เงินเดือน|โบนัส|salary|ปันผล|dividend/.test(lo)) type = 'income';
+
+  let category = type === 'income' ? 'เงินเดือน (Salary)' : 'อื่นๆ (Other)';
+  const catMap = [
+    [/อาหาร|ข้าว|กิน|ร้าน|coffee|กาแฟ|ชา|เครื่องดื่ม|ก๋วยเตี๋ยว|pizza|sushi|ส้มตำ/, 'อาหาร (Food)'],
+    [/น้ำมัน|taxi|แท็กซี่|grab|รถ|bts|mrt|bus|รถไฟ|เรือ|แก๊ส/, 'การเดินทาง (Transport)'],
+    [/บ้าน|เช่า|rent|ไฟ|น้ำ|internet|wifi|หอ|คอนโด/, 'ที่อยู่อาศัย (Housing)'],
+    [/ช้อป|shopping|เสื้อ|กางเกง|รองเท้า|กระเป๋า|lazada|shopee/, 'ช้อปปิ้ง (Shopping)'],
+    [/หมอ|ยา|โรงพยาบาล|clinic|ฟัน|สุขภาพ/, 'สุขภาพ (Health)'],
+    [/หนัง|เกม|เที่ยว|netflix|spotify|concert|บันเทิง/, 'ความบันเทิง'],
+    [/เรียน|หนังสือ|คอร์ส|education/, 'การศึกษา (Education)'],
+    [/ประกัน|insurance/, 'ประกัน (Insurance)'],
+    [/ลงทุน|กองทุน|invest/, 'ลงทุน (Investment)'],
+    [/หนี้|ผ่อน|loan/, 'หนี้ (Debt Payment)'],
+    [/เงินเดือน|salary/, 'เงินเดือน (Salary)'],
+    [/โบนัส|bonus/, 'โบนัส (Bonus)'],
+    [/รายได้เสริม|freelance/, 'รายได้เสริม'],
+    [/ปันผล|dividend/, 'เงินปันผล (Dividend)'],
+  ];
+  for (const [pat, cat] of catMap) { if (pat.test(lo)) { category = cat; break; } }
+
+  const note = m.replace(/(\d[\d,]*(?:\.\d+)?)\s*(?:บาท|฿)?/, '')
+    .replace(/บันทึก|รายจ่าย|รายรับ|จ่าย|ซื้อ|รับเงิน|ได้รับ/gi, '').trim().slice(0, 50);
+
+  return { type, amount, category, date: todayStr(), note };
+}
+
+function showTxnCard(data) {
+  const id = uid();
+  pendingTxn = { ...data, id };
+  const opts = BUDGET_CATS.map(c => `<option value="${c}" ${c === data.category ? 'selected' : ''}>${c}</option>`).join('');
+  appendChatMsg('bot', `
+    <div class="chat-card" id="tc-${id}">
+      <div style="font-size:12px;font-weight:800;color:var(--info)">📝 ยืนยันบันทึกรายการ</div>
+      <div class="chat-card-row">
+        <button id="tci-${id}" class="${data.type === 'income' ? 'success' : ''}" onclick="setChatTxnType('${id}','income')" style="flex:1;font-size:11px;padding:6px 2px">💰 รายรับ</button>
+        <button id="tce-${id}" class="${data.type === 'expense' ? 'danger' : ''}" onclick="setChatTxnType('${id}','expense')" style="flex:1;font-size:11px;padding:6px 2px">💸 รายจ่าย</button>
+      </div>
+      <input type="number" id="ta-${id}" value="${data.amount || ''}" placeholder="จำนวนเงิน (฿)" style="font-weight:800;font-size:14px"/>
+      <select id="tcat-${id}">${opts}</select>
+      <div class="chat-card-row">
+        <input type="date" id="td-${id}" value="${data.date || ''}" style="flex:1"/>
+        <input type="text" id="tn-${id}" value="${data.note || ''}" placeholder="หมายเหตุ" style="flex:1"/>
+      </div>
+      <div class="chat-card-row">
+        <button class="success" onclick="confirmChatTxn('${id}')" style="flex:1;font-size:12px;padding:8px">✅ บันทึก</button>
+        <button class="danger" onclick="cancelChatTxn('${id}')" style="font-size:12px;padding:8px 12px">✕</button>
+      </div>
+    </div>`, true);
+}
+
+function setChatTxnType(id, type) {
+  document.getElementById(`tci-${id}`).className = type === 'income' ? 'success' : '';
+  document.getElementById(`tce-${id}`).className = type === 'expense' ? 'danger' : '';
+}
+
+function confirmChatTxn(id) {
+  const type = document.getElementById(`tci-${id}`)?.className.includes('success') ? 'income' : 'expense';
+  const amount = +document.getElementById(`ta-${id}`).value;
+  if (!amount) { toast('⚠️ กรุณากรอกจำนวนเงิน'); return; }
+  const category = document.getElementById(`tcat-${id}`).value;
+  const date = document.getElementById(`td-${id}`).value || todayStr();
+  const note = document.getElementById(`tn-${id}`).value;
+  const item = { id: uid(), type, amount, category, jar: '', note, date, slip: null };
+  DB.transactions.unshift(item);
+  save(); renderTxns(); renderDash();
+  document.getElementById(`tc-${id}`)?.closest('.chat-bot-row')?.remove();
+  appendChatMsg('bot', `${catIntro()} บันทึกแล้ว ✅\n**${type === 'income' ? '💰 รายรับ' : '💸 รายจ่าย'} ${fmt(amount)}**\n${category} · ${date}${note ? ' · ' + note : ''}`);
+  pendingTxn = null;
+}
+
+function cancelChatTxn(id) {
+  document.getElementById(`tc-${id}`)?.closest('.chat-bot-row')?.remove();
+  appendChatMsg('bot', 'ยกเลิกแล้วครับ');
+  pendingTxn = null;
+}
+
+// ── SLIP IMAGE READING ─────────────────────────────────────────────────
+async function handleChatImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const b64url = e.target.result;
+    // Show image as user message
+    const el = document.getElementById('chat-msgs');
+    const div = document.createElement('div');
+    div.className = 'chat-msg user';
+    div.innerHTML = `📎 สลิป<br><img src="${b64url}" class="chat-img-preview" alt="slip"/>`;
+    el.appendChild(div); el.scrollTop = el.scrollHeight;
+    document.getElementById('chat-chips-row').style.display = 'none';
+
+    const key = (DB.settings.aiKey || '').trim();
+    if (!key) {
+      appendChatMsg('bot', `Interesting slip. แต่ต้องการ **API Key** เพื่ออ่านสลิปครับ\nไปตั้งที่ **Settings → AI Analysis Settings** ก่อนนะครับ`);
+      return;
+    }
+    const typingRow = document.getElementById('chat-typing-row');
+    typingRow.style.display = 'block'; el.scrollTop = el.scrollHeight;
+    try {
+      const data = await readSlipWithAI(b64url, key);
+      typingRow.style.display = 'none';
+      appendChatMsg('bot', catIntro() + ' อ่านสลิปได้แล้วครับ ตรวจสอบและแก้ไขด้านล่าง');
+      showTxnCard(data);
+    } catch (err) {
+      typingRow.style.display = 'none';
+      appendChatMsg('bot', `❌ อ่านสลิปไม่ได้: ${err.message}\nลองถ่ายรูปชัดๆ แล้วส่งใหม่นะครับ`);
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function readSlipWithAI(b64url, key) {
+  const provider = DB.settings.aiProvider || 'anthropic';
+  const prompt = 'อ่านสลิป/ใบเสร็จนี้แล้วตอบเป็น JSON เท่านั้น ห้ามมีข้อความอื่น:\n{"amount":number,"merchant":"string","date":"YYYY-MM-DD or null","type":"expense or income"}\nถ้าอ่านไม่ได้: {"error":"reason"}';
+  const mediaType = b64url.split(';')[0].split(':')[1] || 'image/jpeg';
+  const b64 = b64url.split(',')[1];
+  let text = '';
+
+  if (provider === 'anthropic') {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-allow-browser': 'true' },
+      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 300,
+        messages: [{ role: 'user', content: [
+          { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64 } },
+          { type: 'text', text: prompt }
+        ]}]})
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+    text = (await res.json()).content?.[0]?.text || '';
+  } else if (provider === 'openai') {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 300,
+        messages: [{ role: 'user', content: [
+          { type: 'image_url', image_url: { url: b64url } },
+          { type: 'text', text: prompt }
+        ]}]})
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+    text = (await res.json()).choices?.[0]?.message?.content || '';
+  } else if (provider === 'gemini') {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [
+        { inline_data: { mime_type: mediaType, data: b64 } },
+        { text: prompt }
+      ]}]})
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+    text = (await res.json()).candidates?.[0]?.content?.parts?.[0]?.text || '';
+  }
+
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('ไม่ได้รับข้อมูล JSON');
+  const d = JSON.parse(match[0]);
+  if (d.error) throw new Error(d.error);
+
+  // Guess category from merchant name
+  let category = d.type === 'income' ? 'เงินเดือน (Salary)' : 'อื่นๆ (Other)';
+  const mer = (d.merchant || '').toLowerCase();
+  if (/food|ร้าน|coffee|กาแฟ|pizza|restaurant|mcdonald|kfc|starbucks/.test(mer)) category = 'อาหาร (Food)';
+  else if (/grab|taxi|fuel|น้ำมัน|ptt|bts|mrt/.test(mer)) category = 'การเดินทาง (Transport)';
+  else if (/7-eleven|lotus|bigc|tops|makro|tesco/.test(mer)) category = 'ช้อปปิ้ง (Shopping)';
+  else if (/hospital|pharmacy|ยา|clinic|โรงพยาบาล/.test(mer)) category = 'สุขภาพ (Health)';
+
+  return { type: d.type || 'expense', amount: d.amount || 0, category, date: d.date || todayStr(), note: d.merchant || '' };
 }
 
 function chatKeydown(e) {
@@ -1808,7 +2002,17 @@ async function sendChatMsg(presetMsg) {
   typingRow.style.display = 'block';
   document.getElementById('chat-msgs').scrollTop = 9999;
 
-  // Try rule-based first (instant, no API needed)
+  // Check transaction intent first
+  const txnData = parseTransactionText(msg);
+  if (txnData) {
+    await new Promise(r => setTimeout(r, 320));
+    typingRow.style.display = 'none';
+    appendChatMsg('bot', catIntro() + ' ได้เลยครับ ตรวจสอบรายละเอียดด้านล่าง');
+    showTxnCard(txnData);
+    return;
+  }
+
+  // Try rule-based (no API needed)
   const localReply = respondLocally(msg);
   if (localReply) {
     await new Promise(r => setTimeout(r, 380));

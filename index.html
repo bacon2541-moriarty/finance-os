@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS v4</title>
+<title>Moriarty J · Finance OS v5</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -164,7 +164,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </head>
 <body>
 <div class="page-hdr">
-  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v4</div></div>
+  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v5</div></div>
   <button onclick="toggleTheme()" style="border-radius:999px;padding:8px 14px;font-size:12px">🌓 Theme</button>
 </div>
 
@@ -225,7 +225,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <!-- PAGE: INVEST -->
 <div id="page-invest" class="page">
 <div class="wrap">
-<div class="sh"><div><div class="st">📈 Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">–</div></div><div style="display:flex;gap:8px"><button style="background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(96,165,250,.15));border-color:rgba(168,85,247,.4);color:#c084fc" onclick="openAIAnalysis()">🤖 AI วิเคราะห์</button><button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button></div></div>
+<div class="sh"><div><div class="st">📈 Portfolio · พอร์ตการลงทุน</div><div class="ss" id="port-sub">–</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="success" id="fetch-prices-btn" onclick="fetchStockPrices()">🔄 Fetch Prices</button><button style="background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(96,165,250,.15));border-color:rgba(168,85,247,.4);color:#c084fc" onclick="openAIAnalysis()">🤖 AI วิเคราะห์</button><button class="primary" onclick="openOv('ov-port');clearPortForm()">+ เพิ่ม</button></div></div>
   <div class="g2" style="margin-bottom:14px">
     <div class="stat card panel"><div class="stat-lbl">Total Value (THB)</div><div class="stat-val info" id="port-total">฿0</div><div class="stat-sub" id="port-pl">P&amp;L: –</div></div>
     <div class="stat card panel"><div class="stat-lbl">Return · ผลตอบแทน</div><div class="stat-val" id="port-ret">–</div><div class="stat-sub">vs. Cost Basis</div></div>
@@ -246,7 +246,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <div class="card panel">
     <div class="tw" style="margin-top:0">
       <table>
-        <thead><tr><th>Symbol</th><th>Type</th><th>Currency</th><th>Qty</th><th>Avg Cost</th><th>Current</th><th>Value (THB)</th><th>P&amp;L</th><th></th></tr></thead>
+        <thead><tr><th>Symbol</th><th>Type</th><th>Currency</th><th>Qty</th><th>Avg Cost</th><th>Current <span style="font-size:9px;font-weight:600;color:var(--good)">auto</span></th><th>Value (THB)</th><th>P&amp;L</th><th></th></tr></thead>
         <tbody id="port-tbody"><tr><td colspan="9" class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีรายการ</span></td></tr></tbody>
       </table>
     </div>
@@ -411,7 +411,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v4</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis<br/>Data stored locally · 2026</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v5</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch<br/>Data stored locally · 2026</div>
   </div>
 </div>
 </div>
@@ -431,7 +431,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <div class="oh"><h2>📈 Add / Edit Holding</h2><button class="sm danger" onclick="closeOv('ov-port')">✕</button></div>
   <input type="hidden" id="port-eid"/>
   <div class="fg2">
-    <div class="fg"><label class="fl">Symbol</label><input type="text" id="port-sym" placeholder="PTT, BTC…"/></div>
+    <div class="fg"><label class="fl">Symbol <span style="font-weight:400;color:var(--muted)">(หุ้นไทยใช้ .BK เช่น PTT.BK)</span></label><input type="text" id="port-sym" placeholder="PTT.BK, AAPL, BTC-USD…"/></div>
     <div class="fg"><label class="fl">ชื่อเต็ม</label><input type="text" id="port-nm" placeholder="Full name"/></div>
     <div class="fg"><label class="fl">Type</label>
       <select id="port-type"><option>หุ้น (Stock)</option><option>กองทุน (Fund)</option><option>คริปโต (Crypto)</option><option>พันธบัตร (Bond)</option><option>อสังหาฯ (REIT)</option><option>อื่นๆ</option></select>
@@ -775,7 +775,8 @@ function clearPortForm(){
 function savePort(){
   const id=document.getElementById('port-eid').value||uid();
   const currency=document.getElementById('port-currency').value;
-  const item={id,symbol:document.getElementById('port-sym').value.trim().toUpperCase(),name:document.getElementById('port-nm').value.trim(),type:document.getElementById('port-type').value,currency,qty:+document.getElementById('port-qty').value||0,costPrice:+document.getElementById('port-cost').value||0,currentPrice:+document.getElementById('port-cur').value||0,note:document.getElementById('port-note').value.trim()};
+  const existing=DB.portfolio.find(p=>p.id===id);
+  const item={id,symbol:document.getElementById('port-sym').value.trim().toUpperCase(),name:document.getElementById('port-nm').value.trim(),type:document.getElementById('port-type').value,currency,qty:+document.getElementById('port-qty').value||0,costPrice:+document.getElementById('port-cost').value||0,currentPrice:+document.getElementById('port-cur').value||0,note:document.getElementById('port-note').value.trim(),lastFetched:null};
   const idx=DB.portfolio.findIndex(p=>p.id===id);
   if(idx>=0)DB.portfolio[idx]=item;else DB.portfolio.push(item);
   save();renderPort();closeOv('ov-port');toast('✅ บันทึกแล้ว');
@@ -806,7 +807,7 @@ function renderPort(){
       <td><span class="curr-badge">${p.currency||'THB'}</span></td>
       <td>${p.qty.toLocaleString()}</td>
       <td>${(p.costPrice).toLocaleString(undefined,{maximumFractionDigits:2})}</td>
-      <td>${(p.currentPrice).toLocaleString(undefined,{maximumFractionDigits:2})}</td>
+      <td>${(p.currentPrice).toLocaleString(undefined,{maximumFractionDigits:2})}${p.lastFetched?`<br><span style="font-size:9px;color:var(--good)">🔄 ${new Date(p.lastFetched).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}</span>`:''}</td>
       <td style="font-weight:800">${fmt(v)}</td>
       <td class="${g>=0?'good':'bad'}" style="font-weight:800">${g>=0?'+':''}${fmt(g)}</td>
       <td style="white-space:nowrap"><button class="sm" onclick="editPort('${p.id}')">✏️</button> <button class="sm danger" onclick="delPort('${p.id}')">🗑</button></td>
@@ -1120,7 +1121,7 @@ function renderSettings(){
   // Jar pcts
   document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v4`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v5`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
   const btn=document.querySelector('[onclick="fetchRates()"]');
@@ -1244,6 +1245,63 @@ ${lines}
     document.getElementById('ai-error-msg').textContent=err.message;
     document.getElementById('ai-error').style.display='block';
   }
+}
+
+// ── STOCK PRICE FETCH ──────────────────────────────────────────────────
+async function fetchYahooPrice(symbol){
+  const url=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1d`;
+  const proxies=[
+    url,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  ];
+  for(const endpoint of proxies){
+    try{
+      const r=await fetch(endpoint,{signal:AbortSignal.timeout(7000)});
+      if(!r.ok)continue;
+      const j=await r.json();
+      const price=j?.chart?.result?.[0]?.meta?.regularMarketPrice;
+      if(price&&price>0)return price;
+    }catch{}
+  }
+  return null;
+}
+
+async function fetchStockPrices(){
+  const items=DB.portfolio;
+  if(!items.length){toast('⚠️ ยังไม่มีหลักทรัพย์ในพอร์ต');return;}
+  const btn=document.getElementById('fetch-prices-btn');
+  if(btn){btn.disabled=true;btn.textContent='⏳ กำลังดึง…';}
+  toast('🔄 กำลังดึงราคา…',2000);
+
+  // Skip crypto — Yahoo Finance doesn't cover them well
+  const fetchable=items.filter(p=>!p.type.includes('คริปโต'));
+  const skipped=items.length-fetchable.length;
+  let updated=0,failed=[];
+
+  for(const p of fetchable){
+    const price=await fetchYahooPrice(p.symbol);
+    if(price!==null){
+      p.currentPrice=price;
+      p.lastFetched=Date.now();
+      updated++;
+    }else{
+      failed.push(p.symbol);
+    }
+  }
+
+  if(btn){btn.disabled=false;btn.textContent='🔄 Fetch Prices';}
+  save();renderPort();
+
+  if(updated>0&&failed.length===0){
+    toast(`✅ อัปเดต ${updated} หลักทรัพย์สำเร็จ`);
+  }else if(updated>0){
+    toast(`✅ อัปเดต ${updated} · ❌ ไม่พบ: ${failed.join(', ')}`,4000);
+  }else{
+    const hint=fetchable.some(p=>!p.symbol.includes('.'))?'\nหุ้นไทยใช้ suffix .BK เช่น PTT.BK':'';
+    toast(`❌ ดึงราคาไม่สำเร็จ — ตรวจสอบ Symbol${hint}`,4000);
+  }
+  if(skipped)toast(`ℹ️ ข้าม ${skipped} Crypto (ไม่รองรับ)`,3000);
 }
 
 // ── RENDER ALL ─────────────────────────────────────────────────────────

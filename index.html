@@ -251,6 +251,25 @@ tr:hover td{background:rgba(255,255,255,.025)}
       </table>
     </div>
   </div>
+  <!-- PROJECTION CHART -->
+  <div class="card panel" style="margin-top:14px">
+    <div class="sh" style="flex-wrap:wrap;gap:10px">
+      <div><div class="st">📊 Asset vs Liability Projection</div><div class="ss">Jan 2025 – Dec 2035 · สินทรัพย์รวม (Assets + Portfolio) vs หนี้สิน</div></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span style="font-size:12px;color:var(--muted)">Asset growth</span>
+        <input type="number" id="proj-rate" value="5" min="0" max="50" step="0.5" style="width:65px;padding:6px 8px;font-size:13px" oninput="renderProjectionChart()"/>
+        <span style="font-size:12px;color:var(--muted)">%/ปี</span>
+      </div>
+    </div>
+    <div class="g3" style="margin-bottom:12px" id="proj-stats"></div>
+    <div id="proj-chart-wrap"></div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:11px;color:var(--muted)">
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:16px;height:2.5px;background:#60a5fa;border-radius:2px;flex-shrink:0"></span>Assets รวม</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:16px;height:2.5px;background:#f87171;border-radius:2px;flex-shrink:0"></span>Liabilities</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:16px;height:2px;background:repeating-linear-gradient(90deg,#34d399 0 4px,transparent 4px 7px);flex-shrink:0"></span>Net Worth</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:2px;height:12px;background:#f59e0b;flex-shrink:0"></span>วันนี้</span>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -813,6 +832,7 @@ function renderPort(){
       <td style="white-space:nowrap"><button class="sm" onclick="editPort('${p.id}')">✏️</button> <button class="sm danger" onclick="delPort('${p.id}')">🗑</button></td>
     </tr>`;
   }).join('');
+  renderProjectionChart();
 }
 
 // ── ASSETS ─────────────────────────────────────────────────────────────
@@ -1245,6 +1265,103 @@ ${lines}
     document.getElementById('ai-error-msg').textContent=err.message;
     document.getElementById('ai-error').style.display='block';
   }
+}
+
+// ── ASSET vs LIABILITY PROJECTION ─────────────────────────────────────
+function remainBalProj(principal,annualRate,monthlyPay,months){
+  if(principal<=0)return 0;
+  if(months<=0)return Math.max(0,principal);
+  const r=annualRate/100/12;
+  if(monthlyPay<=0)return principal*Math.pow(1+r,months);
+  if(r===0)return Math.max(0,principal-monthlyPay*months);
+  return Math.max(0,principal*Math.pow(1+r,months)-monthlyPay*(Math.pow(1+r,months)-1)/r);
+}
+function buildProjection(annualGrowthRate){
+  const tAst=DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
+  const tPort=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  const totalAssets=tAst+tPort;
+  const now=new Date();
+  const curYrFrac=now.getFullYear()+now.getMonth()/12;
+  const mGrow=Math.pow(1+annualGrowthRate/100,1/12)-1;
+  function liabAt(mFromNow){
+    return DB.liabilities.reduce((sum,l)=>{
+      if(mFromNow>=0)return sum+remainBalProj(l.balance,l.interest,l.minPayment,mFromNow);
+      const n=-mFromNow,r=l.interest/100/12;
+      if(r===0)return sum+l.balance+l.minPayment*n;
+      const c=Math.pow(1+r,n);
+      return sum+Math.max(0,(l.balance+l.minPayment*(c-1)/r)/c);
+    },0);
+  }
+  return Array.from({length:11},(_,i)=>{
+    const year=2025+i,m=(year-curYrFrac)*12;
+    const assets=totalAssets>0?Math.max(0,totalAssets*Math.pow(1+mGrow,m)):0;
+    const liabilities=liabAt(m);
+    return{year,assets,liabilities,netWorth:assets-liabilities};
+  });
+}
+function renderProjectionChart(){
+  const wrap=document.getElementById('proj-chart-wrap');
+  const statsEl=document.getElementById('proj-stats');
+  if(!wrap||!statsEl)return;
+  const rate=+(document.getElementById('proj-rate')?.value)||5;
+  const pts=buildProjection(rate);
+  const tLiab=DB.liabilities.reduce((s,l)=>s+l.balance,0);
+  const tAst=DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
+  const tPort=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  if(!tAst&&!tPort&&!tLiab){
+    wrap.innerHTML='<div class="empty"><span class="empty-ico">📊</span><span style="font-size:13px">เพิ่มสินทรัพย์หรือหนี้สินก่อนเพื่อดู projection</span></div>';
+    statsEl.innerHTML='';return;
+  }
+  const p2030=pts.find(p=>p.year===2030);
+  const p2035=pts[pts.length-1];
+  const nowYear=new Date().getFullYear();
+  const debtFree=tLiab===0?null:pts.find(p=>p.liabilities<1000&&p.year>=nowYear);
+  const debtLbl=tLiab===0?'ไม่มีหนี้ ✅':debtFree?String(debtFree.year):'> 2035';
+  statsEl.innerHTML=`
+    <div class="stat card panel"><div class="stat-lbl">Net Worth 2030</div><div class="stat-val ${(p2030?.netWorth||0)>=0?'info':'bad'}" style="font-size:17px">${fmtC(p2030?.netWorth||0)}</div></div>
+    <div class="stat card panel"><div class="stat-lbl">Net Worth 2035</div><div class="stat-val ${p2035.netWorth>=0?'good':'bad'}" style="font-size:17px">${fmtC(p2035.netWorth)}</div></div>
+    <div class="stat card panel"><div class="stat-lbl">หมดหนี้ปี</div><div class="stat-val ${tLiab===0||debtFree?'good':'warn'}" style="font-size:17px">${debtLbl}</div></div>`;
+  const W=580,H=200,PL=60,PR=12,PT=18,PB=30;
+  const cW=W-PL-PR,cH=H-PT-PB,N=pts.length;
+  const maxVal=Math.max(...pts.map(p=>Math.max(p.assets,p.liabilities,0)))*1.08;
+  if(!maxVal){wrap.innerHTML='';return;}
+  const xOf=i=>PL+(i/(N-1))*cW;
+  const yOf=v=>PT+cH-Math.max(0,Math.min(1,v/maxVal))*cH;
+  const now=new Date();
+  const todayX=PL+((now.getFullYear()+now.getMonth()/12-2025)/10)*cW;
+  const base=(PT+cH).toFixed(1);
+  const astPts=pts.map((p,i)=>`${xOf(i).toFixed(1)},${yOf(p.assets).toFixed(1)}`).join(' ');
+  const liabPts=pts.map((p,i)=>`${xOf(i).toFixed(1)},${yOf(p.liabilities).toFixed(1)}`).join(' ');
+  const nwPts=pts.map((p,i)=>`${xOf(i).toFixed(1)},${yOf(Math.max(0,p.netWorth)).toFixed(1)}`).join(' ');
+  const astArea=`M${xOf(0).toFixed(1)},${base} ${pts.map((p,i)=>`L${xOf(i).toFixed(1)},${yOf(p.assets).toFixed(1)}`).join(' ')} L${xOf(N-1).toFixed(1)},${base} Z`;
+  const liabArea=`M${xOf(0).toFixed(1)},${base} ${pts.map((p,i)=>`L${xOf(i).toFixed(1)},${yOf(p.liabilities).toFixed(1)}`).join(' ')} L${xOf(N-1).toFixed(1)},${base} Z`;
+  const grids=[0,0.25,0.5,0.75,1].map(f=>{
+    const v=maxVal*f,y=yOf(v).toFixed(1);
+    return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="var(--row-stroke)" stroke-width="0.5"/>
+    <text x="${PL-4}" y="${y}" font-size="7.5" fill="var(--muted)" text-anchor="end" dominant-baseline="middle" font-family="Prompt,sans-serif">${fmtC(v)}</text>`;
+  }).join('');
+  const xLabels=pts.map((p,i)=>`<text x="${xOf(i).toFixed(1)}" y="${H-5}" font-size="8.5" fill="${p.year===nowYear?'var(--warn)':'var(--muted)'}" text-anchor="middle" font-family="Prompt,sans-serif" ${p.year===nowYear?'font-weight="700"':''}>${p.year}</text>`).join('');
+  const dots=pts.map((p,i)=>{
+    if(i%2!==0&&i!==N-1)return'';
+    return`<circle cx="${xOf(i).toFixed(1)}" cy="${yOf(p.assets).toFixed(1)}" r="2.8" fill="#60a5fa" stroke="var(--bg2)" stroke-width="1.2"/>
+    <circle cx="${xOf(i).toFixed(1)}" cy="${yOf(p.liabilities).toFixed(1)}" r="2.8" fill="#f87171" stroke="var(--bg2)" stroke-width="1.2"/>`;
+  }).join('');
+  wrap.innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">
+    <defs>
+      <linearGradient id="projAG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#60a5fa" stop-opacity="0.22"/><stop offset="100%" stop-color="#60a5fa" stop-opacity="0.02"/></linearGradient>
+      <linearGradient id="projLG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f87171" stop-opacity="0.18"/><stop offset="100%" stop-color="#f87171" stop-opacity="0.02"/></linearGradient>
+    </defs>
+    ${grids}
+    <path d="${astArea}" fill="url(#projAG)"/>
+    <path d="${liabArea}" fill="url(#projLG)"/>
+    <polyline points="${astPts}" fill="none" stroke="#60a5fa" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${liabPts}" fill="none" stroke="#f87171" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${nwPts}" fill="none" stroke="#34d399" stroke-width="1.8" stroke-dasharray="5,3" stroke-linejoin="round" stroke-linecap="round"/>
+    <line x1="${todayX.toFixed(1)}" y1="${PT-2}" x2="${todayX.toFixed(1)}" y2="${PT+cH}" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <text x="${(todayX+3).toFixed(1)}" y="${(PT+9).toFixed(1)}" font-size="7.5" fill="#f59e0b" font-family="Prompt,sans-serif">วันนี้</text>
+    ${dots}
+    ${xLabels}
+  </svg>`;
 }
 
 // ── STOCK PRICE FETCH ──────────────────────────────────────────────────

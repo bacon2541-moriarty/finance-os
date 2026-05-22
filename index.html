@@ -160,6 +160,10 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .page-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0;gap:10px;flex-wrap:wrap}
 .page-title{font-size:18px;font-weight:800}
 .page-sub{font-size:12px;color:var(--muted);margin-top:2px}
+/* Mascot */
+@keyframes mcFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes mcGlint{0%,82%,100%{opacity:0;transform:scale(.4)}88%{opacity:1;transform:scale(1.1)}94%{opacity:.6;transform:scale(.9)}}
+.mc-float{animation:mcFloat 3.8s ease-in-out infinite;display:inline-block}
 </style>
 </head>
 <body>
@@ -171,6 +175,16 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <!-- PAGE: HOME -->
 <div id="page-home" class="page active">
 <div class="wrap">
+<!-- MASCOT GREETING -->
+<div class="card panel" style="margin-bottom:14px;padding:14px 18px">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div id="mascot-hdr" class="mc-float" style="flex-shrink:0;line-height:0"></div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:16px;font-weight:800;line-height:1.3" id="mascot-greeting">สวัสดี, Moriarty J</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.55;font-style:italic" id="mascot-tip">Finance OS v5</div>
+    </div>
+  </div>
+</div>
 <div class="g3" style="margin-bottom:14px">
     <div class="hero"><div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div><div class="hero-amt" id="d-nw">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)">Assets − Liabilities</div></div>
     <div class="hero red"><div class="hero-lbl">Total Debt · หนี้ทั้งหมด</div><div class="hero-amt bad" id="d-debt">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)" id="d-dratio">Debt ratio: –</div></div>
@@ -1122,6 +1136,7 @@ function renderDash(){
       <div class="progress"><div class="pfill" style="width:${byCat[c]/tAst*100}%;background:${COLS[i%COLS.length]}"></div></div>
     </div>`).join('');
   renderHealthScore();
+  renderMascot();
 }
 
 // ── SETTINGS ───────────────────────────────────────────────────────────
@@ -1265,6 +1280,88 @@ ${lines}
     document.getElementById('ai-error-msg').textContent=err.message;
     document.getElementById('ai-error').style.display='block';
   }
+}
+
+// ── MORIARTY CAT MASCOT ────────────────────────────────────────────────
+function moriartyCat(size,mood){
+  size=size||80;mood=mood||'good';
+  const w=(size*.88).toFixed(0);
+  const mouths={
+    excellent:`<path d="M43 56 Q49 62 57 56.5" fill="none" stroke="#9a3548" stroke-width="1.5" stroke-linecap="round"/>`,
+    good:`<path d="M44 56.5 Q47 59.5 54 56" fill="none" stroke="#9a3548" stroke-width="1.3" stroke-linecap="round"/><path d="M54 56 Q57.5 54 58.5 56" fill="none" stroke="#9a3548" stroke-width="1.1" stroke-linecap="round"/>`,
+    fair:`<line x1="44" y1="57" x2="57" y2="56.5" stroke="#9a3548" stroke-width="1.2" stroke-linecap="round"/>`,
+    poor:`<path d="M44 58.5 Q49 54.5 57 57.5" fill="none" stroke="#9a3548" stroke-width="1.3" stroke-linecap="round"/>`
+  };
+  const brows={
+    fair:`<path d="M33 35.5 Q37.5 33 43.5 36" fill="none" stroke="#14103a" stroke-width="1.1" stroke-linecap="round"/>`,
+    poor:`<path d="M32 36 Q37 32.5 44 36.5" fill="none" stroke="#14103a" stroke-width="1.4" stroke-linecap="round"/><path d="M56 36.5 Q63 32.5 68 36" fill="none" stroke="#14103a" stroke-width="1.4" stroke-linecap="round"/>`
+  };
+  const glint=mood==='excellent'?`<circle cx="57.5" cy="33.5" r="2.4" fill="white" opacity="0" style="transform-origin:57.5px 33.5px;animation:mcGlint 3.8s ease-in-out infinite"/>`:'' ;
+  return`<svg viewBox="0 0 100 125" width="${w}" height="${size}" style="overflow:visible;flex-shrink:0" aria-label="Moriarty the cat">
+  <circle cx="50" cy="60" r="50" fill="rgba(96,165,250,.048)" stroke="rgba(96,165,250,.09)" stroke-width=".6"/>
+  <ellipse cx="50" cy="121" rx="20" ry="3" fill="rgba(0,0,0,.18)"/>
+  <path d="M30 63 Q19 88 17 118 L83 118 Q81 88 70 63 Q60 71 50 69 Q40 71 30 63Z" fill="#0c0c18"/>
+  <path d="M36 65 Q50 75 64 65 L61 93 Q55 99 50 97 Q45 99 39 93Z" fill="#1a0740" opacity=".82"/>
+  <path d="M43 63 L47 73.5 L50 69.5 L53 73.5 L57 63" fill="#f0ede0"/>
+  <path d="M26 33 L17 13 L37 24Z" fill="#0c0c18"/>
+  <path d="M26 32 L20 16 L34 25Z" fill="#2c0c1e" opacity=".68"/>
+  <path d="M74 33 L83 13 L63 24Z" fill="#0c0c18"/>
+  <path d="M74 32 L80 16 L66 25Z" fill="#2c0c1e" opacity=".68"/>
+  <ellipse cx="50" cy="17" rx="21" ry="4.5" fill="#08080d"/>
+  <rect x="32" y="2" width="36" height="17" rx="2" fill="#0c0c18"/>
+  <rect x="32" y="13" width="36" height="4" fill="#c9a227"/>
+  <ellipse cx="43" cy="7" rx="5" ry="2.5" fill="white" opacity=".04" transform="rotate(-8 43 7)"/>
+  <circle cx="50" cy="44" r="25" fill="#1a1a2e"/>
+  <ellipse cx="50" cy="44" rx="20" ry="18.5" fill="#1e1e38"/>
+  <ellipse cx="45" cy="35" rx="7" ry="4" fill="white" opacity=".025"/>
+  <ellipse cx="38" cy="40" rx="6" ry="6" fill="#f0eef5"/>
+  <ellipse cx="38" cy="40" rx="3.8" ry="4.3" fill="#08051a"/>
+  <circle cx="36.5" cy="37.8" r="1.4" fill="white" opacity=".88"/>
+  ${brows[mood]||''}
+  <ellipse cx="63" cy="40" rx="6" ry="6" fill="#f0eef5"/>
+  <ellipse cx="63" cy="40" rx="3.8" ry="4.3" fill="#08051a"/>
+  <circle cx="61.5" cy="37.8" r="1.4" fill="white" opacity=".88"/>
+  <circle cx="63" cy="40" r="8.3" fill="none" stroke="#c9a227" stroke-width="1.7"/>
+  ${glint}
+  <path d="M71 47.5 Q75.5 51.5 73.5 57.5" fill="none" stroke="#c9a227" stroke-width=".95" opacity=".78"/>
+  <path d="M47 50 L50 47 L53 50 Q51 54 50 53 Q49 54 47 50Z" fill="#a04858"/>
+  ${mouths[mood]||mouths.good}
+  <line x1="13" y1="49.5" x2="40" y2="51" stroke="rgba(255,255,255,.24)" stroke-width=".75"/>
+  <line x1="14" y1="53.5" x2="40" y2="53" stroke="rgba(255,255,255,.24)" stroke-width=".75"/>
+  <line x1="60" y1="51" x2="87" y2="49.5" stroke="rgba(255,255,255,.24)" stroke-width=".75"/>
+  <line x1="60" y1="53" x2="86" y2="53.5" stroke="rgba(255,255,255,.24)" stroke-width=".75"/>
+  <circle cx="50" cy="68.5" r="3.5" fill="#c9a227"/>
+  <circle cx="50" cy="68.5" r="2" fill="#0c0c18"/>
+  <circle cx="49.2" cy="67.7" r=".8" fill="#f0d060" opacity=".72"/>
+</svg>`;
+}
+function getMascotGreeting(){
+  const h=new Date().getHours();
+  const name=DB.settings.name||'Moriarty J';
+  if(h>=5&&h<12)return`สวัสดีตอนเช้า ☕ ${name}`;
+  if(h>=12&&h<17)return`สวัสดีตอนบ่าย 🌤 ${name}`;
+  if(h>=17&&h<21)return`สวัสดีตอนเย็น 🌆 ${name}`;
+  return`สวัสดียามดึก 🌙 ${name}`;
+}
+function getMascotTip(mood){
+  const t={
+    excellent:['Elementary. Financial health: perfect. 🌟','The game is afoot — and you\'re winning.','Excellent. Every figure in its right place.'],
+    good:['Good progress. Every detail matters. 💪','Satisfactory. A few refinements remain.','The numbers are mostly in your favour.'],
+    fair:['I see some gaps in your financial strategy. ⚠️','Careful analysis required. Some metrics need work.','Curious. A few variables are working against you.'],
+    poor:['Even Moriarty recalculates. Time to restructure. 🔴','A crisis is merely a problem in disguise.','The situation requires… immediate attention.']
+  };
+  const arr=t[mood]||t.good;
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+function renderMascot(){
+  const{total}=calcHealthScore();
+  const mood=total>=80?'excellent':total>=65?'good':total>=50?'fair':'poor';
+  const hdr=document.getElementById('mascot-hdr');
+  const greet=document.getElementById('mascot-greeting');
+  const tip=document.getElementById('mascot-tip');
+  if(hdr)hdr.innerHTML=moriartyCat(50,mood);
+  if(greet)greet.textContent=getMascotGreeting();
+  if(tip)tip.textContent=getMascotTip(mood);
 }
 
 // ── ASSET vs LIABILITY PROJECTION ─────────────────────────────────────

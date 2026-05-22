@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS v5</title>
+<title>Moriarty J · Finance OS v5.3</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -164,11 +164,41 @@ tr:hover td{background:rgba(255,255,255,.025)}
 @keyframes mcFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes mcGlint{0%,82%,100%{opacity:0;transform:scale(.4)}88%{opacity:1;transform:scale(1.1)}94%{opacity:.6;transform:scale(.9)}}
 .mc-float{animation:mcFloat 3.8s ease-in-out infinite;display:inline-block}
+/* Chatbot */
+.chat-fab{position:fixed;bottom:calc(70px + env(safe-area-inset-bottom,0px) + 14px);right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.88),rgba(96,165,250,.82));border:none;box-shadow:0 6px 24px rgba(168,85,247,.45);z-index:299;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;transition:.2s ease;padding:0}
+.chat-fab:hover{transform:scale(1.08);box-shadow:0 10px 36px rgba(168,85,247,.6);filter:none}
+.chat-fab:active{transform:scale(.95);filter:none}
+.chat-ov{position:fixed;inset:0;z-index:9997;display:none;flex-direction:column;align-items:stretch}
+.chat-ov.show{display:flex}
+.chat-back{position:absolute;inset:0;background:rgba(0,0,0,.52);backdrop-filter:blur(4px)}
+.chat-win{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:720px;height:92%;display:flex;flex-direction:column;background:var(--overlay-card-bg);border-radius:22px 22px 0 0;border:1px solid var(--input-stroke);border-bottom:none;overflow:hidden}
+.chat-hdr{display:flex;align-items:center;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--row-stroke);flex-shrink:0}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px 14px 6px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.chat-msg{max-width:88%;padding:10px 14px;border-radius:18px;font-size:13px;line-height:1.75;font-weight:500;word-break:break-word}
+.chat-msg.user{align-self:flex-end;background:linear-gradient(135deg,rgba(168,85,247,.22),rgba(96,165,250,.18));border:1px solid rgba(168,85,247,.28);border-bottom-right-radius:5px}
+.chat-msg.bot{align-self:flex-start;background:var(--row-bg);border:1px solid var(--row-stroke);border-bottom-left-radius:5px}
+.chat-typing-row{padding:6px 14px 2px;flex-shrink:0}
+.chat-typing-ind{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:16px;border-bottom-left-radius:4px;background:var(--row-bg);border:1px solid var(--row-stroke)}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted);display:inline-block;animation:tdot 1.4s ease-in-out infinite}
+.typing-dots span:nth-child(2){animation-delay:.22s}
+.typing-dots span:nth-child(3){animation-delay:.44s}
+@keyframes tdot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-7px);opacity:1}}
+.chat-chips-row{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px 4px;flex-shrink:0}
+.chat-chip{padding:6px 11px;border-radius:999px;background:var(--input-bg);border:1px solid var(--input-stroke);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);transition:.14s;font-family:"Prompt",sans-serif}
+.chat-chip:hover{background:rgba(168,85,247,.12);border-color:rgba(168,85,247,.35);color:var(--text);transform:none;filter:none}
+.chat-bar{display:flex;gap:8px;padding:10px 14px;padding-bottom:max(10px,env(safe-area-inset-bottom));border-top:1px solid var(--row-stroke);flex-shrink:0;align-items:flex-end}
+.chat-inp{flex:1;padding:9px 13px;border-radius:20px;border:1px solid var(--input-stroke);background:var(--input-bg);color:var(--text);font-family:"Prompt",sans-serif;font-size:13px;font-weight:500;outline:none;resize:none;overflow-y:auto;max-height:100px;line-height:1.5;min-height:40px}
+.chat-inp:focus{border-color:rgba(168,85,247,.5);box-shadow:0 0 0 3px rgba(168,85,247,.12)}
+.chat-send-btn{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.25),rgba(96,165,250,.2));border:1px solid rgba(168,85,247,.4);color:#a78bfa;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;transition:.15s;font-family:"Prompt",sans-serif}
+.chat-send-btn:hover{background:rgba(168,85,247,.3);transform:scale(1.07);filter:none}
+.chat-send-btn:active{transform:scale(.95);filter:none}
+.chat-bot-row{display:flex;align-items:flex-end;gap:7px}
+.chat-bot-avatar{flex-shrink:0;line-height:0;animation:mcFloat 3.8s ease-in-out infinite}
 </style>
 </head>
 <body>
 <div class="page-hdr">
-  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v5</div></div>
+  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v5.3</div></div>
   <button onclick="toggleTheme()" style="border-radius:999px;padding:8px 14px;font-size:12px">🌓 Theme</button>
 </div>
 
@@ -445,7 +475,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v5</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch<br/>Data stored locally · 2026</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v5.3</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch · Finance Chatbot<br/>Data stored locally · 2026</div>
   </div>
 </div>
 </div>
@@ -639,6 +669,44 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </div></div>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+<!-- Chat FAB -->
+<button class="chat-fab" onclick="openChat()" title="Finance Assistant">💬</button>
+
+<!-- Chat Overlay -->
+<div class="chat-ov" id="chat-ov">
+  <div class="chat-back" onclick="closeChat()"></div>
+  <div class="chat-win">
+    <div class="chat-hdr">
+      <div id="chat-cat-hdr" style="flex-shrink:0;line-height:0"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:800;font-size:14px">Moriarty · Finance</div>
+        <div style="font-size:11px;color:var(--muted)" id="chat-prov-lbl">กำลังโหลด…</div>
+      </div>
+      <button class="sm" onclick="clearChat()" style="border-radius:999px;font-size:11px">🗑 ล้าง</button>
+      <button class="sm danger" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-msgs" id="chat-msgs"></div>
+    <div class="chat-typing-row" id="chat-typing-row" style="display:none">
+      <div class="chat-typing-ind">
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+    <div class="chat-chips-row" id="chat-chips-row">
+      <button class="chat-chip" onclick="sendChatMsg('Net Worth ของฉันตอนนี้เท่าไหร่?')">💰 Net Worth</button>
+      <button class="chat-chip" onclick="sendChatMsg('เดือนนี้ใช้จ่ายอะไรมากสุด?')">💸 ค่าใช้จ่าย</button>
+      <button class="chat-chip" onclick="sendChatMsg('วิเคราะห์สุขภาพการเงินของฉัน')">💪 Health Score</button>
+      <button class="chat-chip" onclick="sendChatMsg('แนะนำวิธีลดหนี้ที่มีอยู่')">📉 ลดหนี้</button>
+      <button class="chat-chip" onclick="sendChatMsg('พอร์ตการลงทุนของฉันเป็นอย่างไรบ้าง?')">📈 พอร์ต</button>
+      <button class="chat-chip" onclick="sendChatMsg('ฉันควรออมเงินเพิ่มเท่าไหร่ต่อเดือน?')">🎯 เป้าออม</button>
+    </div>
+    <div class="chat-bar">
+      <textarea class="chat-inp" id="chat-inp" placeholder="ถามเรื่องการเงินได้เลยครับ…" rows="1"
+        onkeydown="chatKeydown(event)" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+      <button class="chat-send-btn" onclick="sendChatMsg()">➤</button>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 <script>
@@ -1157,7 +1225,7 @@ function renderSettings(){
   // Jar pcts
   document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v5`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v5.3`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
   const btn=document.querySelector('[onclick="fetchRates()"]');
@@ -1526,6 +1594,279 @@ async function fetchStockPrices(){
     toast(`❌ ดึงราคาไม่สำเร็จ — ตรวจสอบ Symbol${hint}`,4000);
   }
   if(skipped)toast(`ℹ️ ข้าม ${skipped} Crypto (ไม่รองรับ)`,3000);
+}
+
+// ── FINANCE CHATBOT ────────────────────────────────────────────────────
+let chatHistory = [];
+
+function respondLocally(msg) {
+  const m = msg.toLowerCase();
+  const tAst = DB.assets.reduce((s,a) => s + toTHB(a.value, a.currency||'THB'), 0);
+  const tLiab = DB.liabilities.reduce((s,l) => s + l.balance, 0);
+  const tPort = DB.portfolio.reduce((s,p) => s + toTHB(p.qty*p.currentPrice, p.currency||'THB'), 0);
+  const tCost = DB.portfolio.reduce((s,p) => s + toTHB(p.qty*p.costPrice, p.currency||'THB'), 0);
+  const nw = tAst - tLiab;
+  const portPL = tPort - tCost;
+  const cur = thisMonth();
+  const cm = DB.transactions.filter(t => t.date && t.date.startsWith(cur));
+  const inc = cm.filter(t => t.type==='income').reduce((s,t) => s+t.amount, 0);
+  const exp = cm.filter(t => t.type==='expense').reduce((s,t) => s+t.amount, 0);
+  const savRate = inc ? (inc-exp)/inc*100 : 0;
+
+  // Net Worth
+  if (/net worth|มูลค่าสุทธิ|ทรัพย์สินสุทธิ|สุทธิ/.test(m)) {
+    const status = nw >= 0 ? '✅ บวก' : '⚠️ ติดลบ';
+    return catIntro() + `**Net Worth: ${fmt(nw)}** ${status}\n\n- สินทรัพย์รวม: ${fmt(tAst)}\n- หนี้สินรวม: ${fmt(tLiab)}\n- พอร์ตลงทุน: ${fmt(tPort)}\n\n` +
+      (nw < 0 ? '💡 Net Worth ติดลบ — เน้นลดหนี้ก่อนลงทุนเพิ่ม' : '💡 Net Worth บวก — รักษาวินัยการออมต่อไป');
+  }
+
+  // Debt / Liabilities
+  if (/หนี้|debt|loan|สินเชื่อ|ลดหนี้/.test(m)) {
+    if (!DB.liabilities.length) return catIntro() + '**ไม่มีหนี้สินเลย** — precisely as it should be. 🎉';
+    const dr = tAst ? (tLiab/tAst*100).toFixed(1) : '–';
+    const sorted = [...DB.liabilities].sort((a,b) => b.interest - a.interest);
+    const lines = sorted.map(l => `- **${l.name}**: ${fmt(l.balance)} (${l.interest}%/ปี, ขั้นต่ำ ${fmt(l.minPayment)}/เดือน)`).join('\n');
+    return catIntro() + `**หนี้สินรวม: ${fmt(tLiab)}** · Debt Ratio: ${dr}%\n\n${lines}\n\n💡 **Avalanche**: จ่าย **${sorted[0]?.name}** ก่อน — highest interest, maximum efficiency`;
+  }
+
+  // Income / Expense / Cash flow
+  if (/รายรับ|รายจ่าย|income|expense|ใช้จ่าย|เดือนนี้|cashflow|cash flow/.test(m)) {
+    const catSpend = {};
+    cm.filter(t => t.type==='expense').forEach(t => { catSpend[t.category] = (catSpend[t.category]||0) + t.amount; });
+    const topCat = Object.entries(catSpend).sort((a,b)=>b[1]-a[1]).slice(0,4)
+      .map(([c,v]) => `- ${c}: **${fmt(v)}**`).join('\n') || '- ยังไม่มีรายการ';
+    return catIntro() + `**${monthLbl(cur)}:**\n- รายรับ: **${fmt(inc)}**\n- รายจ่าย: **${fmt(exp)}**\n- คงเหลือ: **${fmt(inc-exp)}**\n- Savings Rate: **${savRate.toFixed(1)}%**\n\nค่าใช้จ่ายสูงสุด:\n${topCat}\n\n` +
+      (savRate < 10 ? '⚠️ Savings Rate ต่ำกว่า 10% — the numbers don\'t lie' : savRate >= 20 ? '✅ Savings Rate ดีมาก — well executed' : '👍 Savings Rate ใช้ได้ — target: 20%+');
+  }
+
+  // Portfolio / Invest
+  if (/พอร์ต|portfolio|หุ้น|ลงทุน|invest/.test(m)) {
+    if (!DB.portfolio.length) return catIntro() + 'ยังไม่มีหลักทรัพย์ในพอร์ต — ไปที่ **Invest** แล้วกด "+ เพิ่ม" ได้เลยครับ 📈';
+    const retPct = tCost ? (portPL/tCost*100) : 0;
+    const lines = DB.portfolio.map(p => {
+      const v = toTHB(p.qty*p.currentPrice, p.currency||'THB');
+      const c = toTHB(p.qty*p.costPrice, p.currency||'THB');
+      const gp = c ? ((v-c)/c*100).toFixed(1) : '0';
+      return `- **${p.symbol}** (${p.type}): ${fmt(v)} · **${(v-c)>=0?'+':''}${fmt(v-c)}** (${gp}%)`;
+    }).join('\n');
+    return catIntro() + `**พอร์ตรวม: ${fmt(tPort)}**\nP&L: **${portPL>=0?'+':''}${fmt(portPL)}** (${retPct>=0?'+':''}${retPct.toFixed(1)}%)\n\n${lines}`;
+  }
+
+  // Health Score
+  if (/health|score|สุขภาพ|คะแนน/.test(m)) {
+    const {total, metrics} = calcHealthScore();
+    const grade = total>=80?'Excellent 🌟':total>=65?'Good 👍':total>=50?'Fair ⚠️':'Needs Work 🔴';
+    const lines = metrics.map(x => `- ${x.name}: **${x.val}** (${x.score}/${x.max} pts) ${x.good?'✅':'⚠️'}`).join('\n');
+    const tips = metrics.filter(x=>x.tip).map(x=>`⚠️ ${x.tip}`).join('\n');
+    return catIntro() + `**Health Score: ${total}/100** — ${grade}\n\n${lines}${tips?'\n\n'+tips:''}`;
+  }
+
+  // Savings goal
+  if (/ออม|saving|เก็บเงิน|เป้า/.test(m)) {
+    const base = DB.settings.monthlyIncome || inc;
+    const target20 = base * 0.20;
+    const curSav = inc - exp;
+    return catIntro() + `**Savings Rate: ${savRate.toFixed(1)}%**\n- ออมจริง: **${fmt(curSav)}/เดือน**\n- เป้า 20%: ${fmt(target20)}/เดือน\n- ต้องเพิ่มอีก: **${fmt(Math.max(0, target20-curSav))}/เดือน**\n\n` +
+      (savRate >= 20 ? '✅ On target — well played.' : '💡 "Pay Yourself First" — โอนเงินออมทันทีก่อนใช้จ่าย');
+  }
+
+  // Budget
+  if (/งบ|budget/.test(m)) {
+    const budget = DB.budgets[cur] || {};
+    if (!Object.keys(budget).length) return catIntro() + 'ยังไม่ได้ตั้งงบประมาณเดือนนี้ — ไปที่ **Cashflow → Budget → "+ ตั้งงบ"** ครับ 🎯';
+    const catSpend = {};
+    cm.filter(t => t.type==='expense').forEach(t => { catSpend[t.category]=(catSpend[t.category]||0)+t.amount; });
+    const tBudget = Object.values(budget).reduce((s,v)=>s+v,0);
+    const tSpent = Object.keys(budget).reduce((s,c)=>s+(catSpend[c]||0),0);
+    const over = Object.keys(budget).filter(c=>(catSpend[c]||0)>budget[c]);
+    return catIntro() + `**งบประมาณ ${monthLbl(cur)}:**\n- งบรวม: ${fmt(tBudget)}\n- ใช้ไป: ${fmt(tSpent)} (${tBudget?(tSpent/tBudget*100).toFixed(0):0}%)\n- เหลือ: **${fmt(tBudget-tSpent)}**\n\n` +
+      (over.length ? `⚠️ เกินงบ: **${over.join(', ')}** — unacceptable` : '✅ Within budget — as planned');
+  }
+
+  // Assets
+  if (/สินทรัพย์|asset/.test(m)) {
+    if (!DB.assets.length) return catIntro() + 'ยังไม่มีสินทรัพย์ — ไปที่ **Assets → "+ เพิ่ม"** ครับ 🏦';
+    const byCat = {};
+    DB.assets.forEach(a => { byCat[a.category]=(byCat[a.category]||0)+toTHB(a.value,a.currency||'THB'); });
+    const lines = Object.entries(byCat).sort((a,b)=>b[1]-a[1])
+      .map(([c,v]) => `- ${c}: **${fmt(v)}** (${pct(v,tAst)})`).join('\n');
+    return catIntro() + `**สินทรัพย์รวม: ${fmt(tAst)}**\n\n${lines}`;
+  }
+
+  return null;
+}
+
+function buildAIContext() {
+  const tAst = DB.assets.reduce((s,a) => s + toTHB(a.value, a.currency||'THB'), 0);
+  const tLiab = DB.liabilities.reduce((s,l) => s + l.balance, 0);
+  const tPort = DB.portfolio.reduce((s,p) => s + toTHB(p.qty*p.currentPrice, p.currency||'THB'), 0);
+  const nw = tAst - tLiab;
+  const cur = thisMonth();
+  const cm = DB.transactions.filter(t => t.date && t.date.startsWith(cur));
+  const inc = cm.filter(t => t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const exp = cm.filter(t => t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const {total} = calcHealthScore();
+  const catSpend = {};
+  cm.filter(t => t.type==='expense').forEach(t => { catSpend[t.category]=(catSpend[t.category]||0)+t.amount; });
+  const topCats = Object.entries(catSpend).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([c,v])=>`  - ${c}: ${fmt(v)}`).join('\n')||'  (ยังไม่มี)';
+  const portLines = DB.portfolio.length ? DB.portfolio.map(p=>{const v=toTHB(p.qty*p.currentPrice,p.currency||'THB');const c=toTHB(p.qty*p.costPrice,p.currency||'THB');return`  - ${p.symbol}: ${fmt(v)}, P&L ${fmt(v-c)}`;}).join('\n') : '  (ยังไม่มี)';
+  const liabLines = DB.liabilities.length ? DB.liabilities.map(l=>`  - ${l.name}: ${fmt(l.balance)}, ${l.interest}%`).join('\n') : '  (ไม่มีหนี้)';
+  return `คุณเป็น Finance Assistant ของ ${DB.settings.name||'ผู้ใช้'} ตอบภาษาไทย กระชับ เป็นมิตร\n\nข้อมูลการเงิน:\n- Net Worth: ${fmt(nw)} | สินทรัพย์: ${fmt(tAst)} | หนี้: ${fmt(tLiab)} | พอร์ต: ${fmt(tPort)}\n- เดือนนี้: รายรับ ${fmt(inc)}, รายจ่าย ${fmt(exp)}, เหลือ ${fmt(inc-exp)}\n- Health Score: ${total}/100\n\nค่าใช้จ่ายหลัก:\n${topCats}\nหนี้สิน:\n${liabLines}\nพอร์ต:\n${portLines}`;
+}
+
+function openChat() {
+  document.getElementById('chat-ov').classList.add('show');
+  const mood = chatMood();
+  document.getElementById('chat-cat-hdr').innerHTML = moriartyCat(44, mood);
+  const hasKey = !!(DB.settings.aiKey||'').trim();
+  document.getElementById('chat-prov-lbl').textContent = hasKey
+    ? ({ anthropic:'Claude', openai:'GPT-4o', gemini:'Gemini' }[DB.settings.aiProvider||'anthropic'] || 'AI') + ' · powered'
+    : 'Rule-based · ไม่ต้องใช้ API Key';
+  if (chatHistory.length === 0) {
+    const {total} = calcHealthScore();
+    const grade = total>=80?'Excellent 🌟':total>=65?'Good 👍':total>=50?'Fair ⚠️':'Needs Work 🔴';
+    const nw = DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0) - DB.liabilities.reduce((s,l)=>s+l.balance,0);
+    const greetings = {
+      excellent: 'Elementary. Everything is in order.',
+      good: 'Ah, there you are. The numbers look promising.',
+      fair: 'Hmm. I\'ve been reviewing your figures.',
+      poor: 'We need to talk. I\'ve examined the data.'
+    };
+    appendChatMsg('bot',
+      `${greetings[mood]}\n\n` +
+      `**Health Score: ${total}/100** (${grade})\n` +
+      `**Net Worth: ${fmt(nw)}**\n\n` +
+      `ถามเรื่องการเงินได้เลยครับ — ไม่ต้องใช้ AI ก็ตอบได้`
+    );
+  }
+  setTimeout(() => {
+    document.getElementById('chat-msgs').scrollTop = 9999;
+    document.getElementById('chat-inp').focus();
+  }, 80);
+}
+
+function closeChat() { document.getElementById('chat-ov').classList.remove('show'); }
+
+function clearChat() {
+  chatHistory = [];
+  document.getElementById('chat-msgs').innerHTML = '';
+  document.getElementById('chat-chips-row').style.display = 'flex';
+  document.getElementById('chat-cat-hdr').innerHTML = moriartyCat(44, chatMood());
+  const {total} = calcHealthScore();
+  const grade = total>=80?'Excellent 🌟':total>=65?'Good 👍':total>=50?'Fair ⚠️':'Needs Work 🔴';
+  const nw = DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0) - DB.liabilities.reduce((s,l)=>s+l.balance,0);
+  appendChatMsg('bot', `A clean slate. Good.\n\n**Health Score: ${total}/100** (${grade}) · **Net Worth: ${fmt(nw)}**\n\nถามได้เลยครับ`);
+}
+
+function chatMood() {
+  const {total} = calcHealthScore();
+  return total>=80?'excellent':total>=65?'good':total>=50?'fair':'poor';
+}
+function catIntro() {
+  const mood = chatMood();
+  const lines = {
+    excellent:['Elementary.','The figures speak for themselves.','Precisely as I calculated.','Excellent. Every number in its place.'],
+    good:['Satisfactory.','Good progress, Watson.','The numbers are mostly in your favour.','Noted. A few refinements remain.'],
+    fair:['Curious.','I see some gaps in your strategy.','Careful analysis required.','The variables are… mixed.'],
+    poor:['Mm.','Even Moriarty recalculates.','The situation requires attention.','A crisis is merely a problem in disguise.']
+  };
+  const arr = lines[mood];
+  return arr[Math.floor(Math.random()*arr.length)] + ' ';
+}
+
+function appendChatMsg(role, text) {
+  const el = document.getElementById('chat-msgs');
+  const html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  if (role === 'bot') {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-bot-row';
+    wrap.innerHTML = `<div class="chat-bot-avatar">${moriartyCat(34, chatMood())}</div><div class="chat-msg bot">${html}</div>`;
+    el.appendChild(wrap);
+  } else {
+    const div = document.createElement('div');
+    div.className = 'chat-msg user';
+    div.innerHTML = html;
+    el.appendChild(div);
+  }
+  el.scrollTop = el.scrollHeight;
+}
+
+function chatKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMsg(); }
+}
+
+async function sendChatMsg(presetMsg) {
+  const input = document.getElementById('chat-inp');
+  const msg = (presetMsg || input.value).trim();
+  if (!msg) return;
+  input.value = '';
+  input.style.height = 'auto';
+
+  appendChatMsg('user', msg);
+  document.getElementById('chat-chips-row').style.display = 'none';
+  const typingRow = document.getElementById('chat-typing-row');
+  typingRow.style.display = 'block';
+  document.getElementById('chat-msgs').scrollTop = 9999;
+
+  // Try rule-based first (instant, no API needed)
+  const localReply = respondLocally(msg);
+  if (localReply) {
+    await new Promise(r => setTimeout(r, 380));
+    typingRow.style.display = 'none';
+    appendChatMsg('bot', localReply);
+    return;
+  }
+
+  // Fallback: AI if key available
+  const key = (DB.settings.aiKey || '').trim();
+  if (!key) {
+    typingRow.style.display = 'none';
+    appendChatMsg('bot',
+      `ยังไม่รู้จักคำถามนี้ครับ 😅 ลองถามในแบบนี้:\n\n` +
+      `- "Net Worth ของฉัน"\n- "ค่าใช้จ่ายเดือนนี้"\n- "สุขภาพการเงิน"\n- "หนี้ที่มีอยู่"\n- "พอร์ตการลงทุน"\n- "ออมเงินเป้าหมาย"\n\nหรือตั้ง API Key ใน Settings เพื่อใช้ AI ตอบคำถามอิสระครับ`
+    );
+    return;
+  }
+
+  chatHistory.push({ role: 'user', content: msg });
+  const systemCtx = buildAIContext();
+  const provider = DB.settings.aiProvider || 'anthropic';
+
+  try {
+    let text = '';
+    if (provider === 'anthropic') {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-allow-browser': 'true' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1024, system: systemCtx, messages: chatHistory })
+      });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+      text = (await res.json()).content?.[0]?.text || '(ไม่มีผลลัพธ์)';
+    } else if (provider === 'openai') {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role:'system', content:systemCtx }, ...chatHistory], max_tokens: 1024 })
+      });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+      text = (await res.json()).choices?.[0]?.message?.content || '(ไม่มีผลลัพธ์)';
+    } else if (provider === 'gemini') {
+      const gMsgs = chatHistory.map((x,i) => ({ role: x.role==='assistant'?'model':'user', parts:[{ text: i===0 ? systemCtx+'\n\n---\n\n'+x.content : x.content }] }));
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: gMsgs, generationConfig: { maxOutputTokens: 1024 } })
+      });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+      text = (await res.json()).candidates?.[0]?.content?.parts?.[0]?.text || '(ไม่มีผลลัพธ์)';
+    }
+    typingRow.style.display = 'none';
+    chatHistory.push({ role: 'assistant', content: text });
+    appendChatMsg('bot', text);
+  } catch (err) {
+    typingRow.style.display = 'none';
+    appendChatMsg('bot', `❌ AI Error: ${err.message}`);
+    chatHistory.pop();
+  }
 }
 
 // ── RENDER ALL ─────────────────────────────────────────────────────────

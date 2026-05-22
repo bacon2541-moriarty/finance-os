@@ -425,10 +425,11 @@ tr:hover td{background:rgba(255,255,255,.025)}
         <select id="set-aiprovider">
           <option value="anthropic">Anthropic (Claude)</option>
           <option value="openai">OpenAI (GPT-4o)</option>
+          <option value="gemini">Google (Gemini)</option>
         </select>
       </div>
       <div class="fg"><label class="fl">API Key</label>
-        <input type="password" id="set-aikey" placeholder="sk-ant-… หรือ sk-…" autocomplete="off"/>
+        <input type="password" id="set-aikey" placeholder="sk-ant-… / sk-… / AIza…" autocomplete="off"/>
       </div>
     </div>
     <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">🔒 Key เก็บใน localStorage เครื่องคุณเท่านั้น ไม่ได้ส่งไปที่อื่น</div>
@@ -1262,7 +1263,7 @@ ${lines}
       if(!res.ok){const e=await res.json();throw new Error(e.error?.message||`HTTP ${res.status}`);}
       const j=await res.json();
       text=j.content?.[0]?.text||'(ไม่มีผลลัพธ์)';
-    } else {
+    } else if(provider==='openai'){
       const res=await fetch('https://api.openai.com/v1/chat/completions',{
         method:'POST',
         headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
@@ -1271,6 +1272,15 @@ ${lines}
       if(!res.ok){const e=await res.json();throw new Error(e.error?.message||`HTTP ${res.status}`);}
       const j=await res.json();
       text=j.choices?.[0]?.message?.content||'(ไม่มีผลลัพธ์)';
+    } else if(provider==='gemini'){
+      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:1500}})
+      });
+      if(!res.ok){const e=await res.json();throw new Error(e.error?.message||`HTTP ${res.status}`);}
+      const j=await res.json();
+      text=j.candidates?.[0]?.content?.parts?.[0]?.text||'(ไม่มีผลลัพธ์)';
     }
     document.getElementById('ai-loading').style.display='none';
     document.getElementById('ai-result-body').textContent=text;

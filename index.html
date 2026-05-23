@@ -82,6 +82,12 @@ button.sm{padding:6px 10px;font-size:12px;border-radius:10px}
 .hero.purple{background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(96,165,250,.10))}
 .hero-lbl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .hero-amt{font-size:32px;font-weight:900;line-height:1.1;margin-top:6px}
+@media(max-width:700px){
+  .hero-compact .hero{padding:10px 8px 11px;border-radius:14px}
+  .hero-compact .hero-lbl{font-size:9px;letter-spacing:.2px}
+  .hero-compact .hero-amt{font-size:19px;margin-top:4px}
+  .hero-compact .hero-sub{font-size:10px}
+}
 .hr{height:1px;background:var(--row-stroke);margin:12px 0}
 .tw{overflow-x:auto;border-radius:14px;border:1px solid var(--row-stroke);margin-top:10px}
 table{width:100%;border-collapse:collapse;min-width:400px}
@@ -221,10 +227,9 @@ tr:hover td{background:rgba(255,255,255,.025)}
     </div>
   </div>
 </div>
-<div class="g3" style="margin-bottom:14px">
-    <div class="hero"><div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div><div class="hero-amt" id="d-nw">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)">Assets − Liabilities</div></div>
-    <div class="hero red"><div class="hero-lbl">Total Debt · หนี้ทั้งหมด</div><div class="hero-amt bad" id="d-debt">฿0</div><div style="font-size:12px;margin-top:4px;color:var(--muted)" id="d-dratio">Debt ratio: –</div></div>
-    <div class="hero purple"><div class="hero-lbl">Portfolio · พอร์ตรวม</div><div class="hero-amt info" id="d-port">฿0</div><div style="font-size:12px;margin-top:4px" id="d-portpl">P&amp;L: –</div></div>
+<div class="g2 hero-compact" style="margin-bottom:14px;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="hero"><div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div><div class="hero-amt" id="d-nw">฿0</div><div class="hero-sub" style="font-size:12px;margin-top:4px;color:var(--muted)">Assets − Liabilities</div></div>
+    <div class="hero purple"><div class="hero-lbl">Portfolio · พอร์ตรวม</div><div class="hero-amt info" id="d-port">฿0</div><div class="hero-sub" style="font-size:12px;margin-top:4px" id="d-portpl">P&amp;L: –</div></div>
   </div>
   <!-- Liquidity Widget -->
   <div class="card panel" style="margin-bottom:14px">
@@ -1335,8 +1340,6 @@ function renderDash(){
   const tCost=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
   const portPL=tPort-tCost;const nw=tAst-tLiab;const dr=tAst?tLiab/tAst*100:0;
   const nwEl=document.getElementById('d-nw');nwEl.textContent=fmt(nw);nwEl.className='hero-amt '+(nw>=0?'good':'bad');
-  document.getElementById('d-debt').textContent=fmt(tLiab);
-  document.getElementById('d-dratio').textContent=`Debt ratio: ${dr.toFixed(1)}%`;
   document.getElementById('d-port').textContent=fmt(tPort);
   document.getElementById('d-portpl').innerHTML=`P&L: <span class="${portPL>=0?'good':'bad'}">${portPL>=0?'+':''}${fmt(portPL)}</span>`;
   const cur=thisMonth();document.getElementById('d-month').textContent=monthLbl(cur);

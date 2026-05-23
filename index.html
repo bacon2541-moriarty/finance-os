@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS v5.3</title>
+<title>Moriarty J · Finance OS v6</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -204,7 +204,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </head>
 <body>
 <div class="page-hdr">
-  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v5.3</div></div>
+  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v6</div></div>
   <button onclick="toggleTheme()" style="border-radius:999px;padding:8px 14px;font-size:12px">🌓 Theme</button>
 </div>
 
@@ -416,14 +416,14 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   </div>
   <div id="sub-cashflow-txns" class="sub-sec">
-  <div class="sh"><div><div class="st">📝 Transactions · รายรับ-รายจ่าย</div></div><button class="primary" onclick="openOv('ov-txn');clearTxnForm()">+ บันทึก</button></div>
+  <div class="sh"><div><div class="st">📝 Transactions · รายรับ-รายจ่าย</div></div><div style="display:flex;gap:8px"><button class="primary" onclick="openTransfer()">↔️ โอน</button><button class="primary" onclick="openOv('ov-txn');clearTxnForm()">+ บันทึก</button></div></div>
   <div class="g2" style="margin-bottom:14px">
     <div class="stat card panel"><div class="stat-lbl">Income This Month</div><div class="stat-val good" id="txn-itotal">฿0</div></div>
     <div class="stat card panel"><div class="stat-lbl">Expense This Month</div><div class="stat-val bad" id="txn-etotal">฿0</div></div>
   </div>
   <div class="card panel" style="margin-bottom:12px">
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <select id="txn-ft" onchange="renderTxns()" style="max-width:150px"><option value="">All Types</option><option value="income">💰 Income</option><option value="expense">💸 Expense</option></select>
+      <select id="txn-ft" onchange="renderTxns()" style="max-width:150px"><option value="">All Types</option><option value="income">💰 Income</option><option value="expense">💸 Expense</option><option value="transfer">↔️ Transfer</option></select>
       <select id="txn-fc" onchange="renderTxns()" style="max-width:180px"><option value="">All Categories</option></select>
       <input type="month" id="txn-fm" onchange="renderTxns()" style="max-width:160px"/>
       <button class="sm" onclick="document.getElementById('txn-ft').value='';document.getElementById('txn-fc').value='';document.getElementById('txn-fm').value='';renderTxns()">✕ Clear</button>
@@ -489,7 +489,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v5.3</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch · Finance Chatbot<br/>Data stored locally · 2026</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v6</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch · Finance Chatbot · <strong style="color:var(--info)">Transfer Between Accounts</strong><br/>Data stored locally · 2026</div>
   </div>
 </div>
 </div>
@@ -651,6 +651,36 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
     <button onclick="closeOv('ov-txn')">ยกเลิก</button><button class="success" onclick="saveTxn()">💾 บันทึก</button>
+  </div>
+</div></div>
+
+<!-- Transfer Overlay -->
+<div class="overlay" id="ov-transfer"><div class="oc">
+  <div class="oh"><h2>↔️ โอนเงินระหว่างบัญชี</h2><button class="sm danger" onclick="closeOv('ov-transfer')">✕</button></div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.65">ยอดบัญชีต้นทาง <strong style="color:var(--bad)">ลด</strong> และบัญชีปลายทาง <strong style="color:var(--good)">เพิ่ม</strong> พร้อมกันทันที · ไม่นับเป็นรายรับ/รายจ่าย</div>
+  <div class="fg2">
+    <div class="fg"><label class="fl">📤 จาก / From</label><select id="tr-from" onchange="previewTransfer()"></select></div>
+    <div class="fg"><label class="fl">📥 ไปยัง / To</label><select id="tr-to" onchange="previewTransfer()"></select></div>
+    <div class="fg"><label class="fl">จำนวนเงิน (฿)</label><input type="number" id="tr-amt" placeholder="0" step="any" oninput="previewTransfer()"/></div>
+    <div class="fg"><label class="fl">วันที่</label><input type="date" id="tr-date"/></div>
+  </div>
+  <div class="fg" style="margin-top:10px"><label class="fl">หมายเหตุ</label><input type="text" id="tr-note" placeholder="รายละเอียด…"/></div>
+  <div id="tr-preview" style="display:none;margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.22)">
+    <div style="font-size:11px;font-weight:800;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">ตัวอย่างผลลัพธ์</div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span>📤 <span id="tr-prev-from-name" style="font-weight:700">–</span></span>
+        <span><span id="tr-prev-from-old" class="muted" style="font-size:11px;text-decoration:line-through"></span> → <span id="tr-prev-from-new" style="font-weight:900"></span></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span>📥 <span id="tr-prev-to-name" style="font-weight:700">–</span></span>
+        <span><span id="tr-prev-to-old" class="muted" style="font-size:11px;text-decoration:line-through"></span> → <span id="tr-prev-to-new" style="font-weight:900"></span></span>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
+    <button onclick="closeOv('ov-transfer')">ยกเลิก</button>
+    <button style="background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.45);color:var(--info);font-size:14px;padding:10px 20px" onclick="saveTransfer()">↔️ โอนเงิน</button>
   </div>
 </div></div>
 
@@ -1166,6 +1196,64 @@ function populateTxnAccounts(selId='txn-account',currentId=''){
     accs.map(a=>`<option value="${a.id}" ${a.id===currentId?'selected':''}>${a.name} · ${fmt(a.value)}</option>`).join('');
 }
 
+// ── TRANSFER BETWEEN ACCOUNTS ─────────────────────────────────────────────
+function openTransfer(){
+  const accs=getAccountAssets();
+  if(accs.length<2){toast('⚠️ ต้องมีบัญชีเงินสด/ธนาคาร อย่างน้อย 2 บัญชี');return;}
+  const opts=accs.map(a=>`<option value="${a.id}">${a.name} · ${fmt(a.value)}</option>`).join('');
+  document.getElementById('tr-from').innerHTML=opts;
+  document.getElementById('tr-to').innerHTML=opts;
+  if(accs.length>=2)document.getElementById('tr-to').selectedIndex=1;
+  document.getElementById('tr-amt').value='';
+  document.getElementById('tr-date').value=todayStr();
+  document.getElementById('tr-note').value='';
+  document.getElementById('tr-preview').style.display='none';
+  openOv('ov-transfer');
+}
+
+function previewTransfer(){
+  const fromId=document.getElementById('tr-from').value;
+  const toId=document.getElementById('tr-to').value;
+  const amt=+document.getElementById('tr-amt').value||0;
+  const prev=document.getElementById('tr-preview');
+  if(!fromId||!toId||!amt||fromId===toId){prev.style.display='none';return;}
+  const fromAcc=DB.assets.find(a=>a.id===fromId);
+  const toAcc=DB.assets.find(a=>a.id===toId);
+  if(!fromAcc||!toAcc){prev.style.display='none';return;}
+  prev.style.display='block';
+  const newFrom=fromAcc.value-amt;
+  const newTo=toAcc.value+amt;
+  document.getElementById('tr-prev-from-name').textContent=fromAcc.name;
+  document.getElementById('tr-prev-from-old').textContent=fmt(fromAcc.value);
+  const fnEl=document.getElementById('tr-prev-from-new');
+  fnEl.textContent=fmt(newFrom);fnEl.className=newFrom>=0?'info':'bad';
+  document.getElementById('tr-prev-to-name').textContent=toAcc.name;
+  document.getElementById('tr-prev-to-old').textContent=fmt(toAcc.value);
+  const tnEl=document.getElementById('tr-prev-to-new');
+  tnEl.textContent=fmt(newTo);tnEl.className='good';
+}
+
+function saveTransfer(){
+  const fromId=document.getElementById('tr-from').value;
+  const toId=document.getElementById('tr-to').value;
+  const amt=+document.getElementById('tr-amt').value||0;
+  const date=document.getElementById('tr-date').value||todayStr();
+  const note=document.getElementById('tr-note').value.trim();
+  if(!fromId||!toId){toast('⚠️ กรุณาเลือกบัญชี');return;}
+  if(fromId===toId){toast('⚠️ ต้นทางและปลายทางต้องเป็นคนละบัญชี');return;}
+  if(!amt||amt<=0){toast('⚠️ กรุณากรอกจำนวนเงิน');return;}
+  const fromAcc=DB.assets.find(a=>a.id===fromId);
+  const toAcc=DB.assets.find(a=>a.id===toId);
+  if(!fromAcc||!toAcc){toast('❌ ไม่พบบัญชี');return;}
+  fromAcc.value-=amt;
+  toAcc.value+=amt;
+  const item={id:uid(),type:'transfer',amount:amt,fromAccountId:fromId,toAccountId:toId,category:'โอนเงิน (Transfer)',jar:'',note,date,slip:null,accountId:null};
+  DB.transactions.unshift(item);
+  save();renderTxns();renderDash();renderAssets();
+  closeOv('ov-transfer');
+  toast(`✅ โอน ${fmt(amt)} · ${fromAcc.name} → ${toAcc.name}`);
+}
+
 // ── TRANSACTIONS ───────────────────────────────────────────────────────
 let slipData=null;
 function setTxnType(t){document.getElementById('txn-type').value=t;document.getElementById('txn-btn-inc').className=t==='income'?'success':'';document.getElementById('txn-btn-inc').style.flex='1';document.getElementById('txn-btn-exp').className=t==='expense'?'danger':'';document.getElementById('txn-btn-exp').style.flex='1';}
@@ -1186,7 +1274,22 @@ function saveTxn(){
   if(item.jar&&item.type==='expense'){const m=item.date.slice(0,7);if(!DB.jars[item.jar].spent)DB.jars[item.jar].spent={};DB.jars[item.jar].spent[m]=(DB.jars[item.jar].spent[m]||0)+item.amount;}
   save();renderTxns();renderDash();renderAssets();closeOv('ov-txn');toast('✅ บันทึกแล้ว');
 }
-function delTxn(id){if(!confirm('ลบรายการนี้?'))return;const t=DB.transactions.find(t=>t.id===id);if(t)applyTxnToAccount(t,true);DB.transactions=DB.transactions.filter(t=>t.id!==id);save();renderTxns();renderDash();renderAssets();toast('🗑️ ลบแล้ว');}
+function delTxn(id){
+  if(!confirm('ลบรายการนี้?'))return;
+  const t=DB.transactions.find(x=>x.id===id);
+  if(t){
+    if(t.type==='transfer'){
+      const fromAcc=DB.assets.find(a=>a.id===t.fromAccountId);
+      const toAcc=DB.assets.find(a=>a.id===t.toAccountId);
+      if(fromAcc)fromAcc.value+=t.amount;
+      if(toAcc)toAcc.value-=t.amount;
+    }else{
+      applyTxnToAccount(t,true);
+    }
+  }
+  DB.transactions=DB.transactions.filter(x=>x.id!==id);
+  save();renderTxns();renderDash();renderAssets();toast('🗑️ ลบแล้ว');
+}
 function viewSlip(id){const t=DB.transactions.find(t=>t.id===id);if(!t||!t.slip)return;const w=window.open();w.document.write(`<html><body style="margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh"><img src="${t.slip}" style="max-width:100%;max-height:100vh;object-fit:contain"/></body></html>`);}
 function renderTxns(){
   let items=[...DB.transactions];
@@ -1200,14 +1303,28 @@ function renderTxns(){
   cs.innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option value="${c}" ${c===cv?'selected':''}>${c}</option>`).join('');
   const el=document.getElementById('txn-list');
   if(!items.length){el.innerHTML='<div class="empty"><span class="empty-ico">📝</span><span style="font-size:13px">ไม่มีรายการ</span></div>';return;}
-  el.innerHTML=items.map(t=>`
-    <div class="row" style="gap:10px">
+  el.innerHTML=items.map(t=>{
+    if(t.type==='transfer'){
+      const fromName=DB.assets.find(a=>a.id===t.fromAccountId)?.name||'–';
+      const toName=DB.assets.find(a=>a.id===t.toAccountId)?.name||'–';
+      return `<div class="row" style="gap:10px">
+        <div style="font-size:20px;flex-shrink:0">↔️</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:13px">โอนเงิน <span style="font-size:10px;font-weight:700;color:var(--info);margin-left:4px;background:rgba(96,165,250,.12);padding:1px 7px;border-radius:6px">🏦 ${fromName} → ${toName}</span></div>
+          <div style="font-size:11px;color:var(--muted)">${t.date}${t.note?' · '+t.note:''}</div>
+        </div>
+        <div class="info" style="font-weight:900;font-size:14px;flex-shrink:0">${fmt(t.amount)}</div>
+        <button class="sm danger" onclick="delTxn('${t.id}')">🗑</button>
+      </div>`;
+    }
+    return `<div class="row" style="gap:10px">
       <div style="font-size:20px;flex-shrink:0">${t.type==='income'?'💰':'💸'}</div>
       <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">${t.category}${t.accountId?`<span style="font-size:10px;font-weight:700;color:var(--info);margin-left:5px;background:rgba(96,165,250,.12);padding:1px 6px;border-radius:6px">🏦 ${DB.assets.find(a=>a.id===t.accountId)?.name||''}</span>`:''}</div><div style="font-size:11px;color:var(--muted)">${t.date}${t.note?' · '+t.note:''}${t.jar?' · 🫙'+t.jar:''}</div></div>
       ${t.slip?`<button class="sm" onclick="viewSlip('${t.id}')">🧾</button>`:''}
       <div class="${t.type==='income'?'good':'bad'}" style="font-weight:900;font-size:14px;flex-shrink:0">${t.type==='income'?'+':'-'}${fmt(t.amount)}</div>
       <button class="sm danger" onclick="delTxn('${t.id}')">🗑</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────────────────
@@ -1301,7 +1418,7 @@ function renderSettings(){
   // Jar pcts
   document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v5.3`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v6`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
   const btn=document.querySelector('[onclick="fetchRates()"]');

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS v7</title>
+<title>Moriarty J · Finance OS v7.5</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -163,9 +163,39 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .empty-ico{font-size:32px;display:block;margin-bottom:8px}
 .toast{position:fixed;bottom:calc(76px + env(safe-area-inset-bottom,20px));left:50%;transform:translateX(-50%) translateY(100px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.page-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0;gap:10px;flex-wrap:wrap}
-.page-title{font-size:18px;font-weight:800}
+.page-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0;gap:8px}
+.page-title{font-size:17px;font-weight:800}
 .page-sub{font-size:12px;color:var(--muted);margin-top:2px}
+/* ── HAMBURGER ─────────────────────────────────────────────────────────── */
+.hbg-btn{background:transparent;border:none;padding:8px;border-radius:12px;font-size:22px;line-height:1;cursor:pointer;color:var(--text);transition:.15s;font-family:"Prompt",sans-serif;display:inline-flex;align-items:center;flex-shrink:0}
+.hbg-btn:hover{background:rgba(255,255,255,.08);transform:none;filter:none}
+.hbg-btn:active{background:rgba(255,255,255,.12);transform:none;filter:none}
+/* ── SIDEBAR DRAWER ─────────────────────────────────────────────────────── */
+.sb-back{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:400;display:none;backdrop-filter:blur(3px)}
+.sb-back.show{display:block}
+.sidebar{position:fixed;top:0;left:0;height:100%;width:min(300px,82vw);background:var(--overlay-card-bg);border-right:1px solid var(--stroke);z-index:401;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0)}
+.sidebar.open{transform:translateX(0)}
+.sb-hdr{padding:18px 16px 12px;border-bottom:1px solid var(--stroke);flex-shrink:0;display:flex;align-items:center;gap:10px}
+.sb-name{font-size:14px;font-weight:800}
+.sb-ver{font-size:11px;color:var(--muted);margin-top:2px}
+.sb-body{flex:1;overflow-y:auto;padding:8px 0 6px}
+.sb-sec{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;padding:10px 16px 4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text);border:none;background:transparent;width:100%;text-align:left;font-family:"Prompt",sans-serif;transition:background .14s}
+.sb-item:hover{background:rgba(255,255,255,.06);transform:none;filter:none}
+.sb-item:active{background:rgba(255,255,255,.10);transform:none;filter:none}
+.sb-item .si{font-size:17px;width:22px;text-align:center;flex-shrink:0}
+.sb-hr{height:1px;background:var(--stroke);margin:6px 16px}
+.sb-foot{padding:12px 16px;border-top:1px solid var(--stroke);flex-shrink:0}
+.sb-add{width:100%;padding:12px;border-radius:14px;background:linear-gradient(135deg,rgba(96,165,250,.18),rgba(34,197,94,.12));border-color:rgba(96,165,250,.4);color:var(--info);font-size:14px;font-weight:800;justify-content:center}
+/* Hide sub-nav when page opened from sidebar */
+.page[data-sb-nav] .sub-nav{display:none}
+/* ── SUMMARY DETAIL PANEL ───────────────────────────────────────────────── */
+.sd-back{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:499;display:none;backdrop-filter:blur(2px)}
+.sd-back.show{display:block}
+.sd-panel{position:fixed;top:0;right:-100%;width:min(420px,100vw);height:100%;background:var(--overlay-card-bg);border-left:1px solid var(--stroke);z-index:500;transition:right .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column}
+.sd-panel.show{right:0}
+.sd-hdr{position:sticky;top:0;background:var(--overlay-card-bg);border-bottom:1px solid var(--stroke);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;z-index:10;backdrop-filter:blur(10px);flex-shrink:0}
+.sd-body{flex:1;overflow-y:auto;padding:12px 12px calc(20px + env(safe-area-inset-bottom,0))}
 /* Mascot */
 @keyframes mcFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes mcGlint{0%,82%,100%{opacity:0;transform:scale(.4)}88%{opacity:1;transform:scale(1.1)}94%{opacity:.6;transform:scale(.9)}}
@@ -210,78 +240,67 @@ tr:hover td{background:rgba(255,255,255,.025)}
 </head>
 <body>
 <div class="page-hdr">
-  <div><div class="page-title">Moriarty J</div><div class="page-sub" id="hdr-sub">Accountant · Personal Finance OS v7</div></div>
-  <button onclick="toggleTheme()" style="border-radius:999px;padding:8px 14px;font-size:12px">🌓 Theme</button>
+  <button class="hbg-btn" onclick="openSidebar()" title="เมนู">☰</button>
+  <div style="flex:1;min-width:0;padding:0 6px">
+    <div class="page-title">Moriarty J</div>
+    <div class="page-sub" id="hdr-sub">Accountant · Finance OS v7.5</div>
+  </div>
+  <button onclick="toggleTheme()" style="border-radius:999px;padding:7px 12px;font-size:12px;flex-shrink:0">🌓</button>
 </div>
 
-<!-- PAGE: HOME -->
+<!-- PAGE: HOME (v7.5 Visual-First Dashboard) -->
 <div id="page-home" class="page active">
 <div class="wrap">
 <!-- MASCOT GREETING -->
-<div class="card panel" style="margin-bottom:14px;padding:14px 18px">
-  <div style="display:flex;align-items:center;gap:14px">
+<div class="card panel" style="margin-bottom:14px;padding:11px 15px">
+  <div style="display:flex;align-items:center;gap:11px">
     <div id="mascot-hdr" class="mc-float" style="flex-shrink:0;line-height:0"></div>
     <div style="flex:1;min-width:0">
-      <div style="font-size:16px;font-weight:800;line-height:1.3" id="mascot-greeting">สวัสดี, Moriarty J</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.55;font-style:italic" id="mascot-tip">Finance OS v5</div>
+      <div style="font-size:14px;font-weight:800;line-height:1.3" id="mascot-greeting">สวัสดี, Moriarty J</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;font-style:italic" id="mascot-tip">Finance OS v7.5</div>
     </div>
+    <button class="sm" onclick="openSummaryDetail()" style="flex-shrink:0;border-radius:12px;gap:4px;padding:7px 11px;font-size:11px">📋 Detail</button>
   </div>
 </div>
+<!-- NET WORTH + PORTFOLIO HEROES -->
 <div class="g2 hero-compact" style="margin-bottom:14px;grid-template-columns:1fr 1fr;gap:8px">
-    <div class="hero"><div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div><div class="hero-amt" id="d-nw">฿0</div><div class="hero-sub" style="font-size:12px;margin-top:4px;color:var(--muted)">Assets − Liabilities</div></div>
-    <div class="hero purple"><div class="hero-lbl">Portfolio · พอร์ตรวม</div><div class="hero-amt info" id="d-port">฿0</div><div class="hero-sub" style="font-size:12px;margin-top:4px" id="d-portpl">P&amp;L: –</div></div>
+  <div class="hero"><div class="hero-lbl">Net Worth · มูลค่าสุทธิ</div><div class="hero-amt" id="d-nw">฿0</div><div class="hero-sub" style="font-size:12px;margin-top:4px;color:var(--muted)">Assets − Liabilities</div></div>
+  <div class="hero purple"><div class="hero-lbl">Portfolio · พอร์ตรวม</div><div class="hero-amt info" id="d-port">฿0</div><div class="hero-sub" style="font-size:12px;margin-top:4px" id="d-portpl">P&amp;L: –</div></div>
+</div>
+<!-- ASSET ALLOCATION DONUT -->
+<div class="card panel" style="margin-bottom:14px">
+  <div class="sh"><div><div class="st">🥧 Asset Allocation</div><div class="ss" id="d-alloc-total">ทรัพย์สินรวม: –</div></div></div>
+  <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+    <svg width="140" height="140" viewBox="0 0 36 36" style="flex:0 0 auto">
+      <circle cx="18" cy="18" r="15.915" fill="none" stroke="var(--row-stroke)" stroke-width="4"/>
+      <g id="d-alloc-segs"></g>
+      <circle cx="18" cy="18" r="11" fill="var(--donut-mask)"/>
+      <text x="18" y="17" text-anchor="middle" font-size="2.6" fill="var(--muted)" font-family="Prompt,sans-serif">Allocation</text>
+      <text x="18" y="21" text-anchor="middle" font-size="2.9" fill="var(--text)" font-family="Prompt,sans-serif" font-weight="bold" id="d-alloc-dlbl">–</text>
+    </svg>
+    <div id="d-alloc-legend" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:5px;padding-top:4px"></div>
   </div>
-  <!-- Liquidity Widget -->
-  <div class="card panel" style="margin-bottom:14px">
-    <div class="sh">
-      <div><div class="st">💧 สภาพคล่อง · Liquidity</div><div class="ss">เงินสด + ธนาคาร — อัปเดตตาม Transactions</div></div>
-      <span id="d-liq-total" style="font-size:20px;font-weight:900">฿0</span>
-    </div>
-    <div id="d-liq-list" class="rows" style="margin-top:0"></div>
+</div>
+<!-- PROJECTION CHART MINI -->
+<div class="card panel" style="margin-bottom:14px">
+  <div class="sh" style="flex-wrap:wrap;gap:8px">
+    <div><div class="st">📊 Asset vs Liability Projection</div><div class="ss">2025–2035 · growth 5%/ปี</div></div>
+    <button class="sm" onclick="switchPage('invest',document.querySelectorAll('.nav-btn')[1])" style="font-size:11px">📈 Full View →</button>
   </div>
-  <!-- Health Score -->
-  <div class="card panel" style="margin-bottom:14px">
-    <div class="sh"><div><div class="st">💪 Financial Health Score</div><div class="ss">คะแนนสุขภาพการเงิน</div></div></div>
-    <div class="score-ring-wrap">
-      <div class="score-ring">
-        <svg width="140" height="140" viewBox="0 0 140 140">
-          <circle cx="70" cy="70" r="58" fill="none" stroke="var(--row-stroke)" stroke-width="12"/>
-          <circle cx="70" cy="70" r="58" fill="none" stroke="var(--good)" stroke-width="12"
-            stroke-dasharray="364.4" stroke-dashoffset="364.4" id="score-arc"
-            stroke-linecap="round" style="transition:stroke-dashoffset .8s ease,stroke .8s"/>
-        </svg>
-        <div class="score-center">
-          <div class="score-num" id="score-num">–</div>
-          <div class="score-lbl">/ 100</div>
-          <div style="font-size:11px;font-weight:800;margin-top:2px" id="score-grade">–</div>
-        </div>
-      </div>
-      <div class="score-metrics" id="score-metrics"></div>
-    </div>
-    <div id="score-tips"></div>
+  <div id="d-proj-wrap"></div>
+</div>
+<!-- PORTFOLIO SUMMARY -->
+<div class="card panel" style="margin-bottom:14px">
+  <div class="sh">
+    <div><div class="st">📈 Portfolio Summary</div><div class="ss" id="d-port-sub">–</div></div>
+    <button class="sm" onclick="switchPage('invest',document.querySelectorAll('.nav-btn')[1])" style="font-size:11px">View All →</button>
   </div>
-  <div class="g2" style="margin-bottom:14px">
-    <div class="card panel">
-      <div class="sh"><div><div class="st">Monthly Summary · สรุปเดือนนี้</div><div class="ss" id="d-month"></div></div></div>
-      <div class="rows">
-        <div class="row"><span style="font-size:13px;font-weight:700">💰 รายรับ / Income</span><span class="good" style="font-weight:900" id="d-inc">฿0</span></div>
-        <div class="row"><span style="font-size:13px;font-weight:700">💸 รายจ่าย / Expense</span><span class="bad" style="font-weight:900" id="d-exp">฿0</span></div>
-        <div class="row"><span style="font-size:13px;font-weight:700">📦 คงเหลือ / Balance</span><span style="font-weight:900" id="d-bal">฿0</span></div>
-      </div>
-      <div style="margin-top:12px">
-        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span class="muted">Savings Rate</span><span id="d-savrate" style="font-weight:800">–</span></div>
-        <div class="progress"><div class="pfill" id="d-savbar" style="background:linear-gradient(90deg,#22c55e,#60a5fa);width:0%"></div></div>
-      </div>
-    </div>
-    <div class="card panel">
-      <div class="sh"><div class="st">Recent Transactions</div></div>
-      <div id="d-recent" class="rows"><div class="empty"><span class="empty-ico">📋</span><span style="font-size:13px">ยังไม่มีรายการ</span></div></div>
-    </div>
+  <div class="g2" style="margin-bottom:10px">
+    <div class="stat card panel"><div class="stat-lbl">Total Value</div><div class="stat-val info" id="d-port-total">฿0</div></div>
+    <div class="stat card panel"><div class="stat-lbl">P&amp;L Return</div><div class="stat-val" id="d-port-ret">–</div><div class="stat-sub" id="d-port-plamt">–</div></div>
   </div>
-  <div class="card panel">
-    <div class="sh"><div class="st">Asset Breakdown · สัดส่วนสินทรัพย์</div></div>
-    <div id="d-abars"><div class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></div></div>
-  </div>
+  <div id="d-port-top" class="rows"></div>
+</div>
 </div>
 </div>
 
@@ -554,19 +573,119 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v7</strong><br/>Health Score · Budget Planning · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch · Finance Chatbot · Transfer Between Accounts · <strong style="color:var(--warn)">🧾 Thai Tax Calculator (v7)</strong><br/>Data stored locally · 2026</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v7.5</strong><br/>Sidebar Navigation · Visual-First Dashboard · Health Score · Budget · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch · Finance Chatbot · Transfer Between Accounts · <strong style="color:var(--warn)">🧾 Thai Tax Calculator</strong><br/>Data stored locally · 2026</div>
   </div>
 </div>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAV (v7.5: 3 tabs) -->
 <nav class="bottom-nav">
-  <button class="nav-btn active" onclick="switchPage('home',this)"><span class="nav-ico">🏠</span><span class="nav-lbl">Home</span></button>
+  <button class="nav-btn active" onclick="switchPage('home',this)"><span class="nav-ico">🏠</span><span class="nav-lbl">Dashboard</span></button>
   <button class="nav-btn" onclick="switchPage('invest',this)"><span class="nav-ico">📈</span><span class="nav-lbl">Invest</span></button>
-  <button class="nav-btn" onclick="switchPage('al',this)"><span class="nav-ico">🏦</span><span class="nav-lbl">Assets</span></button>
-  <button class="nav-btn" onclick="switchPage('cashflow',this)"><span class="nav-ico">💰</span><span class="nav-lbl">Cashflow</span></button>
   <button class="nav-btn" onclick="switchPage('setting',this)"><span class="nav-ico">⚙️</span><span class="nav-lbl">Setting</span></button>
 </nav>
+
+<!-- SIDEBAR BACKDROP -->
+<div class="sb-back" id="sb-back" onclick="closeSidebar()"></div>
+<!-- SIDEBAR DRAWER -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-hdr">
+    <div id="sb-mascot" style="flex-shrink:0;line-height:0"></div>
+    <div style="flex:1;min-width:0">
+      <div class="sb-name" id="sb-name">Moriarty J</div>
+      <div class="sb-ver">Finance OS v7.5</div>
+    </div>
+    <button class="sm danger" style="padding:5px 9px;flex-shrink:0" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="sb-body">
+    <div class="sb-sec">OVERVIEW</div>
+    <button class="sb-item" onclick="openSummaryDetail()"><span class="si">📋</span><span>Summary Detail</span></button>
+    <div class="sb-hr"></div>
+    <div class="sb-sec">💰 CASHFLOW</div>
+    <button class="sb-item" onclick="sidebarNav('cashflow','txns')"><span class="si">📝</span><span>Transactions</span></button>
+    <button class="sb-item" onclick="closeSidebar();openTransfer()"><span class="si">↔️</span><span>โอนเงิน</span></button>
+    <button class="sb-item" onclick="sidebarNav('cashflow','budget')"><span class="si">🎯</span><span>Budget</span></button>
+    <button class="sb-item" onclick="sidebarNav('cashflow','jars')"><span class="si">🫙</span><span>6 Jars</span></button>
+    <div class="sb-hr"></div>
+    <div class="sb-sec">🏦 WEALTH</div>
+    <button class="sb-item" onclick="sidebarNav('al','assets')"><span class="si">🏦</span><span>Assets</span></button>
+    <button class="sb-item" onclick="sidebarNav('al','liabilities')"><span class="si">💳</span><span>Liabilities</span></button>
+    <button class="sb-item" onclick="closeSidebar();renderLiab();openOv('ov-payoff')"><span class="si">🧮</span><span>Debt Payoff Calc</span></button>
+    <div class="sb-hr"></div>
+    <div class="sb-sec">🧾 TAX & PLAN</div>
+    <button class="sb-item" onclick="sidebarNav('cashflow','tax')"><span class="si">🧾</span><span>คำนวณภาษี</span></button>
+    <button class="sb-item" onclick="sidebarNav('cashflow','tax');setTimeout(()=>{const e=document.getElementById('tax-remittance-list');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},350)"><span class="si">🌐</span><span>Remittance Tracker</span></button>
+  </div>
+  <div class="sb-foot">
+    <button class="sb-add" onclick="closeSidebar();openOv('ov-txn');clearTxnForm()">+ บันทึกรายการ</button>
+  </div>
+</div>
+
+<!-- SUMMARY DETAIL PANEL -->
+<div class="sd-back" id="sd-back" onclick="closeSummaryDetail()"></div>
+<div class="sd-panel" id="sd-panel">
+  <div class="sd-hdr">
+    <div style="font-size:15px;font-weight:800">📋 Summary Detail</div>
+    <button class="sm danger" onclick="closeSummaryDetail()">✕</button>
+  </div>
+  <div class="sd-body">
+    <!-- Liquidity -->
+    <div class="card panel" style="margin-bottom:14px">
+      <div class="sh">
+        <div><div class="st">💧 สภาพคล่อง · Liquidity</div><div class="ss">เงินสด + ธนาคาร</div></div>
+        <span id="sd-liq-total" style="font-size:19px;font-weight:900">฿0</span>
+      </div>
+      <div id="sd-liq-list" class="rows" style="margin-top:0"></div>
+    </div>
+    <!-- Health Score -->
+    <div class="card panel" style="margin-bottom:14px">
+      <div class="sh"><div><div class="st">💪 Financial Health Score</div><div class="ss">คะแนนสุขภาพการเงิน</div></div></div>
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r="58" fill="none" stroke="var(--row-stroke)" stroke-width="12"/>
+            <circle cx="70" cy="70" r="58" fill="none" stroke="var(--good)" stroke-width="12"
+              stroke-dasharray="364.4" stroke-dashoffset="364.4" id="sd-score-arc"
+              stroke-linecap="round" style="transition:stroke-dashoffset .8s ease,stroke .8s"/>
+          </svg>
+          <div class="score-center">
+            <div class="score-num" id="sd-score-num">–</div>
+            <div class="score-lbl">/ 100</div>
+            <div style="font-size:11px;font-weight:800;margin-top:2px" id="sd-score-grade">–</div>
+          </div>
+        </div>
+        <div class="score-metrics" id="sd-score-metrics"></div>
+      </div>
+      <div id="sd-score-tips"></div>
+    </div>
+    <!-- Monthly Summary -->
+    <div class="card panel" style="margin-bottom:14px">
+      <div class="sh"><div><div class="st">📅 Monthly Summary</div><div class="ss" id="sd-month"></div></div></div>
+      <div class="rows">
+        <div class="row"><span style="font-size:13px;font-weight:700">💰 รายรับ / Income</span><span class="good" style="font-weight:900" id="sd-inc">฿0</span></div>
+        <div class="row"><span style="font-size:13px;font-weight:700">💸 รายจ่าย / Expense</span><span class="bad" style="font-weight:900" id="sd-exp">฿0</span></div>
+        <div class="row"><span style="font-size:13px;font-weight:700">📦 คงเหลือ / Balance</span><span style="font-weight:900" id="sd-bal">฿0</span></div>
+      </div>
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span class="muted">Savings Rate</span><span id="sd-savrate" style="font-weight:800">–</span></div>
+        <div class="progress"><div class="pfill" id="sd-savbar" style="background:linear-gradient(90deg,#22c55e,#60a5fa);width:0%"></div></div>
+      </div>
+    </div>
+    <!-- Recent Transactions -->
+    <div class="card panel" style="margin-bottom:14px">
+      <div class="sh">
+        <div class="st">🕐 Recent Transactions</div>
+        <button class="sm" onclick="closeSummaryDetail();sidebarNav('cashflow','txns')" style="font-size:11px">View All →</button>
+      </div>
+      <div id="sd-recent" class="rows"><div class="empty"><span class="empty-ico">📋</span><span style="font-size:13px">ยังไม่มีรายการ</span></div></div>
+    </div>
+    <!-- Asset Breakdown -->
+    <div class="card panel">
+      <div class="sh"><div class="st">📊 Asset Breakdown</div></div>
+      <div id="sd-abars"><div class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></div></div>
+    </div>
+  </div>
+</div>
 
 <!-- OVERLAYS -->
 <!-- Portfolio -->
@@ -911,10 +1030,10 @@ function toast(msg,ms=2500){const e=document.getElementById('toast');e.textConte
 
 // ── NAVIGATION ─────────────────────────────────────────────────────────
 function switchPage(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.removeAttribute('data-sb-nav');});
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  btn.classList.add('active');
+  if(btn)btn.classList.add('active');
   renderPage(id);
 }
 function switchSub(page,sub,btn){
@@ -934,6 +1053,143 @@ function renderPage(id){
 function openOv(id){document.getElementById(id).classList.add('show');}
 function closeOv(id){document.getElementById(id).classList.remove('show');}
 document.querySelectorAll('.overlay').forEach(ov=>ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('show');}));
+
+// ── SIDEBAR ─────────────────────────────────────────────────────────────
+function openSidebar(){
+  document.getElementById('sb-name').textContent=DB.settings.name||'Moriarty J';
+  const {total}=calcHealthScore();
+  const mood=total>=80?'excellent':total>=65?'good':total>=50?'fair':'poor';
+  document.getElementById('sb-mascot').innerHTML=moriartyCat(42,mood);
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sb-back').classList.add('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-back').classList.remove('show');
+}
+function sidebarNav(pageId,sub){
+  closeSidebar();
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.removeAttribute('data-sb-nav');});
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const page=document.getElementById('page-'+pageId);
+  if(!page)return;
+  page.classList.add('active');
+  page.setAttribute('data-sb-nav','1');
+  if(sub){
+    page.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('active'));
+    page.querySelectorAll('.sub-sec').forEach(s=>s.classList.remove('active'));
+    page.querySelectorAll('.sub-btn').forEach(b=>{
+      if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+sub+"'"))b.classList.add('active');
+    });
+    const subEl=document.getElementById('sub-'+pageId+'-'+sub);
+    if(subEl)subEl.classList.add('active');
+  }
+  renderPage(pageId);
+}
+
+// ── SUMMARY DETAIL PANEL ───────────────────────────────────────────────
+function openSummaryDetail(){
+  closeSidebar();
+  renderSummaryDetail();
+  document.getElementById('sd-panel').classList.add('show');
+  document.getElementById('sd-back').classList.add('show');
+}
+function closeSummaryDetail(){
+  document.getElementById('sd-panel').classList.remove('show');
+  document.getElementById('sd-back').classList.remove('show');
+}
+function renderSummaryDetail(){
+  // Liquidity
+  const accs=getAccountAssets();
+  const liqTotal=accs.reduce((s,a)=>s+a.value,0);
+  const ltEl=document.getElementById('sd-liq-total');
+  if(ltEl){ltEl.textContent=fmt(liqTotal);ltEl.className=liqTotal>=0?'good':'bad';}
+  const llEl=document.getElementById('sd-liq-list');
+  if(llEl){
+    if(!accs.length){
+      llEl.innerHTML='<div class="empty" style="padding:14px 8px"><span class="empty-ico" style="font-size:22px">💡</span><span style="font-size:12px;line-height:1.6">เพิ่มสินทรัพย์ประเภท <strong>"เงินสด/ธนาคาร"</strong></span></div>';
+    }else{
+      const tot=liqTotal;
+      llEl.innerHTML=accs.map(a=>{
+        const w=tot>0?clamp(a.value/tot*100):0;
+        const linked=DB.transactions.filter(t=>t.accountId===a.id);
+        const mi=linked.filter(t=>t.type==='income'&&t.date&&t.date.startsWith(thisMonth())).reduce((s,t)=>s+t.amount,0);
+        const me=linked.filter(t=>t.type==='expense'&&t.date&&t.date.startsWith(thisMonth())).reduce((s,t)=>s+t.amount,0);
+        const last=linked[0];
+        return`<div class="row" style="flex-direction:column;align-items:stretch;gap:5px;padding:10px 12px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-weight:700;font-size:13px">🏦 ${a.name}</span>
+            <span style="font-weight:900;font-size:16px;color:${a.value>=0?'var(--info)':'var(--bad)'}">${fmt(a.value)}</span>
+          </div>
+          <div class="progress"><div class="pfill" style="width:${w}%;background:linear-gradient(90deg,#60a5fa,#34d399)"></div></div>
+          <div style="display:flex;gap:12px;font-size:11px;color:var(--muted)">
+            <span>↑ ${fmt(mi)}</span><span>↓ ${fmt(me)}</span>
+            <span style="margin-left:auto">${linked.length} รายการ${last?` · ${last.date}`:''}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+  // Health Score
+  const{total,metrics}=calcHealthScore();
+  const arc=document.getElementById('sd-score-arc');
+  if(arc){
+    const offset=364.4-(total/100*364.4);
+    arc.style.strokeDashoffset=offset;
+    const color=total>=75?'#22c55e':total>=50?'#f59e0b':'#ef4444';
+    arc.style.stroke=color;
+    const ne=document.getElementById('sd-score-num');if(ne){ne.textContent=total;ne.style.color=color;}
+    const grade=total>=80?'Excellent 🌟':total>=65?'Good 👍':total>=50?'Fair ⚠️':'Needs Work 🔴';
+    const ge=document.getElementById('sd-score-grade');if(ge){ge.textContent=grade;ge.style.color=color;}
+    const me=document.getElementById('sd-score-metrics');
+    if(me)me.innerHTML=metrics.map(m=>`
+      <div class="score-metric">
+        <div class="score-metric-header">
+          <span class="score-metric-name">${m.name} <span class="muted" style="font-size:11px">${m.nameT}</span></span>
+          <span class="score-metric-val" style="color:${m.good?'var(--good)':'var(--warn)'}">${m.val} · ${m.score}/${m.max}pts</span>
+        </div>
+        <div class="progress"><div class="pfill" style="width:${m.score/m.max*100}%;background:${m.good?'var(--good)':'var(--warn)'}"></div></div>
+      </div>`).join('');
+    const tips=metrics.filter(m=>m.tip).map(m=>m.tip);
+    const te=document.getElementById('sd-score-tips');
+    if(te)te.innerHTML=tips.length?`<div class="score-tip">💡 <strong>คำแนะนำ:</strong> ${tips.join(' · ')}</div>`:'';
+  }
+  // Monthly Summary
+  const cur=thisMonth();
+  const sdm=document.getElementById('sd-month');if(sdm)sdm.textContent=monthLbl(cur);
+  const cm=DB.transactions.filter(t=>t.date&&t.date.startsWith(cur));
+  const inc=cm.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const exp=cm.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const bal=inc-exp;const sv=inc?(bal/inc*100):0;
+  const sdi=document.getElementById('sd-inc');if(sdi)sdi.textContent=fmt(inc);
+  const sde=document.getElementById('sd-exp');if(sde)sde.textContent=fmt(exp);
+  const sdb=document.getElementById('sd-bal');if(sdb){sdb.textContent=fmt(bal);sdb.className=bal>=0?'good':'bad';}
+  const sds=document.getElementById('sd-savrate');if(sds)sds.textContent=sv.toFixed(1)+'%';
+  const sdbar=document.getElementById('sd-savbar');if(sdbar)sdbar.style.width=clamp(sv)+'%';
+  // Recent Transactions
+  const recent=DB.transactions.slice(0,5);
+  const rEl=document.getElementById('sd-recent');
+  if(rEl)rEl.innerHTML=recent.length?recent.map(t=>`
+    <div class="row" style="gap:8px;padding:8px 10px">
+      <span style="font-size:16px">${t.type==='income'?'💰':t.type==='transfer'?'↔️':'💸'}</span>
+      <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${t.category}</div><div style="font-size:11px;color:var(--muted)">${t.date}${t.note?' · '+t.note:''}</div></div>
+      <span class="${t.type==='income'?'good':t.type==='transfer'?'info':'bad'}" style="font-weight:900;font-size:13px">${t.type==='income'?'+':t.type==='transfer'?'':'-'}${fmt(t.amount)}</span>
+    </div>`).join(''):'<div class="empty"><span class="empty-ico">📋</span><span style="font-size:13px">ยังไม่มีรายการ</span></div>';
+  // Asset Breakdown
+  const tAst=DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
+  const byCat={};DB.assets.forEach(a=>{byCat[a.category]=(byCat[a.category]||0)+toTHB(a.value,a.currency||'THB');});
+  const aEl=document.getElementById('sd-abars');
+  if(aEl){
+    if(!tAst){aEl.innerHTML='<div class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></div>';return;}
+    aEl.innerHTML=Object.keys(byCat).map((c,i)=>`
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+          <span style="font-weight:700">${c}</span><span style="font-weight:800">${fmtC(byCat[c])} <span class="muted">(${pct(byCat[c],tAst)})</span></span>
+        </div>
+        <div class="progress"><div class="pfill" style="width:${byCat[c]/tAst*100}%;background:${COLS[i%COLS.length]}"></div></div>
+      </div>`).join('');
+  }
+}
 
 // ── THEME ──────────────────────────────────────────────────────────────
 function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme');const next=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',next);document.getElementById('metaThemeColor').content=next==='light'?'#eef2ff':'#0b1220';DB.settings.theme=next;save();}
@@ -998,6 +1254,7 @@ function calcHealthScore(){
 function renderHealthScore(){
   const{total,metrics}=calcHealthScore();
   const arc=document.getElementById('score-arc');
+  if(!arc)return; // moved to Summary Detail panel in v7.5
   const circ=364.4;
   const offset=circ-(total/100*circ);
   arc.style.strokeDashoffset=offset;
@@ -1434,44 +1691,88 @@ function renderTxns(){
   }).join('');
 }
 
-// ── DASHBOARD ──────────────────────────────────────────────────────────
+// ── DASHBOARD (v7.5 Visual-First) ─────────────────────────────────────
 function renderDash(){
   const tAst=DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
   const tLiab=DB.liabilities.reduce((s,l)=>s+l.balance,0);
   const tPort=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
   const tCost=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
-  const portPL=tPort-tCost;const nw=tAst-tLiab;const dr=tAst?tLiab/tAst*100:0;
+  const portPL=tPort-tCost;const nw=tAst-tLiab;
+  // Net Worth + Portfolio heroes
   const nwEl=document.getElementById('d-nw');nwEl.textContent=fmt(nw);nwEl.className='hero-amt '+(nw>=0?'good':'bad');
   document.getElementById('d-port').textContent=fmt(tPort);
   document.getElementById('d-portpl').innerHTML=`P&L: <span class="${portPL>=0?'good':'bad'}">${portPL>=0?'+':''}${fmt(portPL)}</span>`;
-  const cur=thisMonth();document.getElementById('d-month').textContent=monthLbl(cur);
-  const cm=DB.transactions.filter(t=>t.date&&t.date.startsWith(cur));
-  const inc=cm.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const exp=cm.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
-  const bal=inc-exp;const sv=inc?(bal/inc*100):0;
-  document.getElementById('d-inc').textContent=fmt(inc);document.getElementById('d-exp').textContent=fmt(exp);
-  const bEl=document.getElementById('d-bal');bEl.textContent=fmt(bal);bEl.className=bal>=0?'good':'bad';
-  document.getElementById('d-savrate').textContent=sv.toFixed(1)+'%';document.getElementById('d-savbar').style.width=clamp(sv)+'%';
-  const recent=DB.transactions.slice(0,5);const rEl=document.getElementById('d-recent');
-  rEl.innerHTML=recent.length?recent.map(t=>`
-    <div class="row" style="gap:8px;padding:8px 10px">
-      <span style="font-size:16px">${t.type==='income'?'💰':'💸'}</span>
-      <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${t.category}</div><div style="font-size:11px;color:var(--muted)">${t.date}${t.note?' · '+t.note:''}</div></div>
-      <span class="${t.type==='income'?'good':'bad'}" style="font-weight:900;font-size:13px">${t.type==='income'?'+':'-'}${fmt(t.amount)}</span>
-    </div>`).join(''):'<div class="empty"><span class="empty-ico">📋</span><span style="font-size:13px">ยังไม่มีรายการ</span></div>';
+  // Asset Allocation Donut
   const byCat={};DB.assets.forEach(a=>{byCat[a.category]=(byCat[a.category]||0)+toTHB(a.value,a.currency||'THB');});
-  const aEl=document.getElementById('d-abars');
-  if(!tAst){aEl.innerHTML='<div class="empty"><span class="empty-ico">🏦</span><span style="font-size:13px">ยังไม่มีสินทรัพย์</span></div>';return;}
-  aEl.innerHTML=Object.keys(byCat).map((c,i)=>`
-    <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
-        <span style="font-weight:700">${c}</span><span style="font-weight:800">${fmtC(byCat[c])} <span class="muted">(${pct(byCat[c],tAst)})</span></span>
-      </div>
-      <div class="progress"><div class="pfill" style="width:${byCat[c]/tAst*100}%;background:${COLS[i%COLS.length]}"></div></div>
-    </div>`).join('');
-  renderHealthScore();
+  const totalAlloc=tAst;
+  const atEl=document.getElementById('d-alloc-total');
+  if(atEl)atEl.textContent='ทรัพย์สินรวม: '+fmtC(totalAlloc);
+  drawDonut('d-alloc-segs',byCat,totalAlloc,'d-alloc-dlbl',fmtC(totalAlloc));
+  drawLegend('d-alloc-legend',byCat,totalAlloc);
+  // Mini Projection Chart
+  renderDashProjection();
+  // Portfolio Summary
+  const portSubEl=document.getElementById('d-port-sub');
+  if(portSubEl)portSubEl.textContent=`${DB.portfolio.length} หลักทรัพย์ · P&L ${portPL>=0?'+':''}${fmtC(portPL)}`;
+  const ptEl=document.getElementById('d-port-total');if(ptEl)ptEl.textContent=fmt(tPort);
+  const retPct=tCost?(portPL/tCost*100):0;
+  const prEl=document.getElementById('d-port-ret');
+  if(prEl){prEl.textContent=`${retPct>=0?'+':''}${retPct.toFixed(2)}%`;prEl.className='stat-val '+(retPct>=0?'good':'bad');}
+  const pplEl=document.getElementById('d-port-plamt');
+  if(pplEl){pplEl.textContent=`${portPL>=0?'+':''}${fmtC(portPL)}`;pplEl.className=portPL>=0?'good':'bad';}
+  const top3=[...DB.portfolio].sort((a,b)=>toTHB(b.qty*b.currentPrice,b.currency||'THB')-toTHB(a.qty*a.currentPrice,a.currency||'THB')).slice(0,3);
+  const ptopEl=document.getElementById('d-port-top');
+  if(ptopEl)ptopEl.innerHTML=top3.length?top3.map(p=>{
+    const v=toTHB(p.qty*p.currentPrice,p.currency||'THB');
+    const c=toTHB(p.qty*p.costPrice,p.currency||'THB');const g=v-c;
+    return`<div class="row" style="gap:8px;padding:8px 10px">
+      <span style="font-weight:700;font-size:13px;flex:1">${p.symbol} <span class="muted" style="font-size:11px">${p.type}</span></span>
+      <span style="font-weight:900;font-size:13px">${fmtC(v)}</span>
+      <span class="${g>=0?'good':'bad'}" style="font-weight:800;font-size:12px">${g>=0?'+':''}${fmtC(g)}</span>
+    </div>`;
+  }).join(''):'<div class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีหลักทรัพย์ — เพิ่มใน Invest</span></div>';
   renderMascot();
-  renderLiquidity();
+}
+
+function renderDashProjection(){
+  const wrap=document.getElementById('d-proj-wrap');if(!wrap)return;
+  const pts=buildProjection(5);
+  const tLiab=DB.liabilities.reduce((s,l)=>s+l.balance,0);
+  const tAst=DB.assets.reduce((s,a)=>s+toTHB(a.value,a.currency||'THB'),0);
+  const tPort=DB.portfolio.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  if(!tAst&&!tPort&&!tLiab){wrap.innerHTML='<div class="empty"><span class="empty-ico">📊</span><span style="font-size:13px">เพิ่มสินทรัพย์เพื่อดู projection</span></div>';return;}
+  const W=480,H=155,PL=48,PR=8,PT=10,PB=22;
+  const cW=W-PL-PR,cH=H-PT-PB,N=pts.length;
+  const maxVal=Math.max(...pts.map(p=>Math.max(p.assets,p.liabilities,0)))*1.1||1;
+  const xOf=i=>PL+(i/(N-1))*cW;
+  const yOf=v=>PT+cH-Math.max(0,Math.min(1,v/maxVal))*cH;
+  const now=new Date();
+  const todayX=PL+((now.getFullYear()+now.getMonth()/12-2025)/10)*cW;
+  const base=(PT+cH).toFixed(1);
+  const astPts=pts.map((p,i)=>`${xOf(i).toFixed(1)},${yOf(p.assets).toFixed(1)}`).join(' ');
+  const liabPts=pts.map((p,i)=>`${xOf(i).toFixed(1)},${yOf(p.liabilities).toFixed(1)}`).join(' ');
+  const nwPts=pts.map((p,i)=>`${xOf(i).toFixed(1)},${yOf(Math.max(0,p.netWorth)).toFixed(1)}`).join(' ');
+  const astArea=`M${xOf(0).toFixed(1)},${base} ${pts.map((p,i)=>`L${xOf(i).toFixed(1)},${yOf(p.assets).toFixed(1)}`).join(' ')} L${xOf(N-1).toFixed(1)},${base} Z`;
+  const liabArea=`M${xOf(0).toFixed(1)},${base} ${pts.map((p,i)=>`L${xOf(i).toFixed(1)},${yOf(p.liabilities).toFixed(1)}`).join(' ')} L${xOf(N-1).toFixed(1)},${base} Z`;
+  const xLabels=pts.map((p,i)=>i%2===0||i===N-1?`<text x="${xOf(i).toFixed(1)}" y="${H-3}" font-size="7" fill="${p.year===now.getFullYear()?'var(--warn)':'var(--muted)'}" text-anchor="middle" font-family="Prompt,sans-serif" ${p.year===now.getFullYear()?'font-weight="700"':''}>${p.year}</text>`:'').join('');
+  wrap.innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">
+    <defs>
+      <linearGradient id="dAG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#60a5fa" stop-opacity=".18"/><stop offset="100%" stop-color="#60a5fa" stop-opacity=".01"/></linearGradient>
+      <linearGradient id="dLG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f87171" stop-opacity=".15"/><stop offset="100%" stop-color="#f87171" stop-opacity=".01"/></linearGradient>
+    </defs>
+    <path d="${astArea}" fill="url(#dAG)"/>
+    <path d="${liabArea}" fill="url(#dLG)"/>
+    <polyline points="${astPts}" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${liabPts}" fill="none" stroke="#f87171" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${nwPts}" fill="none" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5,3" stroke-linejoin="round" stroke-linecap="round"/>
+    <line x1="${todayX.toFixed(1)}" y1="${PT}" x2="${todayX.toFixed(1)}" y2="${PT+cH}" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2"/>
+    ${xLabels}
+  </svg>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:var(--muted)">
+    <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:2px;background:#60a5fa;border-radius:2px"></span>Assets</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:2px;background:#f87171;border-radius:2px"></span>Liabilities</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:2px;background:repeating-linear-gradient(90deg,#34d399 0 3px,transparent 3px 5px)"></span>Net Worth</span>
+  </div>`;
 }
 
 function renderLiquidity(){
@@ -1523,7 +1824,7 @@ function renderSettings(){
   // Jar pcts
   document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Personal Finance OS v7`;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Finance OS v7.5`;document.getElementById('sb-name').textContent=DB.settings.name;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
   const btn=document.querySelector('[onclick="fetchRates()"]');
@@ -2640,7 +2941,23 @@ document.getElementById('ast-date').value=todayStr();
 document.getElementById('jar-month').value=thisMonth();
 document.getElementById('budget-month').value=thisMonth();
 document.getElementById('jar-inc').value=DB.settings.monthlyIncome||'';
+// Sidebar profile init
+document.getElementById('sb-name').textContent=DB.settings.name||'Moriarty J';
+document.getElementById('hdr-sub').textContent=`${DB.settings.occupation||'Accountant'} · Finance OS v7.5`;
 renderAll();
+// Swipe right from edge → open sidebar; swipe left on open sidebar → close
+(function(){
+  let tx=0,ty=0;
+  document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=Math.abs(e.changedTouches[0].clientY-ty);
+    if(dy>50)return; // mostly vertical, ignore
+    if(tx<32&&dx>60)openSidebar();
+    if(dx<-60&&document.getElementById('sidebar').classList.contains('open'))closeSidebar();
+    if(dx<-60&&document.getElementById('sd-panel').classList.contains('show'))closeSummaryDetail();
+  },{passive:true});
+})();
 </script>
 </body>
 </html>

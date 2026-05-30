@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Moriarty J · Finance OS v7.5</title>
+<title>Moriarty J · Finance OS v7.6</title>
 <meta name="theme-color" content="#0b1220" id="metaThemeColor"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -243,7 +243,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <button class="hbg-btn" onclick="openSidebar()" title="เมนู">☰</button>
   <div style="flex:1;min-width:0;padding:0 6px">
     <div class="page-title">Moriarty J</div>
-    <div class="page-sub" id="hdr-sub">Accountant · Finance OS v7.5</div>
+    <div class="page-sub" id="hdr-sub">Accountant · Finance OS v7.6</div>
   </div>
   <button onclick="toggleTheme()" style="border-radius:999px;padding:7px 12px;font-size:12px;flex-shrink:0">🌓</button>
 </div>
@@ -257,7 +257,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div id="mascot-hdr" class="mc-float" style="flex-shrink:0;line-height:0"></div>
     <div style="flex:1;min-width:0">
       <div style="font-size:14px;font-weight:800;line-height:1.3" id="mascot-greeting">สวัสดี, Moriarty J</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;font-style:italic" id="mascot-tip">Finance OS v7.5</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;font-style:italic" id="mascot-tip">Finance OS v7.6</div>
     </div>
     <button class="sm" onclick="openSummaryDetail()" style="flex-shrink:0;border-radius:12px;gap:4px;padding:7px 11px;font-size:11px">📋 Detail</button>
   </div>
@@ -333,6 +333,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
       </table>
     </div>
   </div>
+  <div id="port-closed-wrap" style="display:none"></div>
   <!-- PROJECTION CHART -->
   <div class="card panel" style="margin-top:14px">
     <div class="sh" style="flex-wrap:wrap;gap:10px">
@@ -351,6 +352,16 @@ tr:hover td{background:rgba(255,255,255,.025)}
       <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:16px;height:2px;background:repeating-linear-gradient(90deg,#34d399 0 4px,transparent 4px 7px);flex-shrink:0"></span>Net Worth</span>
       <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:2px;height:12px;background:#f59e0b;flex-shrink:0"></span>วันนี้</span>
     </div>
+  </div>
+</div>
+</div>
+
+<!-- PAGE: PORTFOLIO TRANSACTION LOG (sidebar-only) -->
+<div id="page-port-txns" class="page">
+<div class="wrap">
+  <div class="sh"><div><div class="st">📊 Portfolio Transaction Log</div><div class="ss">ประวัติการซื้อ-ขาย ทุกรายการ</div></div></div>
+  <div class="card panel">
+    <div id="port-txn-list" class="rows"><div class="empty"><span class="empty-ico">📊</span><span style="font-size:13px">ยังไม่มีประวัติการซื้อ-ขาย</span></div></div>
   </div>
 </div>
 </div>
@@ -510,6 +521,12 @@ tr:hover td{background:rgba(255,255,255,.025)}
     </div>
     <div id="tax-unremitted-list" class="rows" style="margin-top:4px"></div>
   </div>
+  <div class="card panel" style="margin-bottom:14px">
+    <div class="sh">
+      <div><div class="st">📦 กำไรรอโอนกลับ (Pending Remittance)</div><div class="ss">จากการขาย Partial Sell · กด "โอนกลับแล้ว" เพื่อบันทึก</div></div>
+    </div>
+    <div id="tax-pending-remittance" class="rows" style="margin-top:0"></div>
+  </div>
   <div class="card panel">
     <div class="sh"><div class="st">📋 ประวัติการโอนเงินกลับประเทศ</div></div>
     <div id="tax-remittance-list" class="rows" style="margin-top:0"></div>
@@ -573,7 +590,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div class="card panel">
     <div class="st" style="margin-bottom:8px">About</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v7.5</strong><br/>Sidebar Navigation · Visual-First Dashboard · Health Score · Budget · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch · Finance Chatbot · Transfer Between Accounts · <strong style="color:var(--warn)">🧾 Thai Tax Calculator</strong><br/>Data stored locally · 2026</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8"><strong style="color:var(--text)">Moriarty J · Finance OS v7.6</strong><br/>Sidebar Navigation · Visual-First Dashboard · Health Score · Budget · Debt Calculator · Multi-currency · AI Analysis · Stock Price Auto-Fetch · Finance Chatbot · Transfer Between Accounts · <strong style="color:var(--warn)">🧾 Thai Tax Calculator</strong> · <strong style="color:var(--good)">➕ Buy More / ➖ Partial Sell · Portfolio Transaction Log</strong><br/>Data stored locally · 2026</div>
   </div>
 </div>
 </div>
@@ -593,7 +610,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <div id="sb-mascot" style="flex-shrink:0;line-height:0"></div>
     <div style="flex:1;min-width:0">
       <div class="sb-name" id="sb-name">Moriarty J</div>
-      <div class="sb-ver">Finance OS v7.5</div>
+      <div class="sb-ver">Finance OS v7.6</div>
     </div>
     <button class="sm danger" style="padding:5px 9px;flex-shrink:0" onclick="closeSidebar()">✕</button>
   </div>
@@ -611,6 +628,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <button class="sb-item" onclick="sidebarNav('al','assets')"><span class="si">🏦</span><span>Assets</span></button>
     <button class="sb-item" onclick="sidebarNav('al','liabilities')"><span class="si">💳</span><span>Liabilities</span></button>
     <button class="sb-item" onclick="closeSidebar();renderLiab();openOv('ov-payoff')"><span class="si">🧮</span><span>Debt Payoff Calc</span></button>
+    <button class="sb-item" onclick="sidebarNav('port-txns','')"><span class="si">📊</span><span>Portfolio Transaction</span></button>
     <div class="sb-hr"></div>
     <div class="sb-sec">🧾 TAX & PLAN</div>
     <button class="sb-item" onclick="sidebarNav('cashflow','tax')"><span class="si">🧾</span><span>คำนวณภาษี</span></button>
@@ -905,6 +923,41 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </div></div>
 
+<!-- Buy More Overlay -->
+<div class="overlay" id="ov-buy-more"><div class="oc">
+  <div class="oh"><h2>➕ ซื้อเพิ่ม (Buy More)</h2><button class="sm danger" onclick="closeOv('ov-buy-more')">✕</button></div>
+  <input type="hidden" id="buy-pid"/>
+  <div id="buy-info" style="margin-bottom:14px;padding:10px 14px;border-radius:12px;background:var(--row-bg);border:1px solid var(--row-stroke);font-size:13px"></div>
+  <div class="fg2">
+    <div class="fg"><label class="fl">จำนวนที่ซื้อ (Qty)</label><input type="number" id="buy-qty" placeholder="0" step="any" oninput="previewBuyMore()"/></div>
+    <div class="fg"><label class="fl">ราคาซื้อต่อหน่วย</label><input type="number" id="buy-price" placeholder="0" step="any" oninput="previewBuyMore()"/></div>
+    <div class="fg"><label class="fl">วันที่</label><input type="date" id="buy-date"/></div>
+  </div>
+  <div id="buy-preview" style="display:none;margin-top:12px;padding:12px;border-radius:12px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.22);font-size:13px"></div>
+  <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+    <button onclick="closeOv('ov-buy-more')">ยกเลิก</button>
+    <button class="success" onclick="saveBuyMore()">➕ บันทึกซื้อเพิ่ม</button>
+  </div>
+</div></div>
+
+<!-- Partial Sell Overlay -->
+<div class="overlay" id="ov-partial-sell"><div class="oc">
+  <div class="oh"><h2>➖ ขายบางส่วน (Partial Sell)</h2><button class="sm danger" onclick="closeOv('ov-partial-sell')">✕</button></div>
+  <input type="hidden" id="sell-pid"/>
+  <div id="sell-info" style="margin-bottom:14px;padding:10px 14px;border-radius:12px;background:var(--row-bg);border:1px solid var(--row-stroke);font-size:13px"></div>
+  <div id="sell-foreign-banner" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);font-size:12px;color:var(--warn);font-weight:700">🌐 กำไรนี้จะถูกเพิ่มในรายการ Pending Remittance รอโอนกลับ</div>
+  <div class="fg2">
+    <div class="fg"><label class="fl">จำนวนที่ขาย (Qty)</label><input type="number" id="sell-qty" placeholder="0" step="any" oninput="previewPartialSell()"/></div>
+    <div class="fg"><label class="fl">ราคาขายต่อหน่วย</label><input type="number" id="sell-price" placeholder="0" step="any" oninput="previewPartialSell()"/></div>
+    <div class="fg"><label class="fl">วันที่</label><input type="date" id="sell-date"/></div>
+  </div>
+  <div id="sell-preview" style="display:none;margin-top:12px;padding:12px;border-radius:12px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.22);font-size:13px"></div>
+  <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+    <button onclick="closeOv('ov-partial-sell')">ยกเลิก</button>
+    <button class="warn-btn" onclick="savePartialSell()">➖ บันทึกขาย</button>
+  </div>
+</div></div>
+
 <!-- AI Analysis Overlay -->
 <div class="overlay" id="ov-ai"><div class="oc" style="max-width:720px">
   <div class="oh"><h2>🤖 AI วิเคราะห์พอร์ตหุ้น</h2><button class="sm danger" onclick="closeOv('ov-ai')">✕</button></div>
@@ -993,7 +1046,7 @@ function defDB(){
     settings:{name:'Moriarty J',occupation:'Accountant',currency:'THB',monthlyIncome:0,theme:'dark',aiProvider:'anthropic',aiKey:''},
     rates:{...DEF_RATES},
     assets:[],liabilities:[],portfolio:[],transactions:[],
-    remittances:[],taxSettings:{},
+    remittances:[],taxSettings:{},portfolioTxns:[],unrealizedSales:[],
     budgets:{},
     jars:{
       necessities:{pct:55,name:'Necessities',nameT:'ปัจจัย 4',emoji:'🏠',spent:{}},
@@ -1012,6 +1065,8 @@ if(!DB.rates)DB.rates={...DEF_RATES};
 if(!DB.budgets)DB.budgets={};
 if(!DB.remittances)DB.remittances=[];
 if(!DB.taxSettings)DB.taxSettings={};
+if(!DB.portfolioTxns)DB.portfolioTxns=[];
+if(!DB.unrealizedSales)DB.unrealizedSales=[];
 
 function save(){localStorage.setItem(SK,JSON.stringify(DB));}
 
@@ -1049,6 +1104,7 @@ function renderPage(id){
   else if(id==='al'){renderAssets();renderLiab();}
   else if(id==='cashflow'){renderJars();renderBudget();renderTxns();renderTaxCalc();}
   else if(id==='setting'){renderSettings();}
+  else if(id==='port-txns'){renderPortTxnPage();}
 }
 function openOv(id){document.getElementById(id).classList.add('show');}
 function closeOv(id){document.getElementById(id).classList.remove('show');}
@@ -1299,37 +1355,224 @@ function savePort(){
 function editPort(id){const p=DB.portfolio.find(p=>p.id===id);if(!p)return;document.getElementById('port-eid').value=p.id;document.getElementById('port-sym').value=p.symbol;document.getElementById('port-nm').value=p.name;document.getElementById('port-type').value=p.type;document.getElementById('port-currency').value=p.currency||'THB';document.getElementById('port-qty').value=p.qty;document.getElementById('port-cost').value=p.costPrice;document.getElementById('port-cur').value=p.currentPrice;document.getElementById('port-note').value=p.note||'';document.getElementById('port-foreign').checked=p.isForeign||false;openOv('ov-port');}
 function delPort(id){if(!confirm('ลบรายการนี้?'))return;DB.portfolio=DB.portfolio.filter(p=>p.id!==id);save();renderPort();toast('🗑️ ลบแล้ว');}
 function renderPort(){
-  const items=DB.portfolio;
-  const tVal=items.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
-  const tCost=items.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
+  const open=DB.portfolio.filter(p=>p.status!=='closed'&&(p.qty||0)>0);
+  const closed=DB.portfolio.filter(p=>p.status==='closed'||(p.qty||0)===0);
+  const tVal=open.reduce((s,p)=>s+toTHB(p.qty*p.currentPrice,p.currency||'THB'),0);
+  const tCost=open.reduce((s,p)=>s+toTHB(p.qty*p.costPrice,p.currency||'THB'),0);
   const pl=tVal-tCost;const ret=tCost?(pl/tCost*100):0;
   document.getElementById('port-total').textContent=fmt(tVal);
   document.getElementById('port-sub').textContent=`มูลค่ารวม (THB): ${fmtC(tVal)}`;
   document.getElementById('port-pl').innerHTML=`P&L: <span class="${pl>=0?'good':'bad'}">${pl>=0?'+':''}${fmt(pl)}</span>`;
   document.getElementById('port-ret').textContent=`${ret>=0?'+':''}${ret.toFixed(2)}%`;
   document.getElementById('port-ret').className='stat-val '+(ret>=0?'good':'bad');
-  const byType={};items.forEach(p=>{byType[p.type]=(byType[p.type]||0)+toTHB(p.qty*p.currentPrice,p.currency||'THB');});
+  const byType={};open.forEach(p=>{byType[p.type]=(byType[p.type]||0)+toTHB(p.qty*p.currentPrice,p.currency||'THB');});
   drawDonut('port-segs',byType,tVal,'port-dlbl',fmtC(tVal));drawLegend('port-legend',byType,tVal);
   const tbody=document.getElementById('port-tbody');
-  if(!items.length){tbody.innerHTML='<tr><td colspan="9" class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีรายการ</span></td></tr>';return;}
-  const rateNote=cur=>cur!=='THB'?`<span class="curr-badge">${cur}</span> × ${DB.rates[cur]||1}`:'';
-  tbody.innerHTML=items.map(p=>{
-    const v=toTHB(p.qty*p.currentPrice,p.currency||'THB');
-    const c=toTHB(p.qty*p.costPrice,p.currency||'THB');const g=v-c;
-    return`<tr>
-      <td><strong>${p.symbol||'–'}</strong>${p.isForeign?` <span style="font-size:9px;font-weight:900;background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.35);padding:1px 5px;border-radius:5px">🌐 Foreign</span>`:''}
-        <br><span class="muted" style="font-size:11px">${p.name}</span></td>
-      <td><span class="chip">${p.type}</span></td>
-      <td><span class="curr-badge">${p.currency||'THB'}</span></td>
-      <td>${p.qty.toLocaleString()}</td>
-      <td>${(p.costPrice).toLocaleString(undefined,{maximumFractionDigits:2})}</td>
-      <td>${(p.currentPrice).toLocaleString(undefined,{maximumFractionDigits:2})}${p.lastFetched?`<br><span style="font-size:9px;color:var(--good)">🔄 ${new Date(p.lastFetched).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}</span>`:''}</td>
-      <td style="font-weight:800">${fmt(v)}</td>
-      <td class="${g>=0?'good':'bad'}" style="font-weight:800">${g>=0?'+':''}${fmt(g)}</td>
-      <td style="white-space:nowrap"><button class="sm" onclick="editPort('${p.id}')">✏️</button> <button class="sm danger" onclick="delPort('${p.id}')">🗑</button>${p.isForeign&&g>0?` <button class="sm warn-btn" onclick="openRemittanceOv('${p.id}')" title="บันทึกโอนกลับประเทศ">↩</button>`:''}</td>
-    </tr>`;
-  }).join('');
+  if(!open.length){tbody.innerHTML='<tr><td colspan="9" class="empty"><span class="empty-ico">📈</span><span style="font-size:13px">ยังไม่มีรายการ</span></td></tr>';}
+  else{
+    tbody.innerHTML=open.map(p=>{
+      const v=toTHB(p.qty*p.currentPrice,p.currency||'THB');
+      const c=toTHB(p.qty*p.costPrice,p.currency||'THB');const g=v-c;
+      return`<tr>
+        <td><strong>${p.symbol||'–'}</strong>${p.isForeign?` <span style="font-size:9px;font-weight:900;background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.35);padding:1px 5px;border-radius:5px">🌐 Foreign</span>`:''}
+          <br><span class="muted" style="font-size:11px">${p.name}</span></td>
+        <td><span class="chip">${p.type}</span></td>
+        <td><span class="curr-badge">${p.currency||'THB'}</span></td>
+        <td>${p.qty.toLocaleString()}</td>
+        <td>${(p.costPrice).toLocaleString(undefined,{maximumFractionDigits:4})}</td>
+        <td>${(p.currentPrice).toLocaleString(undefined,{maximumFractionDigits:4})}${p.lastFetched?`<br><span style="font-size:9px;color:var(--good)">🔄 ${new Date(p.lastFetched).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}</span>`:''}</td>
+        <td style="font-weight:800">${fmt(v)}</td>
+        <td class="${g>=0?'good':'bad'}" style="font-weight:800">${g>=0?'+':''}${fmt(g)}</td>
+        <td style="white-space:nowrap">
+          <button class="sm" onclick="editPort('${p.id}')">✏️</button>
+          <button class="sm primary" onclick="openBuyMore('${p.id}')" title="ซื้อเพิ่ม">➕</button>
+          <button class="sm warn-btn" onclick="openPartialSell('${p.id}')" title="ขายบางส่วน">➖</button>
+          <button class="sm danger" onclick="delPort('${p.id}')">🗑</button>
+          ${p.isForeign&&g>0?`<button class="sm warn-btn" onclick="openRemittanceOv('${p.id}')" title="บันทึกโอนกลับประเทศ">↩</button>`:''}
+        </td>
+      </tr>`;
+    }).join('');
+  }
+  // Closed positions
+  const cpWrap=document.getElementById('port-closed-wrap');
+  if(cpWrap){
+    if(!closed.length){cpWrap.style.display='none';}
+    else{
+      cpWrap.style.display='block';
+      cpWrap.innerHTML=`<div class="card panel" style="margin-top:14px;opacity:.78">
+        <div class="sh" style="margin-bottom:10px"><div><div class="st">📦 Closed Positions</div><div class="ss">${closed.length} รายการ · qty = 0</div></div></div>
+        <div class="tw" style="margin-top:0">
+          <table>
+            <thead><tr><th>Symbol</th><th>Type</th><th>Currency</th><th>Avg Cost</th><th>วันที่ปิด</th><th></th></tr></thead>
+            <tbody>${closed.map(p=>`<tr>
+              <td><strong>${p.symbol}</strong>${p.isForeign?` <span style="font-size:9px;background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.35);padding:1px 5px;border-radius:5px">🌐</span>`:''}<br><span class="muted" style="font-size:11px">${p.name||'–'}</span></td>
+              <td><span class="chip">${p.type}</span></td>
+              <td><span class="curr-badge">${p.currency||'THB'}</span></td>
+              <td>${(p.costPrice).toLocaleString(undefined,{maximumFractionDigits:4})}</td>
+              <td class="muted" style="font-size:12px">${p.closedDate||'–'}</td>
+              <td><button class="sm danger" onclick="delPort('${p.id}')">🗑</button></td>
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+  }
   renderProjectionChart();
+}
+
+// ── BUY MORE ───────────────────────────────────────────────────────────
+function openBuyMore(id){
+  const p=DB.portfolio.find(x=>x.id===id);if(!p)return;
+  document.getElementById('buy-pid').value=id;
+  document.getElementById('buy-qty').value='';
+  document.getElementById('buy-price').value='';
+  document.getElementById('buy-date').value=todayStr();
+  document.getElementById('buy-info').innerHTML=`<strong>${p.symbol}</strong> <span class="curr-badge">${p.currency||'THB'}</span> · Qty: <strong>${p.qty.toLocaleString()}</strong> · Avg Cost: <strong>${p.costPrice.toLocaleString(undefined,{maximumFractionDigits:4})}</strong>`;
+  document.getElementById('buy-preview').style.display='none';
+  openOv('ov-buy-more');
+}
+function previewBuyMore(){
+  const id=document.getElementById('buy-pid').value;
+  const p=DB.portfolio.find(x=>x.id===id);if(!p)return;
+  const newQty=+document.getElementById('buy-qty').value||0;
+  const buyPrice=+document.getElementById('buy-price').value||0;
+  const prev=document.getElementById('buy-preview');
+  if(!newQty||!buyPrice){prev.style.display='none';return;}
+  const newAvg=(p.qty*p.costPrice+newQty*buyPrice)/(p.qty+newQty);
+  prev.style.display='block';
+  prev.innerHTML=`<div style="display:flex;flex-direction:column;gap:5px">
+    <div style="display:flex;justify-content:space-between"><span class="muted">Qty ใหม่</span><strong>${(p.qty+newQty).toLocaleString()}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span class="muted">Avg Cost เดิม</span><span>${p.costPrice.toLocaleString(undefined,{maximumFractionDigits:4})}</span></div>
+    <div style="display:flex;justify-content:space-between"><span class="muted">Avg Cost ใหม่</span><strong class="info">${newAvg.toFixed(4)}</strong></div>
+  </div>`;
+}
+function saveBuyMore(){
+  const id=document.getElementById('buy-pid').value;
+  const p=DB.portfolio.find(x=>x.id===id);if(!p)return;
+  const newQty=+document.getElementById('buy-qty').value||0;
+  const buyPrice=+document.getElementById('buy-price').value||0;
+  const date=document.getElementById('buy-date').value||todayStr();
+  if(!newQty||newQty<=0){toast('⚠️ กรุณากรอกจำนวนที่ซื้อ');return;}
+  if(!buyPrice||buyPrice<=0){toast('⚠️ กรุณากรอกราคาซื้อ');return;}
+  const avgCostBefore=p.costPrice;
+  const newAvg=(p.qty*p.costPrice+newQty*buyPrice)/(p.qty+newQty);
+  if(!DB.portfolioTxns)DB.portfolioTxns=[];
+  DB.portfolioTxns.unshift({id:uid(),portfolioId:id,symbol:p.symbol,type:'buy',qty:newQty,price:buyPrice,currency:p.currency||'THB',avgCostBefore,avgCostAfter:newAvg,realizedGainTHB:0,remainingQty:p.qty+newQty,date,note:''});
+  p.qty+=newQty;
+  p.costPrice=newAvg;
+  save();renderPort();closeOv('ov-buy-more');
+  toast(`✅ ซื้อเพิ่ม ${newQty.toLocaleString()} หน่วย · Avg Cost ใหม่: ${newAvg.toFixed(4)}`);
+}
+
+// ── PARTIAL SELL ───────────────────────────────────────────────────────
+function openPartialSell(id){
+  const p=DB.portfolio.find(x=>x.id===id);if(!p)return;
+  document.getElementById('sell-pid').value=id;
+  document.getElementById('sell-qty').value='';
+  document.getElementById('sell-price').value='';
+  document.getElementById('sell-date').value=todayStr();
+  document.getElementById('sell-info').innerHTML=`<strong>${p.symbol}</strong> <span class="curr-badge">${p.currency||'THB'}</span> · Qty: <strong>${p.qty.toLocaleString()}</strong> · Avg Cost: <strong>${p.costPrice.toLocaleString(undefined,{maximumFractionDigits:4})}</strong>`;
+  document.getElementById('sell-foreign-banner').style.display=p.isForeign?'block':'none';
+  document.getElementById('sell-preview').style.display='none';
+  openOv('ov-partial-sell');
+}
+function previewPartialSell(){
+  const id=document.getElementById('sell-pid').value;
+  const p=DB.portfolio.find(x=>x.id===id);if(!p)return;
+  const sellQty=+document.getElementById('sell-qty').value||0;
+  const sellPrice=+document.getElementById('sell-price').value||0;
+  const prev=document.getElementById('sell-preview');
+  if(!sellQty||!sellPrice){prev.style.display='none';return;}
+  if(sellQty>p.qty){prev.innerHTML='<span class="bad">⚠️ จำนวนเกิน Qty ที่มีอยู่</span>';prev.style.display='block';return;}
+  const realizedGain=(sellPrice-p.costPrice)*sellQty;
+  const realizedTHB=toTHB(realizedGain,p.currency||'THB');
+  prev.style.display='block';
+  prev.innerHTML=`<div style="display:flex;flex-direction:column;gap:5px">
+    <div style="display:flex;justify-content:space-between"><span class="muted">Qty คงเหลือ</span><strong>${(p.qty-sellQty).toLocaleString()}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span class="muted">Realized Gain (${p.currency||'THB'})</span><strong class="${realizedGain>=0?'good':'bad'}">${realizedGain>=0?'+':''}${realizedGain.toFixed(4)}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span class="muted">Realized Gain (THB)</span><strong class="${realizedTHB>=0?'good':'bad'}">${realizedTHB>=0?'+':''}${fmt(realizedTHB)}</strong></div>
+    ${p.qty-sellQty===0?'<div style="font-size:11px;color:var(--warn);margin-top:2px">⚠️ Qty = 0 → จะบันทึกเป็น Closed Position</div>':''}
+  </div>`;
+}
+function savePartialSell(){
+  const id=document.getElementById('sell-pid').value;
+  const p=DB.portfolio.find(x=>x.id===id);if(!p)return;
+  const sellQty=+document.getElementById('sell-qty').value||0;
+  const sellPrice=+document.getElementById('sell-price').value||0;
+  const date=document.getElementById('sell-date').value||todayStr();
+  if(!sellQty||sellQty<=0){toast('⚠️ กรุณากรอกจำนวนที่ขาย');return;}
+  if(sellQty>p.qty){toast('⚠️ จำนวนที่ขายเกิน Qty ที่มีอยู่');return;}
+  if(!sellPrice||sellPrice<=0){toast('⚠️ กรุณากรอกราคาขาย');return;}
+  const realizedGain=(sellPrice-p.costPrice)*sellQty;
+  const realizedTHB=toTHB(realizedGain,p.currency||'THB');
+  const rate=DB.rates[p.currency||'THB']||1;
+  const proceedsTHB=sellQty*sellPrice*rate;
+  const costBasisTHB=sellQty*p.costPrice*rate;
+  if(!DB.portfolioTxns)DB.portfolioTxns=[];
+  const txnId=uid();
+  DB.portfolioTxns.unshift({id:txnId,portfolioId:id,symbol:p.symbol,type:'sell',qty:sellQty,price:sellPrice,currency:p.currency||'THB',avgCostBefore:p.costPrice,avgCostAfter:p.costPrice,realizedGainTHB:realizedTHB,remainingQty:p.qty-sellQty,date,note:''});
+  if(p.isForeign&&realizedGain>0){
+    if(!DB.unrealizedSales)DB.unrealizedSales=[];
+    DB.unrealizedSales.unshift({id:uid(),portfolioTxnId:txnId,portfolioId:id,symbol:p.symbol,sellDate:date,soldQty:sellQty,sellPrice,currency:p.currency||'THB',proceedsTHB,costBasisTHB,realizedGainTHB:realizedTHB,status:'pending',remittanceId:null});
+  }
+  p.qty-=sellQty;
+  if(p.qty===0){p.status='closed';p.closedDate=date;}
+  save();renderPort();closeOv('ov-partial-sell');
+  toast(p.qty===0?`✅ ขาย ${sellQty.toLocaleString()} หน่วย · ปิด Position · กำไร ${fmt(realizedTHB)}`:`✅ ขาย ${sellQty.toLocaleString()} หน่วย · คงเหลือ ${p.qty.toLocaleString()} · กำไร ${fmt(realizedTHB)}`,3000);
+}
+
+// ── PORTFOLIO TRANSACTION LOG ──────────────────────────────────────────
+function renderPortTxnPage(){
+  const el=document.getElementById('port-txn-list');if(!el)return;
+  const items=DB.portfolioTxns||[];
+  if(!items.length){el.innerHTML='<div class="empty"><span class="empty-ico">📊</span><span style="font-size:13px">ยังไม่มีประวัติการซื้อ-ขาย<br><span class="muted">ใช้ ➕ ซื้อเพิ่ม / ➖ ขายบางส่วน ในหน้า Invest</span></span></div>';return;}
+  el.innerHTML=items.map(t=>{
+    const isBuy=t.type==='buy';
+    return`<div class="row" style="gap:10px;padding:10px 12px">
+      <div style="font-size:20px;flex-shrink:0">${isBuy?'➕':'➖'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:13px">${t.symbol} · ${isBuy?'ซื้อเพิ่ม':'ขาย'} ${t.qty.toLocaleString()} หน่วย</div>
+        <div style="font-size:11px;color:var(--muted)">${t.date} · ราคา ${t.price.toLocaleString(undefined,{maximumFractionDigits:4})} <span class="curr-badge">${t.currency}</span> · Qty หลัง: ${t.remainingQty.toLocaleString()}</div>
+        ${isBuy?`<div style="font-size:11px;color:var(--muted)">Avg Cost: ${t.avgCostBefore.toFixed(4)} → <strong class="info">${t.avgCostAfter.toFixed(4)}</strong></div>`:''}
+      </div>
+      ${!isBuy?`<div style="text-align:right;flex-shrink:0"><div class="${t.realizedGainTHB>=0?'good':'bad'}" style="font-weight:900;font-size:13px">${t.realizedGainTHB>=0?'+':''}${fmt(t.realizedGainTHB)}</div><div class="muted" style="font-size:10px">Realized P&L</div></div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ── PENDING REMITTANCE (Tax page) ──────────────────────────────────────
+function renderPendingRemittance(){
+  const el=document.getElementById('tax-pending-remittance');if(!el)return;
+  const items=(DB.unrealizedSales||[]).filter(s=>s.status==='pending');
+  if(!items.length){
+    el.innerHTML='<div class="empty" style="padding:14px 8px"><span class="empty-ico" style="font-size:20px">📦</span><span style="font-size:12px">ยังไม่มีกำไรรอโอนกลับ<br><span class="muted">ใช้ ➖ Partial Sell ในหน้า Invest สำหรับหุ้น 🌐 Foreign</span></span></div>';
+    return;
+  }
+  el.innerHTML=items.map(s=>`<div class="row" style="flex-direction:column;align-items:stretch;gap:6px;padding:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div><span style="font-weight:800;font-size:14px">🌐 ${s.symbol}</span><span class="muted" style="font-size:11px;margin-left:6px">${s.sellDate}</span></div>
+      <div style="text-align:right"><div class="good" style="font-weight:900;font-size:15px">+${fmt(s.realizedGainTHB)}</div><div class="muted" style="font-size:11px">Realized Gain (THB)</div></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--muted)">
+      <span>ขาย ${s.soldQty.toLocaleString()} หน่วย @ ${s.sellPrice} ${s.currency}</span>
+      <span>Proceeds: ${fmt(s.proceedsTHB)}</span>
+      <span>Cost Basis: ${fmt(s.costBasisTHB)}</span>
+    </div>
+    <button class="sm warn-btn" onclick="remitUnrealizedSale('${s.id}')" style="align-self:flex-start">↩ โอนกลับแล้ว → บันทึก</button>
+  </div>`).join('');
+}
+function remitUnrealizedSale(id){
+  const s=(DB.unrealizedSales||[]).find(x=>x.id===id);if(!s)return;
+  const foreign=DB.portfolio.filter(p=>p.isForeign);
+  const opts='<option value="">– เลือกหุ้น/แหล่งที่มา –</option>'+foreign.map(p=>`<option value="${p.id}" ${p.id===s.portfolioId?'selected':''}>${p.symbol}</option>`).join('');
+  document.getElementById('rem-src').innerHTML=opts;
+  document.getElementById('rem-date').value=todayStr();
+  document.getElementById('rem-year').value=new Date().getFullYear();
+  document.getElementById('rem-total').value=s.proceedsTHB.toFixed(0);
+  document.getElementById('rem-gain').value=s.realizedGainTHB.toFixed(0);
+  document.getElementById('rem-note').value=`ขาย ${s.symbol} ${s.soldQty} หน่วย @ ${s.sellPrice} ${s.currency}`;
+  document._pendingUnrealizedSaleId=id;
+  openOv('ov-remittance');
 }
 
 // ── ASSETS ─────────────────────────────────────────────────────────────
@@ -1824,7 +2067,7 @@ function renderSettings(){
   // Jar pcts
   document.getElementById('jar-pct-set').innerHTML=Object.keys(DB.jars).map(k=>{const j=DB.jars[k];return`<div class="row"><span style="font-size:13px;font-weight:700">${j.emoji} ${j.name} <span class="muted" style="font-size:11px">${j.nameT}</span></span><div style="display:flex;align-items:center;gap:6px"><input type="number" id="jp-${k}" value="${j.pct}" min="0" max="100" step="1" style="width:75px;padding:7px 10px;font-size:13px"/><span class="muted">%</span></div></div>`;}).join('');
 }
-function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Finance OS v7.5`;document.getElementById('sb-name').textContent=DB.settings.name;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
+function saveSettings(){DB.settings.name=document.getElementById('set-name').value.trim()||'Moriarty J';DB.settings.occupation=document.getElementById('set-occ').value.trim();DB.settings.currency=document.getElementById('set-cur').value;DB.settings.monthlyIncome=+document.getElementById('set-inc').value||0;DB.settings.aiProvider=document.getElementById('set-aiprovider').value;DB.settings.aiKey=document.getElementById('set-aikey').value.trim();document.getElementById('hdr-sub').textContent=`${DB.settings.occupation} · Finance OS v7.6`;document.getElementById('sb-name').textContent=DB.settings.name;save();toast('✅ บันทึกการตั้งค่าแล้ว');}
 function saveRates(){CURRENCIES.filter(c=>c!=='THB').forEach(c=>{const el=document.getElementById('rate-'+c);if(el)DB.rates[c]=+el.value||DEF_RATES[c];});save();renderAll();toast('✅ บันทึกอัตราแลกเปลี่ยนแล้ว');}
 async function fetchRates(){
   const btn=document.querySelector('[onclick="fetchRates()"]');
@@ -1846,7 +2089,7 @@ async function fetchRates(){
 }
 function saveJarPcts(){Object.keys(DB.jars).forEach(k=>{DB.jars[k].pct=+document.getElementById('jp-'+k).value||0;});save();renderJars();toast('✅ บันทึกสัดส่วนแล้ว');}
 function exportData(){const b=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`finOS_v2_${todayStr()}.json`;a.click();URL.revokeObjectURL(a.href);}
-function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.settings||!Array.isArray(d.assets))throw new Error('invalid');DB=d;if(!DB.rates)DB.rates={...DEF_RATES};if(!DB.budgets)DB.budgets={};if(!DB.remittances)DB.remittances=[];if(!DB.taxSettings)DB.taxSettings={};save();renderAll();toast('✅ นำเข้าข้อมูลสำเร็จ');}catch{toast('❌ ไฟล์ไม่ถูกต้อง');}};r.readAsText(f);}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.settings||!Array.isArray(d.assets))throw new Error('invalid');DB=d;if(!DB.rates)DB.rates={...DEF_RATES};if(!DB.budgets)DB.budgets={};if(!DB.remittances)DB.remittances=[];if(!DB.taxSettings)DB.taxSettings={};if(!DB.portfolioTxns)DB.portfolioTxns=[];if(!DB.unrealizedSales)DB.unrealizedSales=[];save();renderAll();toast('✅ นำเข้าข้อมูลสำเร็จ');}catch{toast('❌ ไฟล์ไม่ถูกต้อง');}};r.readAsText(f);}
 function clearAll(){if(!confirm('⚠️ ลบข้อมูลทั้งหมด?'))return;localStorage.removeItem(SK);DB=defDB();save();renderAll();toast('🗑️ ล้างข้อมูลแล้ว');}
 
 // ── AI ANALYSIS ────────────────────────────────────────────────────────
@@ -2165,8 +2408,8 @@ async function fetchStockPrices(){
   if(btn){btn.disabled=true;btn.textContent='⏳ กำลังดึง…';}
   toast('🔄 กำลังดึงราคา…',2000);
 
-  // Skip crypto — Yahoo Finance doesn't cover them well
-  const fetchable=items.filter(p=>!p.type.includes('คริปโต'));
+  // Skip crypto and closed positions
+  const fetchable=items.filter(p=>!p.type.includes('คริปโต')&&p.status!=='closed'&&(p.qty||0)>0);
   const skipped=items.length-fetchable.length;
   let updated=0,failed=[];
 
@@ -2784,6 +3027,9 @@ function renderTaxCalc(){
   // Unremitted gains
   renderUnremittedGains();
 
+  // Pending remittance (from Partial Sell)
+  renderPendingRemittance();
+
   // Remittance history
   renderRemittanceHistory(year);
 }
@@ -2903,6 +3149,13 @@ function saveRemittance(){
   const item={id:uid(),date,taxYear,sourceAssetId,sourceName:srcName,gainAmountTHB:gainAmt,totalAmountTHB:totalAmt,note};
   if(!DB.remittances)DB.remittances=[];
   DB.remittances.unshift(item);
+  // Link to unrealizedSale if opened from Partial Sell
+  const pendingUsId=document._pendingUnrealizedSaleId;
+  if(pendingUsId){
+    const us=(DB.unrealizedSales||[]).find(x=>x.id===pendingUsId);
+    if(us){us.status='remitted';us.remittanceId=item.id;}
+    document._pendingUnrealizedSaleId=null;
+  }
   save();renderTaxCalc();closeOv('ov-remittance');
   toast(`✅ บันทึกโอนกลับ ${fmt(gainAmt)} (ปีภาษี ${taxYear})`);
 }
@@ -2943,7 +3196,7 @@ document.getElementById('budget-month').value=thisMonth();
 document.getElementById('jar-inc').value=DB.settings.monthlyIncome||'';
 // Sidebar profile init
 document.getElementById('sb-name').textContent=DB.settings.name||'Moriarty J';
-document.getElementById('hdr-sub').textContent=`${DB.settings.occupation||'Accountant'} · Finance OS v7.5`;
+document.getElementById('hdr-sub').textContent=`${DB.settings.occupation||'Accountant'} · Finance OS v7.6`;
 renderAll();
 // Swipe right from edge → open sidebar; swipe left on open sidebar → close
 (function(){

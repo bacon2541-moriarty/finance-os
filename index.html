@@ -233,6 +233,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .chat-clip-btn:hover{background:rgba(96,165,250,.1);color:var(--text);transform:none;filter:none}
 .chat-img-preview{max-width:180px;max-height:180px;border-radius:10px;margin-top:6px;display:block;object-fit:contain;border:1px solid var(--row-stroke)}
 </style>
+<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
 <div class="page-hdr">
@@ -884,9 +885,9 @@ tr:hover td{background:rgba(255,255,255,.025)}
     </div>
   </div>
   <div id="scan-state-loading" style="display:none;text-align:center;padding:32px 0">
-    <div style="font-size:36px">🤖</div>
+    <div style="font-size:36px" id="scan-load-ico">🔍</div>
     <div style="font-size:14px;font-weight:700;margin-top:10px">กำลังอ่านสลิป…</div>
-    <div style="font-size:12px;color:var(--muted);margin-top:4px">AI กำลังวิเคราะห์</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px" id="scan-load-sub">OCR กำลังประมวลผล</div>
   </div>
   <div id="scan-state-result" style="display:none">
     <img id="scan-preview-img" src="" alt="slip" style="width:100%;border-radius:12px;max-height:180px;object-fit:contain;margin-bottom:14px"/>
@@ -2922,20 +2923,18 @@ function handleScanFile(input) {
 }
 
 function processScanFile(file) {
-  const key = (DB.settings.aiKey || '').trim();
-  if (!key) {
-    document.getElementById('scan-state-upload').style.display = 'none';
-    document.getElementById('scan-state-error').style.display = 'block';
-    document.getElementById('scan-err-msg').textContent = 'กรุณาตั้ง API Key ใน Settings → AI Analysis Settings ก่อนนะครับ';
-    return;
-  }
   const reader = new FileReader();
   reader.onload = async (e) => {
     scanSlipData = e.target.result;
     document.getElementById('scan-state-upload').style.display = 'none';
     document.getElementById('scan-state-loading').style.display = 'block';
     try {
-      const data = await readSlipWithAI(scanSlipData, key);
+      const key = (DB.settings.aiKey || '').trim();
+      document.getElementById('scan-load-ico').textContent = key ? '🤖' : '🔍';
+      document.getElementById('scan-load-sub').textContent = key ? 'AI Vision กำลังวิเคราะห์' : 'OCR กำลังประมวลผล (ไม่ต้องใช้ API Key)';
+      const data = key
+        ? await readSlipWithAI(scanSlipData, key)
+        : await readSlipWithTesseract(scanSlipData);
       scanSlipResult = data;
       document.getElementById('scan-state-loading').style.display = 'none';
       document.getElementById('scan-state-result').style.display = 'block';
@@ -2953,6 +2952,46 @@ function processScanFile(file) {
     }
   };
   reader.readAsDataURL(file);
+}
+
+async function readSlipWithTesseract(b64url) {
+  const { data: { text } } = await Tesseract.recognize(b64url, 'tha+eng', { logger: () => {} });
+
+  // Extract amount — find largest number with decimals
+  const numMatches = [...text.matchAll(/[\d,]+\.?\d*/g)]
+    .map(m => parseFloat(m[0].replace(/,/g, '')))
+    .filter(n => n > 0 && n < 10000000);
+  const amount = numMatches.length ? Math.max(...numMatches) : 0;
+
+  // Extract date
+  let date = todayStr();
+  const dateMatch = text.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/);
+  if (dateMatch) {
+    let y = parseInt(dateMatch[3]);
+    if (y > 2400) y -= 543; // แปลง พ.ศ. → ค.ศ.
+    else if (y < 100) y += 2000;
+    const m = String(dateMatch[2]).padStart(2,'0');
+    const d = String(dateMatch[1]).padStart(2,'0');
+    date = `${y}-${m}-${d}`;
+  }
+
+  // Guess merchant from first non-empty line
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 2 && !/^\d/.test(l));
+  const note = lines[0] || '';
+
+  // Guess category
+  let category = 'อื่นๆ (Other)';
+  const t = text.toLowerCase();
+  if (/food|ร้าน|coffee|กาแฟ|pizza|restaurant|mcdonald|kfc|starbucks|ก๋วยเตี๋ยว|ข้าว/.test(t)) category = 'อาหาร (Food)';
+  else if (/grab|taxi|fuel|น้ำมัน|ptt|bts|mrt|รถ/.test(t)) category = 'การเดินทาง (Transport)';
+  else if (/7-eleven|lotus|bigc|tops|makro|tesco|ซูเปอร์/.test(t)) category = 'ช้อปปิ้ง (Shopping)';
+  else if (/hospital|pharmacy|ยา|clinic|โรงพยาบาล|เภสัช/.test(t)) category = 'สุขภาพ (Health)';
+  else if (/transfer|โอน|รับโอน|salary|เงินเดือน/.test(t)) category = 'เงินเดือน (Salary)';
+
+  const type = /รับโอน|income|salary|เงินเดือน|โบนัส/.test(t) ? 'income' : 'expense';
+
+  if (!amount) throw new Error('ไม่พบจำนวนเงินในสลิป — ลองถ่ายรูปให้ชัดขึ้น');
+  return { type, amount, category, date, note };
 }
 
 function scanConfirm() {

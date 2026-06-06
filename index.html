@@ -44,7 +44,7 @@ body{font-family:"Prompt",system-ui,sans-serif;color:var(--text);min-height:100v
     radial-gradient(900px 700px at 70% 90%,var(--gb3),transparent 60%),
     linear-gradient(135deg,var(--bg1),var(--bg2));
   transition:background .25s,color .25s;}
-.wrap{max-width:1100px;margin:0 auto;padding:0 14px calc(80px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:1100px;margin:0 auto;padding:0 14px calc(24px + env(safe-area-inset-bottom,0px))}
 .card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
 .panel{padding:16px 18px 18px}
 .muted{color:var(--muted)}.info{color:var(--info)}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
@@ -105,19 +105,11 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .sub-btn:hover{background:var(--input-bg);color:var(--text);transform:none;filter:none}
 .sub-btn.active{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:var(--info)}
 .sub-sec{display:none;padding-top:10px}.sub-sec.active{display:block}
-/* Bottom Nav — Mirror Glass */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;display:flex;align-items:flex-start;padding:4px 4px 0;padding-bottom:env(safe-area-inset-bottom,0px);z-index:300;
-  background:rgba(11,18,32,.72);
-  backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);
-  border-top:1px solid rgba(255,255,255,.13);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 -12px 40px rgba(0,0,0,.30);}
-[data-theme="light"] .bottom-nav{background:rgba(248,250,252,.78);border-top:1px solid rgba(15,23,42,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.90),0 -8px 30px rgba(15,23,42,.08);}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--muted);cursor:pointer;border-radius:14px;padding:6px 2px;min-height:56px;font-family:"Prompt",sans-serif;transition:color .18s,background .18s;}
-.nav-btn:hover{background:rgba(255,255,255,.06);transform:none;filter:none}
-.nav-btn.active{color:var(--info)}
-[data-theme="light"] .nav-btn.active{color:var(--info)}
-.nav-ico{font-size:20px;line-height:1}
-.nav-lbl{font-size:10px;font-weight:700}
+/* Bottom Nav — Hidden (v7.6: moved to Sidebar) */
+.bottom-nav{display:none}
+.nav-btn{display:none}
+.nav-ico{display:none}
+.nav-lbl{display:none}
 /* Overlays */
 .overlay{position:fixed;inset:0;background:var(--overlay-bg);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999;backdrop-filter:blur(4px)}
 .overlay.show{display:flex}
@@ -161,9 +153,10 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .curr-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:900;background:rgba(96,165,250,.15);color:var(--info);border:1px solid rgba(96,165,250,.3)}
 .empty{text-align:center;padding:36px 16px;color:var(--muted)}
 .empty-ico{font-size:32px;display:block;margin-bottom:8px}
-.toast{position:fixed;bottom:calc(76px + env(safe-area-inset-bottom,20px));left:50%;transform:translateX(-50%) translateY(100px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
+.toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(100px);background:var(--overlay-card-bg);border:1px solid var(--input-stroke);border-radius:14px;padding:11px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 40px rgba(0,0,0,.3);z-index:99999;transition:transform .3s ease;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.page-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0;gap:8px}
+.page-hdr{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;gap:8px;background:rgba(11,18,32,.82);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(255,255,255,.08);}
+[data-theme="light"] .page-hdr{background:rgba(248,250,252,.88);border-bottom:1px solid rgba(15,23,42,.08);}
 .page-title{font-size:17px;font-weight:800}
 .page-sub{font-size:12px;color:var(--muted);margin-top:2px}
 /* ── HAMBURGER ─────────────────────────────────────────────────────────── */
@@ -182,6 +175,9 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .sb-sec{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;padding:10px 16px 4px}
 .sb-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text);border:none;background:transparent;width:100%;text-align:left;font-family:"Prompt",sans-serif;transition:background .14s}
 .sb-item:hover{background:rgba(255,255,255,.06);transform:none;filter:none}
+.sb-item.sb-main{font-size:14px;font-weight:800;padding:12px 16px;color:var(--text)}
+.sb-item.sb-main:hover{background:rgba(96,165,250,.10);color:var(--info)}
+.sb-item.sb-main .si{font-size:19px}
 .sb-item:active{background:rgba(255,255,255,.10);transform:none;filter:none}
 .sb-item .si{font-size:17px;width:22px;text-align:center;flex-shrink:0}
 .sb-hr{height:1px;background:var(--stroke);margin:6px 16px}
@@ -201,7 +197,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 @keyframes mcGlint{0%,82%,100%{opacity:0;transform:scale(.4)}88%{opacity:1;transform:scale(1.1)}94%{opacity:.6;transform:scale(.9)}}
 .mc-float{animation:mcFloat 3.8s ease-in-out infinite;display:inline-block}
 /* Chatbot */
-.chat-fab{position:fixed;bottom:calc(70px + env(safe-area-inset-bottom,0px) + 14px);right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.88),rgba(96,165,250,.82));border:none;box-shadow:0 6px 24px rgba(168,85,247,.45);z-index:299;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;transition:.2s ease;padding:0}
+.chat-fab{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.88),rgba(96,165,250,.82));border:none;box-shadow:0 6px 24px rgba(168,85,247,.45);z-index:299;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;transition:.2s ease;padding:0}
 .chat-fab:hover{transform:scale(1.08);box-shadow:0 10px 36px rgba(168,85,247,.6);filter:none}
 .chat-fab:active{transform:scale(.95);filter:none}
 .chat-ov{position:fixed;inset:0;z-index:9997;display:none;flex-direction:column;align-items:stretch}
@@ -285,7 +281,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <div class="card panel" style="margin-bottom:14px">
   <div class="sh" style="flex-wrap:wrap;gap:8px">
     <div><div class="st">📊 Asset vs Liability Projection</div><div class="ss">2025–2035 · growth 5%/ปี</div></div>
-    <button class="sm" onclick="switchPage('invest',document.querySelectorAll('.nav-btn')[1])" style="font-size:11px">📈 Full View →</button>
+    <button class="sm" onclick="sidebarNav('invest','')" style="font-size:11px">📈 Full View →</button>
   </div>
   <div id="d-proj-wrap"></div>
 </div>
@@ -293,7 +289,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <div class="card panel" style="margin-bottom:14px">
   <div class="sh">
     <div><div class="st">📈 Portfolio Summary</div><div class="ss" id="d-port-sub">–</div></div>
-    <button class="sm" onclick="switchPage('invest',document.querySelectorAll('.nav-btn')[1])" style="font-size:11px">View All →</button>
+    <button class="sm" onclick="sidebarNav('invest','')" style="font-size:11px">View All →</button>
   </div>
   <div class="g2" style="margin-bottom:10px">
     <div class="stat card panel"><div class="stat-lbl">Total Value</div><div class="stat-val info" id="d-port-total">฿0</div></div>
@@ -615,24 +611,35 @@ tr:hover td{background:rgba(255,255,255,.025)}
     <button class="sm danger" style="padding:5px 9px;flex-shrink:0" onclick="closeSidebar()">✕</button>
   </div>
   <div class="sb-body">
-    <div class="sb-sec">OVERVIEW</div>
+    <!-- MAIN NAV -->
+    <button class="sb-item sb-main" onclick="sidebarNav('home','')"><span class="si">🏠</span><span>Dashboard</span></button>
+    <button class="sb-item sb-main" onclick="sidebarNav('invest','')"><span class="si">📈</span><span>Invest · พอร์ต</span></button>
+    <div class="sb-hr"></div>
+    <!-- OVERVIEW -->
+    <div class="sb-sec">📋 OVERVIEW</div>
     <button class="sb-item" onclick="openSummaryDetail()"><span class="si">📋</span><span>Summary Detail</span></button>
     <div class="sb-hr"></div>
+    <!-- CASHFLOW -->
     <div class="sb-sec">💰 CASHFLOW</div>
     <button class="sb-item" onclick="sidebarNav('cashflow','txns')"><span class="si">📝</span><span>Transactions</span></button>
     <button class="sb-item" onclick="closeSidebar();openTransfer()"><span class="si">↔️</span><span>โอนเงิน</span></button>
     <button class="sb-item" onclick="sidebarNav('cashflow','budget')"><span class="si">🎯</span><span>Budget</span></button>
     <button class="sb-item" onclick="sidebarNav('cashflow','jars')"><span class="si">🫙</span><span>6 Jars</span></button>
     <div class="sb-hr"></div>
+    <!-- WEALTH -->
     <div class="sb-sec">🏦 WEALTH</div>
     <button class="sb-item" onclick="sidebarNav('al','assets')"><span class="si">🏦</span><span>Assets</span></button>
     <button class="sb-item" onclick="sidebarNav('al','liabilities')"><span class="si">💳</span><span>Liabilities</span></button>
     <button class="sb-item" onclick="closeSidebar();renderLiab();openOv('ov-payoff')"><span class="si">🧮</span><span>Debt Payoff Calc</span></button>
     <button class="sb-item" onclick="sidebarNav('port-txns','')"><span class="si">📊</span><span>Portfolio Transaction</span></button>
     <div class="sb-hr"></div>
+    <!-- TAX & PLAN -->
     <div class="sb-sec">🧾 TAX & PLAN</div>
     <button class="sb-item" onclick="sidebarNav('cashflow','tax')"><span class="si">🧾</span><span>คำนวณภาษี</span></button>
     <button class="sb-item" onclick="sidebarNav('cashflow','tax');setTimeout(()=>{const e=document.getElementById('tax-remittance-list');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},350)"><span class="si">🌐</span><span>Remittance Tracker</span></button>
+    <div class="sb-hr"></div>
+    <!-- SETTING -->
+    <button class="sb-item" onclick="sidebarNav('setting','')"><span class="si">⚙️</span><span>Settings</span></button>
   </div>
   <div class="sb-foot">
     <button class="sb-add" onclick="closeSidebar();openOv('ov-txn');clearTxnForm()">+ บันทึกรายการ</button>

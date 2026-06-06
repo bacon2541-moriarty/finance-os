@@ -448,7 +448,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   </div>
   <div id="sub-cashflow-txns" class="sub-sec">
-  <div class="sh"><div><div class="st">📝 Transactions · รายรับ-รายจ่าย</div></div><div style="display:flex;gap:8px"><button class="primary" onclick="openTransfer()">↔️ โอน</button><button class="primary" onclick="openOv('ov-txn');clearTxnForm()">+ บันทึก</button></div></div>
+  <div class="sh"><div><div class="st">📝 Transactions · รายรับ-รายจ่าย</div></div><div style="display:flex;gap:8px"><button class="primary" onclick="openScanSlip()">📷 สแกนสลิป</button><button class="primary" onclick="openTransfer()">↔️ โอน</button><button class="primary" onclick="openOv('ov-txn');clearTxnForm()">+ บันทึก</button></div></div>
   <div class="g2" style="margin-bottom:14px">
     <div class="stat card panel"><div class="stat-lbl">Income This Month</div><div class="stat-val good" id="txn-itotal">฿0</div></div>
     <div class="stat card panel"><div class="stat-lbl">Expense This Month</div><div class="stat-val bad" id="txn-etotal">฿0</div></div>
@@ -869,6 +869,61 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
   <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
     <button onclick="closeOv('ov-txn')">ยกเลิก</button><button class="success" onclick="saveTxn()">💾 บันทึก</button>
+  </div>
+</div></div>
+
+<!-- Scan Slip Overlay -->
+<div class="overlay" id="ov-scan-slip"><div class="oc" style="max-width:420px">
+  <div class="oh"><h2>📷 สแกนสลิป</h2><button class="sm danger" onclick="closeOv('ov-scan-slip')">✕</button></div>
+  <div id="scan-state-upload">
+    <div class="slip-zone" id="scan-drop-zone" onclick="document.getElementById('scan-file-in').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="scanDropSlip(event)" style="padding:36px 20px">
+      <div style="font-size:40px">📷</div>
+      <div style="font-size:14px;font-weight:700;margin-top:8px">แตะเพื่อถ่ายรูปหรือเลือกสลิป</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">รองรับ JPG, PNG, HEIC</div>
+      <input type="file" id="scan-file-in" accept="image/*" capture="environment" style="display:none" onchange="handleScanFile(this)"/>
+    </div>
+  </div>
+  <div id="scan-state-loading" style="display:none;text-align:center;padding:32px 0">
+    <div style="font-size:36px">🤖</div>
+    <div style="font-size:14px;font-weight:700;margin-top:10px">กำลังอ่านสลิป…</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px">AI กำลังวิเคราะห์</div>
+  </div>
+  <div id="scan-state-result" style="display:none">
+    <img id="scan-preview-img" src="" alt="slip" style="width:100%;border-radius:12px;max-height:180px;object-fit:contain;margin-bottom:14px"/>
+    <div class="card panel" style="margin-bottom:14px;background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.25)">
+      <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px">📋 ข้อมูลที่อ่านได้</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:var(--muted)">ประเภท</span>
+          <span id="scan-res-type" style="font-weight:800;font-size:14px"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:var(--muted)">จำนวนเงิน</span>
+          <span id="scan-res-amount" style="font-weight:900;font-size:18px;color:var(--info)"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:var(--muted)">หมวดหมู่</span>
+          <span id="scan-res-cat" style="font-weight:700;font-size:13px"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:var(--muted)">วันที่</span>
+          <span id="scan-res-date" style="font-weight:700;font-size:13px"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:var(--muted)">หมายเหตุ</span>
+          <span id="scan-res-note" style="font-weight:700;font-size:13px;text-align:right;max-width:60%"></span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button style="flex:1" onclick="scanReset()">🔄 สแกนใหม่</button>
+      <button class="success" style="flex:2" onclick="scanConfirm()">✅ ยืนยัน & แก้ไข</button>
+    </div>
+  </div>
+  <div id="scan-state-error" style="display:none;text-align:center;padding:20px 0">
+    <div style="font-size:36px">❌</div>
+    <div id="scan-err-msg" style="font-size:13px;color:var(--bad);margin-top:8px;font-weight:700"></div>
+    <button style="margin-top:14px" onclick="scanReset()">🔄 ลองใหม่</button>
   </div>
 </div></div>
 
@@ -2831,6 +2886,98 @@ async function readSlipWithAI(b64url, key) {
   else if (/hospital|pharmacy|ยา|clinic|โรงพยาบาล/.test(mer)) category = 'สุขภาพ (Health)';
 
   return { type: d.type || 'expense', amount: d.amount || 0, category, date: d.date || todayStr(), note: d.merchant || '' };
+}
+
+let scanSlipData = null;
+let scanSlipResult = null;
+
+function openScanSlip() {
+  scanReset();
+  openOv('ov-scan-slip');
+}
+
+function scanReset() {
+  scanSlipData = null;
+  scanSlipResult = null;
+  document.getElementById('scan-file-in').value = '';
+  document.getElementById('scan-preview-img').src = '';
+  ['scan-state-upload','scan-state-loading','scan-state-result','scan-state-error'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('scan-state-upload').style.display = 'block';
+}
+
+function scanDropSlip(e) {
+  e.preventDefault();
+  document.getElementById('scan-drop-zone').classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (!f || !f.type.startsWith('image/')) return;
+  processScanFile(f);
+}
+
+function handleScanFile(input) {
+  const f = input.files[0];
+  if (!f) return;
+  processScanFile(f);
+}
+
+function processScanFile(file) {
+  const key = (DB.settings.aiKey || '').trim();
+  if (!key) {
+    document.getElementById('scan-state-upload').style.display = 'none';
+    document.getElementById('scan-state-error').style.display = 'block';
+    document.getElementById('scan-err-msg').textContent = 'กรุณาตั้ง API Key ใน Settings → AI Analysis Settings ก่อนนะครับ';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    scanSlipData = e.target.result;
+    document.getElementById('scan-state-upload').style.display = 'none';
+    document.getElementById('scan-state-loading').style.display = 'block';
+    try {
+      const data = await readSlipWithAI(scanSlipData, key);
+      scanSlipResult = data;
+      document.getElementById('scan-state-loading').style.display = 'none';
+      document.getElementById('scan-state-result').style.display = 'block';
+      document.getElementById('scan-preview-img').src = scanSlipData;
+      document.getElementById('scan-res-type').textContent = data.type === 'income' ? '💰 รายรับ' : '💸 รายจ่าย';
+      document.getElementById('scan-res-type').style.color = data.type === 'income' ? 'var(--good)' : 'var(--bad)';
+      document.getElementById('scan-res-amount').textContent = '฿' + Number(data.amount).toLocaleString();
+      document.getElementById('scan-res-cat').textContent = data.category;
+      document.getElementById('scan-res-date').textContent = data.date || todayStr();
+      document.getElementById('scan-res-note').textContent = data.note || '–';
+    } catch (err) {
+      document.getElementById('scan-state-loading').style.display = 'none';
+      document.getElementById('scan-state-error').style.display = 'block';
+      document.getElementById('scan-err-msg').textContent = 'อ่านสลิปไม่ได้: ' + err.message;
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function scanConfirm() {
+  if (!scanSlipResult) return;
+  closeOv('ov-scan-slip');
+  clearTxnForm();
+  openOv('ov-txn');
+  const d = scanSlipResult;
+  setTxnType(d.type || 'expense');
+  document.getElementById('txn-amt').value = d.amount || '';
+  document.getElementById('txn-date').value = d.date || todayStr();
+  document.getElementById('txn-note').value = d.note || '';
+  const catSel = document.getElementById('txn-cat');
+  for (let i = 0; i < catSel.options.length; i++) {
+    if (catSel.options[i].value === d.category || catSel.options[i].text === d.category) {
+      catSel.selectedIndex = i; break;
+    }
+  }
+  if (scanSlipData) {
+    slipData = scanSlipData;
+    const p = document.getElementById('slip-prev');
+    p.src = scanSlipData;
+    p.style.display = 'block';
+  }
+  toast('📷 Pre-filled จากสลิปแล้ว ตรวจสอบและกด บันทึก');
 }
 
 function chatKeydown(e) {

@@ -2245,7 +2245,7 @@ ${lines}
       const j=await res.json();
       text=j.choices?.[0]?.message?.content||'(ไม่มีผลลัพธ์)';
     } else if(provider==='gemini'){
-      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
+      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${key}`,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:1500}})
@@ -2861,7 +2861,7 @@ async function readSlipWithAI(b64url, key) {
     if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
     text = (await res.json()).choices?.[0]?.message?.content || '';
   } else if (provider === 'gemini') {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${key}`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ contents: [{ parts: [
         { inline_data: { mime_type: mediaType, data: b64 } },
@@ -3051,7 +3051,7 @@ async function sendChatMsg(presetMsg) {
       text = (await res.json()).choices?.[0]?.message?.content || '(ไม่มีผลลัพธ์)';
     } else if (provider === 'gemini') {
       const gMsgs = chatHistory.map((x,i) => ({ role: x.role==='assistant'?'model':'user', parts:[{ text: i===0 ? systemCtx+'\n\n---\n\n'+x.content : x.content }] }));
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${key}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: gMsgs, generationConfig: { maxOutputTokens: 1024 } })
       });

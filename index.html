@@ -366,35 +366,39 @@ tr:hover td{background:rgba(255,255,255,.025)}
   </div>
 </div>
 
-<!-- ══ ALLOCATION + PORTFOLIO row ══ -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 16px 0">
-  <!-- Allocation -->
-  <div style="background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:14px 12px">
-    <div style="font-size:11px;font-weight:800;margin-bottom:10px">🥧 Allocation</div>
-    <div style="display:flex;justify-content:center;margin-bottom:8px">
-      <svg width="84" height="84" viewBox="0 0 36 36">
-        <circle cx="18" cy="18" r="15.915" fill="none" stroke="var(--row-stroke)" stroke-width="4"/>
-        <g id="d-alloc-segs"></g>
-        <circle cx="18" cy="18" r="11" fill="var(--donut-mask)"/>
-        <text x="18" y="17" text-anchor="middle" font-size="2.2" fill="var(--muted)" font-family="Prompt,sans-serif">Assets</text>
-        <text x="18" y="21" text-anchor="middle" font-size="2.4" fill="var(--text)" font-family="Prompt,sans-serif" font-weight="bold" id="d-alloc-dlbl">–</text>
-      </svg>
-    </div>
-    <div id="d-alloc-legend" style="display:flex;flex-direction:column;gap:4px"></div>
+<!-- ══ ALLOCATION ══ -->
+<div style="margin:10px 16px 0;background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:14px 16px">
+  <div style="font-size:12px;font-weight:800;margin-bottom:12px">🥧 Asset Allocation</div>
+  <div style="display:flex;gap:16px;align-items:center">
+    <svg width="110" height="110" viewBox="0 0 36 36" style="flex-shrink:0">
+      <circle cx="18" cy="18" r="15.915" fill="none" stroke="var(--row-stroke)" stroke-width="4"/>
+      <g id="d-alloc-segs"></g>
+      <circle cx="18" cy="18" r="11" fill="var(--donut-mask)"/>
+      <text x="18" y="17" text-anchor="middle" font-size="2.3" fill="var(--muted)" font-family="Prompt,sans-serif">Assets</text>
+      <text x="18" y="21" text-anchor="middle" font-size="2.5" fill="var(--text)" font-family="Prompt,sans-serif" font-weight="bold" id="d-alloc-dlbl">–</text>
+    </svg>
+    <div id="d-alloc-legend" style="flex:1;display:flex;flex-direction:column;gap:7px"></div>
   </div>
-  <!-- Portfolio -->
-  <div style="background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:14px 12px;display:flex;flex-direction:column">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div style="font-size:11px;font-weight:800">📈 Port</div>
-      <button onclick="sidebarNav('invest','')" style="background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0">→</button>
-    </div>
-    <div style="font-size:9px;color:var(--muted);margin-bottom:2px">มูลค่ารวม</div>
-    <div id="d-port-total" style="font-size:16px;font-weight:900;color:#60a5fa;margin-bottom:8px">฿0</div>
-    <div style="font-size:9px;color:var(--muted);margin-bottom:2px">P&amp;L</div>
-    <div id="d-port-ret" style="font-size:13px;font-weight:800">–</div>
-    <div id="d-port-plamt" style="font-size:9px;color:var(--muted);margin-bottom:8px">–</div>
-    <div id="d-port-top" style="flex:1;display:flex;flex-direction:column;gap:5px"></div>
+</div>
+
+<!-- ══ PORTFOLIO ══ -->
+<div style="margin:10px 16px 0;background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:14px 16px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:800">📈 Portfolio</div>
+    <button onclick="sidebarNav('invest','')" style="background:transparent;border:none;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;padding:0">ดูทั้งหมด →</button>
   </div>
+  <div style="display:flex;gap:20px;margin-bottom:12px">
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:3px">มูลค่ารวม</div>
+      <div id="d-port-total" style="font-size:20px;font-weight:900;color:#60a5fa">฿0</div>
+    </div>
+    <div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:3px">P&amp;L Return</div>
+      <div id="d-port-ret" style="font-size:18px;font-weight:900">–</div>
+      <div id="d-port-plamt" style="font-size:11px;color:var(--muted)">–</div>
+    </div>
+  </div>
+  <div id="d-port-top" style="display:flex;flex-direction:column;gap:0"></div>
 </div>
 
 <!-- ══ ASSET vs LIABILITY BREAKDOWN ══ -->
@@ -2295,11 +2299,11 @@ function renderDash(){
   if(legEl){
     const COLS=['#60a5fa','#34d399','#f59e0b','#f87171','#a78bfa','#fb923c','#e879f9','#94a3b8'];
     const entries=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
-    legEl.innerHTML=entries.length?entries.map((e,i)=>`<div style="display:flex;align-items:center;gap:5px;font-size:9px">
-      <span style="width:7px;height:7px;border-radius:50%;background:${COLS[i%COLS.length]};flex-shrink:0"></span>
-      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${e[0]}</span>
-      <span style="font-weight:700;font-size:9px;color:var(--text)">${tAst>0?Math.round(e[1]/tAst*100):0}%</span>
-    </div>`).join(''):'<div style="font-size:10px;color:var(--muted);text-align:center;padding:8px">ยังไม่มีสินทรัพย์</div>';
+    legEl.innerHTML=entries.length?entries.map((e,i)=>`<div style="display:flex;align-items:center;gap:7px">
+      <span style="width:10px;height:10px;border-radius:3px;background:${COLS[i%COLS.length]};flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:12px">${e[0]}</span>
+      <span style="font-weight:800;font-size:12px;color:var(--text)">${tAst>0?Math.round(e[1]/tAst*100):0}%</span>
+    </div>`).join(''):'<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px">ยังไม่มีสินทรัพย์</div>';
   }
 
   // ── Portfolio mini ──

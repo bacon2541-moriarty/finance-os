@@ -2811,20 +2811,19 @@ async function handleChatImage(input) {
     document.getElementById('chat-chips-row').style.display = 'none';
 
     const key = (DB.settings.aiKey || '').trim();
-    if (!key) {
-      appendChatMsg('bot', `Interesting slip. แต่ต้องการ **API Key** เพื่ออ่านสลิปครับ\nไปตั้งที่ **Settings → AI Analysis Settings** ก่อนนะครับ`);
-      return;
-    }
     const typingRow = document.getElementById('chat-typing-row');
     typingRow.style.display = 'block'; el.scrollTop = el.scrollHeight;
     try {
-      const data = await readSlipWithAI(b64url, key);
+      const data = key
+        ? await readSlipWithAI(b64url, key)
+        : await readSlipWithTesseract(b64url);
       typingRow.style.display = 'none';
-      appendChatMsg('bot', catIntro() + ' อ่านสลิปได้แล้วครับ ตรวจสอบและแก้ไขด้านล่าง');
+      const method = key ? 'AI Vision' : 'OCR (ไม่ใช้ API Key)';
+      appendChatMsg('bot', catIntro() + ` อ่านสลิปได้แล้วครับ [${method}] ตรวจสอบด้านล่าง`);
       showTxnCard(data);
     } catch (err) {
       typingRow.style.display = 'none';
-      appendChatMsg('bot', `❌ อ่านสลิปไม่ได้: ${err.message}\nลองถ่ายรูปชัดๆ แล้วส่งใหม่นะครับ`);
+      appendChatMsg('bot', `❌ อ่านสลิปไม่ได้: ${err.message}\nลองถ่ายรูปให้ชัดขึ้นแล้วส่งใหม่นะครับ`);
     }
   };
   reader.readAsDataURL(file);
